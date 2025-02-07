@@ -1,14 +1,31 @@
+# chains/diagnoser_chain.py
 from pydantic import BaseModel
-
+from typing import Any
+from langchain_core.prompts.chat import ChatPromptTemplate
 
 class DiagnoserChain(BaseModel):
-    template: str  # In practice, you might accept a ChatPromptTemplate
-    llm: any  # Type the LLM appropriately (or use typing.Any for now)
+    template_standardize: ChatPromptTemplate
+    template_diagnose: ChatPromptTemplate
+    llm: Any  # This will be an LLM instance (e.g. ChatOpenAI or ChatAnthropic)
 
-    def run(self, user_query: str) -> str:
-        # Here you would plug in your LangChain logic.
-        # For demonstration, we mimic a call to an LLM:
-        # In production, you could use an LLMChain or a sequence of chains.
-        prompt = f"What is wrong with this exercise?\n{user_query}"
-        response = self.llm.call(prompt)
-        return response
+    async def run(self, user_query: str) -> str:
+        """
+        Runs the composite chain:
+          1. Standardizes the exercise description.
+          2. Generates a diagnosis from the standardized format.
+        """
+        # Step 1: Standardize the exercise description.
+        # Using async formatting/invocation.
+        prompt_std = await self.template_standardize.aformat_prompt(user_input=user_query)
+        std_messages = prompt_std.to_messages()
+        standardized_exercise = await self.llm.ainvoke(std_messages)
+        # (Optionally extract content here if needed.)
+
+        # Step 2: Generate a diagnosis based on the standardized exercise.
+        prompt_diag = await self.template_diagnose.aformat_prompt(standardized_exercise=standardized_exercise)
+        diag_messages = prompt_diag.to_messages()
+        diagnosis = await self.llm.ainvoke(diag_messages)
+        return diagnosis
+
+    class Config:
+        arbitrary_types_allowed = True

@@ -1,25 +1,29 @@
-from langchain_core.prompts import ChatPromptTemplate
+# config/templates.py
+from langchain_core.prompts.chat import ChatPromptTemplate
 
-dummy_template = ChatPromptTemplate([
-    ("system", """
-    SYSTEM MESSAGE 
-    {bot_name} {weekday} {now}
-    """),
-    ("human", """
-    USER MESSAGE 
-    {user_message}
-    """),
-])
+# Template to standardize the exercise description.
+standardize_template = ChatPromptTemplate(
+    messages=[
+        ("system", "You are an exercise standardizer. Convert the following exercise description into a standardized format."),
+        ("human", "{user_input}")
+    ],
+    input_variables=["user_input"]
+)
 
-initial_classification_template = ChatPromptTemplate([
-    ("system", """
-    # Answer structure
-    1. First pick the user_message_language: choose from Literal['English', 'German', 'Dutch', 'other']. 
-       Look only at the user message. When multiple languages are present, pick the dominant one.
-    2. Then, state your classification: 'Goals', 'Reminders', 'Meta', or 'Other'.
-    """),
-    ("human", """
-    USER MESSAGE 
-    {user_message}
-    """),
-])
+# Template to generate a diagnosis from the standardized exercise.
+diagnose_template = ChatPromptTemplate(
+    messages=[
+        ("system", "You are a diagnostic assistant. Based on the standardized exercise description, provide a detailed diagnosis of potential issues and improvements."),
+        ("human", "{standardized_exercise}")
+    ],
+    input_variables=["standardized_exercise"]
+)
+
+# Template for the distractors brainstorm (a single-step chain).
+distractors_template = ChatPromptTemplate(
+    messages=[
+        ("system", "You are a brainstorming assistant. Provide creative distractors and brainstorm ideas based on the user input."),
+        ("human", "{user_input}")
+    ],
+    input_variables=["user_input"]
+)

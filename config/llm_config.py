@@ -1,14 +1,35 @@
+# config/llm_config.py
+import os
 from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 
+# Retrieve API keys from environment variables
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+
+# Define temperature presets (adjust as needed)
 ZERO = 0
 LOW = 0.2
 MID = 0.7
 HIGH = 1.2
 
+# Factory functions for each provider
+def create_openai_llm(model_name: str, temperature: float):
+    return ChatOpenAI(api_key=OPENAI_API_KEY, model_name=model_name, temperature=temperature)
+
+def create_anthropic_llm(model_name: str, temperature: float):
+    return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, temperature=temperature)
+
+def create_deepseek_llm(model_name: str, temperature: float):
+    return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, temperature=temperature)
+
 llms = {
-    "gpt4o": ChatOpenAI(model_name="gpt-4o", temperature=LOW),
-    "mini": ChatOpenAI(model_name="gpt-4o-mini", temperature=LOW),
-    "gpt4o_high_temp": ChatOpenAI(model_name="gpt-4o", temperature=HIGH),
-    "mini_high_temp": ChatOpenAI(model_name="gpt-4o-mini", temperature=HIGH),
-    "o1": ChatOpenAI(model_name="o1"),
+    "gpt4o": create_openai_llm("gpt-4o", LOW),
+    "mini": create_openai_llm("gpt-4o-mini", LOW),
+    "gpt4o_high_temp": create_openai_llm("gpt-4o", HIGH),
+    "mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
+    "o1": create_openai_llm("o1"),
+    "Claude35": create_anthropic_llm("claude-v1", LOW),
+    "R1": create_anthropic_llm("deepseek-reasoner", LOW),
 }

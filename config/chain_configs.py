@@ -1,18 +1,20 @@
-from config.llm_config import llms
-from config.templates import dummy_template, initial_classification_template
+# config/chain_configs.py
+from config.templates import standardize_template, diagnose_template, distractors_template
 from chains.diagnoser_chain import DiagnoserChain
 from chains.distractors_chain import DistractorsChain
+from config.llm_config import llms
 
+# Note: The default LLM here is OpenAI; the UI can override this choice.
 chain_configs = {
     "diagnoser": {
-        "template": dummy_template,
         "class": DiagnoserChain,
-        "llm": llms["mini"],
+        "template_standardize": standardize_template,
+        "template_diagnose": diagnose_template,
+        "llm": llms["OpenAI"],
     },
     "distractors": {
-        "template": dummy_template,  # Replace with a specific template if needed.
         "class": DistractorsChain,
-        "llm": llms["mini"],
+        "template": distractors_template,
+        "llm": llms["OpenAI"],
     },
-    # More chains can be added here.
 }

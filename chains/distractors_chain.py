@@ -1,11 +1,17 @@
+# chains/distractors_chain.py
 from pydantic import BaseModel
-
+from typing import Any
+from langchain_core.prompts.chat import ChatPromptTemplate
 
 class DistractorsChain(BaseModel):
-    template: str
-    llm: any
+    template: ChatPromptTemplate
+    llm: Any
 
-    def run(self, user_query: str) -> str:
-        prompt = f"Brainstorm some distractors for:\n{user_query}"
-        response = self.llm.call(prompt)
-        return response
+    async def run(self, user_query: str) -> str:
+        prompt = await self.template.aformat_prompt(user_input=user_query)
+        messages = prompt.to_messages()
+        result = await self.llm.ainvoke(messages)
+        return result
+
+    class Config:
+        arbitrary_types_allowed = True
