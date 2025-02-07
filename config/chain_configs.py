@@ -4,13 +4,14 @@ from chains.diagnoser_chain import DiagnoserChain
 from chains.distractors_chain import DistractorsChain
 from config.llm_config import llms
 
-# Note: The default LLM here is OpenAI; the UI can override this choice.
+# Note: The default LLM here is 4o; the UI can override this choice.
 chain_configs = {
     "diagnoser": {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
         "template_diagnose": diagnose_template,
-        "llm": llms["gpt4o"],
+        "llm_standardize": llms["gpt4o-mini"],  # Always fixed
+        "llm_diagnose": llms["gpt4o"],          # Default; can be replaced in UI
     },
     "distractors": {
         "class": DistractorsChain,

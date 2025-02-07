@@ -46,8 +46,21 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
         return f"Error: {e}"
 
 # Async wrappers for each chain.
-async def run_diagnoser(user_query: str, model_choice: str) -> str:
-    return await run_chain("diagnoser", {"user_query": user_query}, model_choice)
+async def run_diagnoser(user_query: str, chosen_model: str) -> str:
+    # Fetch the DiagnoserChain configuration.
+    config = chain_configs["diagnoser"]
+
+    # Instantiate DiagnoserChain using:
+    # - A fixed LLM for standardizing (gpt4o-mini)
+    # - The user-selected model for diagnosis (overriding the default)
+    chain_instance = config["class"](
+        template_standardize=config["template_standardize"],
+        template_diagnose=config["template_diagnose"],
+        llm_standardize=config["llm_standardize"],  # Fixed: gpt4o-mini
+        llm_diagnose=llms.get(chosen_model, config["llm_diagnose"])  # Override or fallback to default
+    )
+    return await chain_instance.run(user_query)
+
 
 async def run_distractors(user_query: str, model_choice: str) -> str:
     return await run_chain("distractors", {"user_query": user_query}, model_choice)

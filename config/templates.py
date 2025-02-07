@@ -4,7 +4,7 @@ from langchain_core.prompts.chat import ChatPromptTemplate
 # Template to standardize the exercise description.
 standardize_template = ChatPromptTemplate(
     messages=[
-        ("system", "You are an exercise standardizer. Convert the following exercise description into a standardized format."),
+        ("system", "You are an exercise standardizer. Convert the given exercise description into a standardized format. Use XML-tags for this format, like this: "),
         ("human", "{user_input}")
     ],
     input_variables=["user_input"]
