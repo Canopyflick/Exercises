@@ -10,11 +10,11 @@ chain_configs = {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
         "template_diagnose": diagnose_template,
-        "llm": llms["OpenAI"],
+        "llm": llms["gpt4o"],
     },
     "distractors": {
         "class": DistractorsChain,
         "template": distractors_template,
-        "llm": llms["OpenAI"],
+        "llm": llms["gpt4o"],
     },
 }
