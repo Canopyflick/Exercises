@@ -10,6 +10,14 @@ from config.llm_config import llms
 
 logger = logging.getLogger(__name__)
 
+# --- Callback to update the exercise format dropdown based on LLM selection ---
+def update_exercise_format(selected_model: str):
+    # When "Claude3.5" is selected, default the format to XML; otherwise, default to Markdown.
+    if selected_model == "Claude3.5":
+        return gr.update(value="XML")
+    else:
+        return gr.update(value="Markdown")
+
 # A generic async runner for chains.
 async def run_chain(chain_name: str, input_variables: dict, selected_model: str):
     try:
@@ -59,7 +67,7 @@ async def run_diagnoser(user_query: str, chosen_model: str) -> str:
         llm_standardize=config["llm_standardize"],  # Fixed: gpt4o-mini
         llm_diagnose=llms.get(chosen_model, config["llm_diagnose"])  # Override or fallback to default
     )
-    return await chain_instance.run(user_query)
+    return await chain_instance.run(user_query, exercise_format)
 
 
 async def run_distractors(user_query: str, model_choice: str) -> str:
@@ -78,23 +86,43 @@ with gr.Blocks() as demo:
 
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
-        gr.Markdown("## Core Functionalities")
+        gr.Markdown("## Pick the tab for your task of choice below\n### Diagnosing issues / Brainstorming different distractors [for multiple choice exercises]")
         # Dropdown for LLM selection.
-        model_choice = gr.Dropdown(
-            choices=list(llms.keys()),
-            value="OpenAI",
-            label="Select LLM Model",
-            interactive=True,
+        # Create a row for the control dropdowns
+        with gr.Row():
+            model_choice = gr.Dropdown(
+                choices=list(llms.keys()),
+                value="gpt4o",
+                label="Select LLM",
+                interactive=True,
+            )
+            exercise_format = gr.Dropdown(
+                choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
+                value="Markdown",
+                label="Exercise Format",
+                interactive=True,
+            )
+            sampling_count = gr.Dropdown(
+                choices=["1", "2", "3", "4", "5"],
+                value="1",
+                label="Sampling Count",
+                interactive=True,
+            )
+        # Set up a change callback so that if the user selects "Claude35", the exercise format updates to "XML"
+        model_choice.change(
+            fn=update_exercise_format,
+            inputs=[model_choice],
+            outputs=[exercise_format]
         )
         with gr.Tabs():
             with gr.TabItem("Diagnoser"):
                 gr.Markdown("### Diagnoser")
-                diagnoser_input = gr.Textbox(label="Enter Diagnoser Query", placeholder="Type your exercise description here...")
+                diagnoser_input = gr.Textbox(label="Enter Diagnoser Query", placeholder="Paste your exercise here (any format)...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_output = gr.Textbox(label="Diagnosis", interactive=False)
             with gr.TabItem("Distractors brainstorm"):
                 gr.Markdown("### Distractors brainstorm")
-                distractors_input = gr.Textbox(label="Enter Brainstorm Query", placeholder="Type your query here...")
+                distractors_input = gr.Textbox(label="Enter Brainstorm Query", placeholder="Paste your exercise here (any format)...")
                 distractors_button = gr.Button("Submit")
                 distractors_output = gr.Textbox(label="Response", interactive=False)
 
@@ -108,10 +136,9 @@ with gr.Blocks() as demo:
         outputs=[login_container, app_container, login_error]
     )
 
-    # Note: Gradio supports async functions as callbacks.
     diagnoser_button.click(
         fn=run_diagnoser,
-        inputs=[diagnoser_input, model_choice],
+        inputs=[diagnoser_input, model_choice, exercise_format, sampling_count],
         outputs=[diagnoser_output]
     )
     distractors_button.click(

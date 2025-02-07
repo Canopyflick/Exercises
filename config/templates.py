@@ -4,16 +4,16 @@ from langchain_core.prompts.chat import ChatPromptTemplate
 # Template to standardize the exercise description.
 standardize_template = ChatPromptTemplate(
     messages=[
-        ("system", "You are an exercise standardizer. Convert the given exercise description into a standardized format. Use XML-tags for this format, like this: "),
+        ("system", "You reformat data on multiple choice exercises. Convert the given exercise(s) into a standardized format. {formatting_instructions}"),
         ("human", "{user_input}")
     ],
-    input_variables=["user_input"]
+    input_variables=["user_input", "formatting_instructions"]
 )
 
 # Template to generate a diagnosis from the standardized exercise.
 diagnose_template = ChatPromptTemplate(
     messages=[
-        ("system", "You are a diagnostic assistant. Based on the standardized exercise description, provide a detailed diagnosis of potential issues and improvements."),
+        ("system", "You are a diagnostic assistant. Based on the given exercise(s), provide a detailed diagnosis of potential issues. What makes this exercise sub-par, worse than it could be, not yet perfect?"),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
