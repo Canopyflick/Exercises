@@ -1,90 +1,104 @@
+# app.py
 import gradio as gr
-import openai
 import os
+import asyncio
+import logging
 
-# Load secrets
-CORRECT_PASSWORD = os.getenv("APP_PASSWORD")  # Set this in Hugging Face Spaces secrets
-openai.api_key = os.getenv("OPENAI_API_KEY")     # Also store securely
+from utils.auth import login as auth_login  # simple login function
+from config.chain_configs import chain_configs  # chain configurations dictionary
 
-client = openai.OpenAI()  # ✅ New format
+logger = logging.getLogger(__name__)
 
 
-# -------------------------------
-# Define Functions for App Logic
-# -------------------------------
-
-def login(password):
+async def run_chain(chain_name: str, input_variables: dict):
     """
-    Check the submitted password.
-    If correct, hide the login container and show the main app.
-    Otherwise, return an error message.
-    """
-    if password == CORRECT_PASSWORD:
-        # Hide login page, show main app, and clear error message
-        return gr.update(visible=False), gr.update(visible=True), ""
-    else:
-        # Remain on login page with an error message
-        return gr.update(visible=True), gr.update(visible=False), "❌ Incorrect password. Please try again or contact Ben."
+    A generic async function to run a given structured chain.
+    Handles prompt formatting, invoking the LLM asynchronously, and returning results.
 
-def diagnoser_query(user_query):
-    """
-    Process the Diagnoser query.
-    (For now, simply pass the query to the OpenAI API.)
-    """
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        timeout=10,
-        messages=[
-            {
-                "role": "user",
-                "content": (
-                    "What is wrong with this exercise? In other words, what about it should be improved? "
-                    "What stands between it and a perfect exercise that couldn't be better? Don't give solutions yet, "
-                    "only a diagnosis\n "
-                    f"{user_query}"
-                ),
-            }
-        ],
-    )
-    return response.choices[0].message.content
+    Args:
+        chain_name (str): The key for the desired chain in the chain_configs.
+        input_variables (dict): A dictionary of variables to format the chain's prompt.
 
-def distractors_query(user_query):
+    Returns:
+        The result of invoking the chain's LLM with the formatted prompt.
     """
-    Process the Distractors brainstorm query.
-    (For now, simply pass the query to the OpenAI API.)
+    try:
+        # Resolve the chain configuration by its name.
+        chain_config = chain_configs.get(chain_name)
+        if not chain_config:
+            raise KeyError(f"Chain '{chain_name}' not found in the chain configuration.")
+
+        # Generate the prompt using the chain's template.
+        prompt_value = chain_config["template"].format_prompt(**input_variables)
+
+        # Invoke the chain's LLM asynchronously.
+        result = await chain_config["chain"].ainvoke(prompt_value.to_messages())
+
+        logger.info(f"Chain '{chain_name}' executed successfully.")
+        return result
+
+    except KeyError as e:
+        logger.error(f"Chain configuration error: {e}")
+        raise ValueError(f"Invalid chain structure: missing {e}")
+
+    except Exception as e:
+        logger.error(f"Error running chain '{chain_name}': {e}")
+        raise RuntimeError(f"Failed to execute chain: {e}")
+
+
+async def run_diagnoser(user_query: str) -> str:
     """
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        timeout=10,
-        messages=[{"role": "user", "content": user_query}]
-    )
-    return response.choices[0].message.content
+    Async function to run the diagnoser chain.
+    Prepares the input variables and awaits the chain's result.
+    """
+    input_vars = {"user_query": user_query}
+    result = await run_chain("diagnoser", input_vars)
+    return result
+
+
+async def run_distractors(user_query: str) -> str:
+    """
+    Async function to run the distractors brainstorm chain.
+    Prepares the input variables and awaits the chain's result.
+    """
+    input_vars = {"user_query": user_query}
+    result = await run_chain("distractors", input_vars)
+    return result
+
 
 # -------------------------------
 # Build the Gradio Interface
 # -------------------------------
-
 with gr.Blocks() as demo:
     # --- Login Page ---
     with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
-        password_input = gr.Textbox(label="Enter Password", type="password", placeholder="Enter password to access the app")
+        password_input = gr.Textbox(
+            label="Enter Password",
+            type="password",
+            placeholder="Enter password to access the app"
+        )
         login_button = gr.Button("Login")
-        login_error = gr.Markdown(value="")  # To display error messages
+        login_error = gr.Markdown(value="")  # For error messages
 
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
         gr.Markdown("## Core Functionalities")
-        # Use gr.Tabs for persistent states between functionalities
         with gr.Tabs():
             with gr.TabItem("Diagnoser"):
                 gr.Markdown("### Diagnoser")
-                diagnoser_input = gr.Textbox(label="Enter Diagnoser Query", placeholder="Type your query here...")
+                diagnoser_input = gr.Textbox(
+                    label="Enter Diagnoser Query",
+                    placeholder="Type your query here..."
+                )
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_output = gr.Textbox(label="Response", interactive=False)
             with gr.TabItem("Distractors brainstorm"):
                 gr.Markdown("### Distractors brainstorm")
-                distractors_input = gr.Textbox(label="Enter Brainstorm Query", placeholder="Type your query here...")
+                distractors_input = gr.Textbox(
+                    label="Enter Brainstorm Query",
+                    placeholder="Type your query here..."
+                )
                 distractors_button = gr.Button("Submit")
                 distractors_output = gr.Textbox(label="Response", interactive=False)
 
@@ -92,26 +106,26 @@ with gr.Blocks() as demo:
     # Set Up Interactions
     # -------------------------------
 
-    # When the login button is clicked, check the password and update container visibility
+    # Login button: if the password is correct, hide the login container and reveal the main app.
     login_button.click(
-        fn=login,
+        fn=auth_login,
         inputs=[password_input],
         outputs=[login_container, app_container, login_error]
     )
 
-    # Connect the Diagnoser functionality
+    # Run the Diagnoser chain asynchronously.
     diagnoser_button.click(
-        fn=diagnoser_query,
+        fn=run_diagnoser,
         inputs=[diagnoser_input],
         outputs=[diagnoser_output]
     )
 
-    # Connect the Distractors brainstorm functionality
+    # Run the Distractors brainstorm chain asynchronously.
     distractors_button.click(
-        fn=distractors_query,
+        fn=run_distractors,
         inputs=[distractors_input],
         outputs=[distractors_output]
     )
 
-# Launch the app
+# Launch the Gradio app.
 demo.launch()
