@@ -33,6 +33,7 @@ def diagnoser_query(user_query):
     """
     response = client.chat.completions.create(
         model="gpt-4o-mini",
+        timeout=10,
         messages=[
             {
                 "role": "user",
@@ -45,7 +46,7 @@ def diagnoser_query(user_query):
             }
         ],
     )
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0].message.content
 
 def distractors_query(user_query):
     """
@@ -54,9 +55,10 @@ def distractors_query(user_query):
     """
     response = client.chat.completions.create(
         model="gpt-4o-mini",
+        timeout=10,
         messages=[{"role": "user", "content": user_query}]
     )
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0].message.content
 
 # -------------------------------
 # Build the Gradio Interface
