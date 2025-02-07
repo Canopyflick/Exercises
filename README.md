@@ -1,5 +1,5 @@
 ---
-title: Gradio Chatbot
+title: Exercises
 emoji: 💬
 colorFrom: yellow
 colorTo: purple
