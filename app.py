@@ -6,6 +6,9 @@ import os
 CORRECT_PASSWORD = os.getenv("APP_PASSWORD")  # Set this in Hugging Face Spaces secrets
 openai.api_key = os.getenv("OPENAI_API_KEY")     # Also store securely
 
+client = openai.OpenAI()  # ✅ New format
+
+
 # -------------------------------
 # Define Functions for App Logic
 # -------------------------------
@@ -28,7 +31,7 @@ def diagnoser_query(user_query):
     Process the Diagnoser query.
     (For now, simply pass the query to the OpenAI API.)
     """
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
@@ -49,7 +52,7 @@ def distractors_query(user_query):
     Process the Distractors brainstorm query.
     (For now, simply pass the query to the OpenAI API.)
     """
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": user_query}]
     )
