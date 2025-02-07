@@ -2,6 +2,7 @@
 import os
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
+from langchain_deepseek import ChatDeepSeek
 
 # Retrieve API keys from environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -29,10 +30,10 @@ def create_deepseek_llm(model_name: str, temperature: float):
 
 llms = {
     "gpt4o": create_openai_llm("gpt-4o", LOW),
-    "mini": create_openai_llm("gpt-4o-mini", LOW),
+    "gpt4o-mini": create_openai_llm("gpt-4o-mini", LOW),
     "gpt4o_high_temp": create_openai_llm("gpt-4o", HIGH),
-    "mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
+    "gpt4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
     "o1": create_openai_reasoning_llm("o1"),
-    "Claude35": create_anthropic_llm("claude-v1", LOW),
-    "R1": create_anthropic_llm("deepseek-reasoner", LOW),
+    "Claude3.5": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
+    "DeepseekR1": create_anthropic_llm("deepseek-reasoner", LOW),
 }
