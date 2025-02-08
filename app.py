@@ -47,7 +47,7 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
 
         result = await chain_instance.run(input_variables["user_query"])
         logger.info(f"Chain '{chain_name}' executed successfully.")
-        return result
+        return result.content
 
     except Exception as e:
         logger.error(f"Error in run_chain for '{chain_name}': {e}")
