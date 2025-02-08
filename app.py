@@ -46,8 +46,14 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
             raise KeyError(f"Chain '{chain_name}' is not implemented.")
 
         result = await chain_instance.run(input_variables["user_query"])
+        content = result.content if hasattr(result, "content") else result
+        # Replace literal "\n" (backslash-n) with actual newline characters.
+        formatted_content = content.replace("\\n", "\n")
+
         logger.info(f"Chain '{chain_name}' executed successfully.")
-        return result.content
+        
+        return formatted_content
+
 
     except Exception as e:
         logger.error(f"Error in run_chain for '{chain_name}': {e}")
@@ -83,7 +89,7 @@ async def run_distractors(user_query: str, model_choice: str) -> str:
 # -------------------------------
 # Build the Gradio Interface
 # -------------------------------
-with gr.Blocks() as demo:
+with gr.Blocks() as interface:
     # --- Login Page ---
     with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
@@ -200,4 +206,4 @@ with gr.Blocks() as demo:
     )
 
 # Launch the app.
-demo.launch()
+interface.launch()
