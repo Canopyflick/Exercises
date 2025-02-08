@@ -86,7 +86,7 @@ with gr.Blocks() as demo:
 
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
-        gr.Markdown("## Pick the tab for your task of choice below\n#### _hover mouse over ℹ️ for more info_")
+        gr.Markdown("## Pick the tab for your task of choice below")
         # Dropdown for LLM selection.
         # Create a row for the control dropdowns
         with gr.Row():
@@ -105,23 +105,35 @@ with gr.Blocks() as demo:
             sampling_count = gr.Dropdown(
                 choices=["1", "2🚧", "3🚧", "4🚧", "5🚧"],
                 value="1",
-                label="Sampling Count",
+                label="Sampling Count 🚧",
                 interactive=True,
             )
-        # Set up a change callback so that if the user selects "Claude35", the exercise format updates to "XML"
+        # Set up a change callback so that if the user selects "Claude3.5", the exercise format updates to "XML"
         model_choice.change(
             fn=update_exercise_format,
             inputs=[model_choice],
             outputs=[exercise_format]
         )
         with gr.Tabs():
-            with gr.TabItem("Validate exercise 🩺"):
+            with gr.TabItem("🩺 Validate exercise"):
+                # Insert custom CSS to enlarge the tab content
+                gr.HTML(
+                    """
+                    <style>
+                        .tab-content {
+                            font-size: 1.2em;  /* Increase text size */
+                            padding: 20px;  /* Add more padding inside the tab */
+                        }
+                    </style>
+                    """
+                )
+
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
                         <span style="font-size: 1.5em; cursor: help;" title="Diagnoses potential issues for the given exercise(s).">
-                            ️ℹ️
+                            ℹ️ <i>← mouseover for more info</i>
                         </span>
                     </div>
                     """
@@ -129,7 +141,7 @@ with gr.Blocks() as demo:
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc=...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_output = gr.Textbox(label="Diagnosis", interactive=False)
-            with gr.TabItem("Generate distractors 🤔"):
+            with gr.TabItem("🤔 Generate distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
@@ -143,7 +155,7 @@ with gr.Blocks() as demo:
                 distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
                 distractors_button = gr.Button("Submit")
                 distractors_output = gr.Textbox(label="Response", interactive=False)
-            with gr.TabItem("Generate learning objectives 🚧"):
+            with gr.TabItem("🚧 Generate learning objectives"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
@@ -154,9 +166,9 @@ with gr.Blocks() as demo:
                     </div>
                     """
                 )
-                distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
-                distractors_button = gr.Button("Submit")
-                distractors_output = gr.Textbox(label="Response", interactive=False)
+                learning_objectives_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your study text here...")
+                learning_objectives_button = gr.Button("Submit")
+                learning_objectives_output = gr.Textbox(label="Response", interactive=False)
 
     # -------------------------------
     # Set Up Interactions
