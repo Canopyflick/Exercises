@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # --- Callback to update the exercise format dropdown based on LLM selection ---
 def update_exercise_format(selected_model: str):
     # When "Claude3.5" is selected, default the format to XML; otherwise, default to Markdown.
-    if selected_model == "Claude3.5":
+    if selected_model == "Claude 3.5":
         return gr.update(value="XML")
     else:
         return gr.update(value="Markdown")
@@ -115,7 +115,7 @@ with gr.Blocks() as demo:
                 label="Sampling Count 🚧",
                 interactive=True,
             )
-        # Set up a change callback so that if the user selects "Claude3.5", the exercise format updates to "XML"
+        # Set up a change callback so that if the user selects "Claude 3.5", the exercise format updates to "XML"
         model_choice.change(
             fn=update_exercise_format,
             inputs=[model_choice],
