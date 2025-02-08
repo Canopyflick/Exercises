@@ -80,13 +80,13 @@ with gr.Blocks() as demo:
     # --- Login Page ---
     with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
-        password_input = gr.Textbox(label="Enter Password", type="password", placeholder="Enter password to access the app")
+        password_input = gr.Textbox(label="Enter Password", type="password", placeholder="hunter2")
         login_button = gr.Button("Login")
         login_error = gr.Markdown(value="")
 
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
-        gr.Markdown("## Pick the tab for your task of choice below\n### Diagnosing issues / Brainstorming different distractors [for multiple choice exercises]")
+        gr.Markdown("## Pick the tab for your task of choice below\n#### _hover mouse over ℹ️ for more info_")
         # Dropdown for LLM selection.
         # Create a row for the control dropdowns
         with gr.Row():
@@ -115,35 +115,45 @@ with gr.Blocks() as demo:
             outputs=[exercise_format]
         )
         with gr.Tabs():
-            with gr.TabItem("Diagnose issues"):
+            with gr.TabItem("Validate exercise 🩺"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoser: This tab first standardizes the exercise description (using a fixed model) and then diagnoses potential issues using the selected model.">
-                            🩺
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoses potential issues for the given exercise(s).">
+                            ️ℹ️
                         </span>
-                        <span style="font-size: 1em; margin-left: 5px;">Diagnoser</span>
                     </div>
                     """
                 )
-                gr.Markdown("### Diagnoser")
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc=...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_output = gr.Textbox(label="Diagnosis", interactive=False)
-            with gr.TabItem("Brainstorm distractors"):
+            with gr.TabItem("Generate distractors 🤔"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Distractors brainstorm: This tab provides creative distractors and brainstorming ideas based on your query.">
-                            💡
+                        <span style="font-size: 1.5em; cursor: help;" title="Generate more different distractors for the given exercise">
+                            ℹ️
                         </span>
-                        <span style="font-size: 1em; margin-left: 5px;">Distractors brainstorm</span>
                     </div>
                     """
                 )
-                gr.Markdown("### Distractors brainstorm")
+                distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
+                distractors_button = gr.Button("Submit")
+                distractors_output = gr.Textbox(label="Response", interactive=False)
+            with gr.TabItem("Generate learning objectives 🚧"):
+                # Insert an HTML info icon with a tooltip at the top of the tab content.
+                gr.HTML(
+                    """
+                    <div style="margin-bottom: 10px;">
+                        <span style="font-size: 1.5em; cursor: help;" title="Generate learning objectives for the given study text">
+                            ℹ️
+                        </span>
+                    </div>
+                    """
+                )
                 distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
                 distractors_button = gr.Button("Submit")
                 distractors_output = gr.Textbox(label="Response", interactive=False)
