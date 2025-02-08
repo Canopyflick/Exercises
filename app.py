@@ -68,14 +68,15 @@ async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str
         llm_standardize=config["llm_standardize"],  # Fixed: gpt4o-mini
         llm_diagnose=llms.get(chosen_model, config["llm_diagnose"])  # Override or fallback to default
     )
-    responses = []
+    outputs = ["" for _ in range(5)]
+    # Yield the initial state (all empty)
+    yield tuple(outputs)
+
     for i in range(num_samples):
         response = await chain_instance.run(user_query, exercise_format)
-        responses.append(response)
-    # Fill missing responses (if any) up to 5 outputs.
-    all_responses = responses + [""] * (5 - len(responses))
-    # Return a tuple of exactly 5 responses.
-    return tuple(all_responses)
+        outputs[i] = f"Response {i + 1}:\n{response}"
+        # Yield the updated state after each sample completes.
+        yield tuple(outputs)
 
 async def run_distractors(user_query: str, model_choice: str) -> str:
     return await run_chain("distractors", {"user_query": user_query}, model_choice)
@@ -112,7 +113,7 @@ with gr.Blocks() as demo:
             sampling_count = gr.Dropdown(
                 choices=["1", "2", "3", "4", "5"],
                 value="1",
-                label="Sampling Count 🚧",
+                label="Response Count 🚧",
                 interactive=True,
             )
         # Set up a change callback so that if the user selects "Claude3.5", the exercise format updates to "XML"
@@ -190,7 +191,8 @@ with gr.Blocks() as demo:
             diagnoser_response_3,
             diagnoser_response_4,
             diagnoser_response_5
-        ]
+        ],
+        stream=True  # This enables streaming updates as the generator yields intermediate results.
     )
 
     distractors_button.click(
