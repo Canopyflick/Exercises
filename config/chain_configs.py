@@ -1,5 +1,7 @@
 # config/chain_configs.py
-from config.templates import standardize_template, diagnose_template, distractors_template
+from config.templates import standardize_template, diagnose_template, distractors_template, \
+    diagnose_double_negation_template, diagnose_correct_answer_stands_out_template, \
+    diagnose_distractor_clearly_wrong_template, diagnose_distractor_partially_correct_template
 from chains.diagnoser_chain import DiagnoserChain
 from chains.distractors_chain import DistractorsChain
 from config.llm_config import llms
