@@ -27,7 +27,7 @@ class DiagnoserChain(BaseModel):
         diagnose_messages = prompt_diagnose.to_messages()
         diagnosis = await self.llm_diagnose.ainvoke(diagnose_messages)
 
-        return diagnosis
+        return diagnosis.content if hasattr(diagnosis, "content") else diagnosis
 
     class Config:
         arbitrary_types_allowed = True

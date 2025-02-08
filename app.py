@@ -51,7 +51,7 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
         formatted_content = content.replace("\\n", "\n")
 
         logger.info(f"Chain '{chain_name}' executed successfully.")
-        
+
         return formatted_content
 
 
@@ -141,7 +141,7 @@ with gr.Blocks() as interface:
                 )
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
                 diagnoser_button = gr.Button("Submit")
-                diagnoser_response_1 = gr.Textbox(label="Response 1", interactive=False)
+                diagnoser_response_1 = gr.Markdown(label="Response 1")
                 diagnoser_response_2 = gr.Textbox(label="Response 2", interactive=False)
                 diagnoser_response_3 = gr.Textbox(label="Response 3", interactive=False)
                 diagnoser_response_4 = gr.Textbox(label="Response 4", interactive=False)
