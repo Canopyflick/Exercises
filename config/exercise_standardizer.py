@@ -22,10 +22,6 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
     )
 
     std_messages = prompt_std.to_messages()
-
-    # Stream tokens to construct the standardized response
-    standardized_exercise = ""
-    async for token in llm.astream(std_messages):
-        standardized_exercise += token
+    standardized_exercise = await llm.ainvoke(std_messages)
 
     return standardized_exercise

@@ -6,10 +6,11 @@ from config.exercise_standardizer import standardize_exercise
 
 
 class DistractorsChain(BaseModel):
-    llm_standardize: Any    # Fixed LLM for step 1
     template_standardize: ChatPromptTemplate
-    template: ChatPromptTemplate
-    llm: Any                # User-selectable LLM for step 2
+    template_distr: ChatPromptTemplate
+    llm_standardize: Any            # Fixed LLM for step 1
+    llm_distr: Any                  # User-selectable LLM for step 2
+
 
     async def run(self, user_query: str, exercise_format: str) -> str:
         """
@@ -25,20 +26,9 @@ class DistractorsChain(BaseModel):
         # --- Step 2: Generate new distractors using the standardized exercise ---
         prompt_distractors = await self.template_distractors.aformat_prompt(standardized_exercise=standardized_exercise)
         distractors_messages = prompt_distractors.to_messages()
-        distractors = ""
-        async for token in self.llm_distr.astream(distractors_messages):
-            distractors += token
-            # Here you could, for example, update a UI element if you were streaming tokens to the frontend.
+        distractors = await self.llm_distr.astream(distractors_messages)
+
         return distractors
-
-
-
-
-
-        prompt = await self.template.aformat_prompt(user_input=user_query)
-        messages = prompt.to_messages()
-        result = await self.llm.ainvoke(messages)
-        return result
 
     class Config:
         arbitrary_types_allowed = True

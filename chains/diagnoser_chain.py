@@ -25,10 +25,8 @@ class DiagnoserChain(BaseModel):
         # --- Step 2: Generate a diagnosis using the standardized exercise ---
         prompt_diagnose = await self.template_diagnose.aformat_prompt(standardized_exercise=standardized_exercise)
         diagnose_messages = prompt_diagnose.to_messages()
-        diagnosis = ""
-        async for token in self.llm_diagnose.astream(diagnose_messages):
-            diagnosis += token
-            # Here you could, for example, update a UI element if you were streaming tokens to the frontend.
+        diagnosis = await self.llm_diagnose.astream(diagnose_messages)
+
         return diagnosis
 
     class Config:
