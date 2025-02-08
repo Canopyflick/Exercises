@@ -1,4 +1,5 @@
 # chains/diagnoser_chain.py
+import asyncio
 from pydantic import BaseModel
 from typing import Any
 from langchain_core.prompts.chat import ChatPromptTemplate
@@ -14,20 +15,33 @@ class DiagnoserChain(BaseModel):
     async def run(self, user_query: str, exercise_format: str) -> str:
         """
         Runs the composite chain:
-          1. Standardizes the exercise formatting (if exercise_format isn't Raw).
-          2. Generates a diagnosis from the standardized format.
+          1. Standardizes the exercise formatting.
+          2. Feeds the standardized exercise into multiple diagnosis prompts in parallel.
+          3. Combines the outputs from all prompts.
         """
-        # --- Step 1: Standardize the exercise formatting (if exercise_format isn't 'Raw (original)') ---
+        # Step 1: Standardize the exercise.
         standardized_exercise = await standardize_exercise(
             user_query, exercise_format, self.template_standardize, self.llm_standardize
         )
 
-        # --- Step 2: Generate a diagnosis using the standardized exercise ---
-        prompt_diagnose = await self.template_diagnose.aformat_prompt(standardized_exercise=standardized_exercise)
-        diagnose_messages = prompt_diagnose.to_messages()
-        diagnosis = await self.llm_diagnose.ainvoke(diagnose_messages)
+        # Step 2: Define an async helper to run a single diagnosis prompt.
+        async def run_single(template: ChatPromptTemplate, idx: int) -> str:
+            prompt = await template.aformat_prompt(standardized_exercise=standardized_exercise)
+            messages = prompt.to_messages()
+            diagnosis_response = await self.llm_diagnose.ainvoke(messages)
+            content = diagnosis_response.content if hasattr(diagnosis_response, "content") else diagnosis_response
+            return f"**Diagnosis {idx}:**\n{content}"
 
-        return diagnosis.content if hasattr(diagnosis, "content") else diagnosis
+        # Launch all diagnosis tasks concurrently.
+        tasks = [
+            run_single(template, idx)
+            for idx, template in enumerate(self.templates_diagnose, start=1)
+        ]
+        diagnoses = await asyncio.gather(*tasks)
+
+        # Step 3: Combine the outputs from each prompt.
+        combined_diagnosis = "\n\n---\n\n".join(diagnoses)
+        return combined_diagnosis
 
     class Config:
         arbitrary_types_allowed = True

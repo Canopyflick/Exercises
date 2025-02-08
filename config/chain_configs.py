@@ -10,9 +10,14 @@ chain_configs = {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
         "llm_standardize": llms["GPT-4o-mini"],     # Always fixed
-        "template_diagnose": diagnose_template,
+        # Provide a list of 4 different diagnosis templates:
+        "templates_diagnose": [
+            diagnose_double_negation_template,
+            diagnose_correct_answer_stands_out_template,
+            diagnose_distractor_clearly_wrong_template,
+            diagnose_distractor_partially_correct_template,
+        ],
         "llm_diagnose": llms["GPT-4o"],             # Default; can be replaced in UI
-
     },
     "distractors": {
         "class": DistractorsChain,
