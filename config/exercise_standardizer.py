@@ -1,5 +1,4 @@
 # exercise_standardizer.py
-from format_mappings import FORMAT_MAPPINGS
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Any
 from config.format_mappings import FORMAT_MAPPINGS
