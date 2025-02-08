@@ -77,15 +77,6 @@ async def run_distractors(user_query: str, model_choice: str) -> str:
 # Build the Gradio Interface
 # -------------------------------
 with gr.Blocks() as demo:
-    # Insert a custom style block to style our tab labels.
-    gr.HTML("""
-        <style>
-          .tab-label {
-             cursor: pointer;
-             border-bottom: 1px dotted #999;
-          }
-        </style>
-        """)
     # --- Login Page ---
     with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
@@ -112,7 +103,7 @@ with gr.Blocks() as demo:
                 interactive=True,
             )
             sampling_count = gr.Dropdown(
-                choices=["1", "2", "3", "4", "5"],
+                choices=["1", "2🚧", "3🚧", "4🚧", "5🚧"],
                 value="1",
                 label="Sampling Count",
                 interactive=True,
@@ -124,17 +115,34 @@ with gr.Blocks() as demo:
             outputs=[exercise_format]
         )
         with gr.Tabs():
-            with gr.TabItem(
-                # The HTML span here includes a title attribute. Hovering over it will show the tooltip.
-                label='<span class="tab-label" title="Diagnoser: To diagnose issues with existing exercise(s) in multiple steps">Diagnoser 🩺</span>'
-            ):
+            with gr.TabItem("Diagnose issues"):
+                # Insert an HTML info icon with a tooltip at the top of the tab content.
+                gr.HTML(
+                    """
+                    <div style="margin-bottom: 10px;">
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoser: This tab first standardizes the exercise description (using a fixed model) and then diagnoses potential issues using the selected model.">
+                            🩺
+                        </span>
+                        <span style="font-size: 1em; margin-left: 5px;">Diagnoser</span>
+                    </div>
+                    """
+                )
                 gr.Markdown("### Diagnoser")
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc=...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_output = gr.Textbox(label="Diagnosis", interactive=False)
-            with gr.TabItem(
-                label='<span class="tab-label" title="Distractors brainstorm: To generate more different distractors for the given exercise(s).">Distractors brainstorm 💡</span>'
-            ):
+            with gr.TabItem("Brainstorm distractors"):
+                # Insert an HTML info icon with a tooltip at the top of the tab content.
+                gr.HTML(
+                    """
+                    <div style="margin-bottom: 10px;">
+                        <span style="font-size: 1.5em; cursor: help;" title="Distractors brainstorm: This tab provides creative distractors and brainstorming ideas based on your query.">
+                            💡
+                        </span>
+                        <span style="font-size: 1em; margin-left: 5px;">Distractors brainstorm</span>
+                    </div>
+                    """
+                )
                 gr.Markdown("### Distractors brainstorm")
                 distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
                 distractors_button = gr.Button("Submit")
