@@ -70,7 +70,7 @@ async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str
     # - The user-selected model for diagnosis (overriding the default)
     chain_instance = config["class"](
         template_standardize=config["template_standardize"],
-        template_diagnose=config["template_diagnose"],
+        templates_diagnose=config["templates_diagnose"],
         llm_standardize=config["llm_standardize"],  # Fixed: gpt4o-mini
         llm_diagnose=llms.get(chosen_model, config["llm_diagnose"])  # Override or fallback to default
     )
