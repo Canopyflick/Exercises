@@ -10,12 +10,12 @@ chain_configs = {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
         "template_diagnose": diagnose_template,
-        "llm_standardize": llms["gpt4o-mini"],  # Always fixed
-        "llm_diagnose": llms["gpt4o"],          # Default; can be replaced in UI
+        "llm_standardize": llms["gpt-4o-mini"],  # Always fixed
+        "llm_diagnose": llms["gpt-4o"],          # Default; can be replaced in UI
     },
     "distractors": {
         "class": DistractorsChain,
         "template": distractors_template,
-        "llm": llms["gpt4o"],
+        "llm": llms["gpt-4o"],
     },
 }

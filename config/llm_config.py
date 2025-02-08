@@ -29,11 +29,11 @@ def create_deepseek_llm(model_name: str, temperature: float):
     return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, temperature=temperature)
 
 llms = {
-    "gpt4o": create_openai_llm("gpt-4o", LOW),
-    "gpt4o-mini": create_openai_llm("gpt-4o-mini", LOW),
-    "gpt4o_high_temp": create_openai_llm("gpt-4o", HIGH),
-    "gpt4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
+    "gpt-4o": create_openai_llm("gpt-4o", LOW),
+    "gpt-4o-mini": create_openai_llm("gpt-4o-mini", LOW),
+    "gpt-4o_high_temp": create_openai_llm("gpt-4o", HIGH),
+    "gpt-4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
     "o1": create_openai_reasoning_llm("o1"),
-    "Claude3.5": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
-    "DeepseekR1🚧": create_anthropic_llm("deepseek-reasoner", LOW),
+    "Claude 3.5": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
+    "Deepseek R1🚧": create_anthropic_llm("deepseek-reasoner", LOW),
 }

@@ -54,7 +54,8 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
         return f"Error: {e}"
 
 # Async wrappers for each chain.
-async def run_diagnoser(user_query: str, chosen_model: str) -> str:
+async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str, sampling_count: str) -> str:
+    num_samples = int(sampling_count)
     # Fetch the DiagnoserChain configuration.
     config = chain_configs["diagnoser"]
 
@@ -67,7 +68,18 @@ async def run_diagnoser(user_query: str, chosen_model: str) -> str:
         llm_standardize=config["llm_standardize"],  # Fixed: gpt4o-mini
         llm_diagnose=llms.get(chosen_model, config["llm_diagnose"])  # Override or fallback to default
     )
-    return await chain_instance.run(user_query, exercise_format)
+    responses = []
+    for i in range(num_samples):
+        response = await chain_instance.run(user_query, exercise_format)
+        responses.append(response)
+
+    # Create a list of individual output components (e.g. Textboxes) for each sample.
+    output_components = [
+        gr.Textbox(value=f"Response {i + 1}:\n{resp}", interactive=False)
+        for i, resp in enumerate(responses)
+    ]
+    # Return an update for the output column with these new children.
+    return gr.Column.update(children=output_components)
 
 
 async def run_distractors(user_query: str, model_choice: str) -> str:
@@ -116,31 +128,20 @@ with gr.Blocks() as demo:
         )
         with gr.Tabs():
             with gr.TabItem("🩺 Validate exercise"):
-                # Insert custom CSS to enlarge the tab content
-                gr.HTML(
-                    """
-                    <style>
-                        .tab-content {
-                            font-size: 1.2em;  /* Increase text size */
-                            padding: 20px;  /* Add more padding inside the tab */
-                        }
-                    </style>
-                    """
-                )
-
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoses potential issues for the given exercise(s).">
+                        <span style="font-size: 1.5em; cursor: help;" title="Validate exercise: Diagnoses potential issues for the given exercise(s).">
                             ℹ️ <i>← mouseover for more info</i>
                         </span>
                     </div>
                     """
                 )
-                diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc=...")
+                diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
                 diagnoser_button = gr.Button("Submit")
-                diagnoser_output = gr.Textbox(label="Diagnosis", interactive=False)
+                # Replace the single output textbox with a Column for multiple outputs:
+                diagnoser_responses = gr.Column(label="Response(s)")
             with gr.TabItem("🤔 Generate distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -152,9 +153,9 @@ with gr.Blocks() as demo:
                     </div>
                     """
                 )
-                distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
+                distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Stelling: Dit is een ..... voorbeeld van een stelling. A. Mooi B. Lelijk ...")
                 distractors_button = gr.Button("Submit")
-                distractors_output = gr.Textbox(label="Response", interactive=False)
+                distractors_responses = gr.Column(label="Response(s)")
             with gr.TabItem("🚧 Generate learning objectives"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -166,9 +167,9 @@ with gr.Blocks() as demo:
                     </div>
                     """
                 )
-                learning_objectives_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your study text here...")
+                learning_objectives_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="<h3>Infusie en infuussystemen</h3> <h4>Inleiding</h4> ...")
                 learning_objectives_button = gr.Button("Submit")
-                learning_objectives_output = gr.Textbox(label="Response", interactive=False)
+                learning_objectives_responses = gr.Column(label="Response(s)")
 
     # -------------------------------
     # Set Up Interactions
@@ -183,12 +184,12 @@ with gr.Blocks() as demo:
     diagnoser_button.click(
         fn=run_diagnoser,
         inputs=[diagnoser_input, model_choice, exercise_format, sampling_count],
-        outputs=[diagnoser_output]
+        outputs=[diagnoser_responses]
     )
     distractors_button.click(
         fn=run_distractors,
-        inputs=[distractors_input, model_choice],
-        outputs=[distractors_output]
+        inputs=[distractors_input, model_choice, exercise_format, sampling_count],
+        outputs=[distractors_responses]
     )
 
 # Launch the app.

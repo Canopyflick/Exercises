@@ -21,7 +21,7 @@ class DiagnoserChain(BaseModel):
         else:
             mapping = {
                 "Markdown": "Please format the exercise in Markdown.",
-                "XML": "Please format the exercise in XML.",
+                "XML": "Please format the exercise in XML, using '",
                 "Plaintext": "Please format the exercise in plain text."
             }
             formatting_instructions = mapping.get(exercise_format, "Please format the exercise in Markdown.")
