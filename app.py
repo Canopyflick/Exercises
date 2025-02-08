@@ -54,8 +54,8 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
         return f"Error: {e}"
 
 # Async wrappers for each chain.
-async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str, sampling_count: str) -> str:
-    num_samples = int(sampling_count)
+async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str, sampling_count: str) -> tuple:
+    num_samples = int("".join(filter(str.isdigit, sampling_count)))
     # Fetch the DiagnoserChain configuration.
     config = chain_configs["diagnoser"]
 
@@ -72,15 +72,10 @@ async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str
     for i in range(num_samples):
         response = await chain_instance.run(user_query, exercise_format)
         responses.append(response)
-
-    # Create a list of individual output components (e.g. Textboxes) for each sample.
-    output_components = [
-        gr.Textbox(value=f"Response {i + 1}:\n{resp}", interactive=False)
-        for i, resp in enumerate(responses)
-    ]
-    # Return an update for the output column with these new children.
-    return gr.Column.update(children=output_components)
-
+    # Fill missing responses (if any) up to 5 outputs.
+    all_responses = responses + [""] * (5 - len(responses))
+    # Return a tuple of exactly 5 responses.
+    return tuple(all_responses)
 
 async def run_distractors(user_query: str, model_choice: str) -> str:
     return await run_chain("distractors", {"user_query": user_query}, model_choice)
@@ -115,7 +110,7 @@ with gr.Blocks() as demo:
                 interactive=True,
             )
             sampling_count = gr.Dropdown(
-                choices=["1", "2🚧", "3🚧", "4🚧", "5🚧"],
+                choices=["1", "2", "3", "4", "5"],
                 value="1",
                 label="Sampling Count 🚧",
                 interactive=True,
@@ -140,8 +135,11 @@ with gr.Blocks() as demo:
                 )
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
                 diagnoser_button = gr.Button("Submit")
-                gr.Markdown("**Response(s):**")
-                diagnoser_responses = gr.Column()
+                diagnoser_response_1 = gr.Textbox(label="Response 1", interactive=False)
+                diagnoser_response_2 = gr.Textbox(label="Response 2", interactive=False)
+                diagnoser_response_3 = gr.Textbox(label="Response 3", interactive=False)
+                diagnoser_response_4 = gr.Textbox(label="Response 4", interactive=False)
+                diagnoser_response_5 = gr.Textbox(label="Response 5", interactive=False)
             with gr.TabItem("🤔 Generate distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -186,8 +184,15 @@ with gr.Blocks() as demo:
     diagnoser_button.click(
         fn=run_diagnoser,
         inputs=[diagnoser_input, model_choice, exercise_format, sampling_count],
-        outputs=[diagnoser_responses]
+        outputs=[
+            diagnoser_response_1,
+            diagnoser_response_2,
+            diagnoser_response_3,
+            diagnoser_response_4,
+            diagnoser_response_5
+        ]
     )
+
     distractors_button.click(
         fn=run_distractors,
         inputs=[distractors_input, model_choice, exercise_format, sampling_count],
