@@ -1,7 +1,7 @@
 # chains/diagnoser_chain.py
 import asyncio
 from pydantic import BaseModel
-from typing import Any
+from typing import Any, List
 from langchain_core.prompts.chat import ChatPromptTemplate
 from config.exercise_standardizer import standardize_exercise
 
@@ -9,7 +9,7 @@ from config.exercise_standardizer import standardize_exercise
 class DiagnoserChain(BaseModel):
     template_standardize: ChatPromptTemplate
     llm_standardize: Any  # Fixed LLM for step 1
-    templates_diagnose: ChatPromptTemplate
+    templates_diagnose: List[ChatPromptTemplate]
     llm_diagnose: Any  # User-selectable LLM for step 2
 
     async def run(self, user_query: str, exercise_format: str) -> str:
