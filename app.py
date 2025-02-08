@@ -77,6 +77,15 @@ async def run_distractors(user_query: str, model_choice: str) -> str:
 # Build the Gradio Interface
 # -------------------------------
 with gr.Blocks() as demo:
+    # Insert a custom style block to style our tab labels.
+    gr.HTML("""
+        <style>
+          .tab-label {
+             cursor: pointer;
+             border-bottom: 1px dotted #999;
+          }
+        </style>
+        """)
     # --- Login Page ---
     with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
@@ -115,14 +124,19 @@ with gr.Blocks() as demo:
             outputs=[exercise_format]
         )
         with gr.Tabs():
-            with gr.TabItem("Diagnoser"):
+            with gr.TabItem(
+                # The HTML span here includes a title attribute. Hovering over it will show the tooltip.
+                label='<span class="tab-label" title="Diagnoser: To diagnose issues with existing exercise(s) in multiple steps">Diagnoser 🩺</span>'
+            ):
                 gr.Markdown("### Diagnoser")
-                diagnoser_input = gr.Textbox(label="Enter Diagnoser Query", placeholder="Paste your exercise here (any format)...")
+                diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc=...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_output = gr.Textbox(label="Diagnosis", interactive=False)
-            with gr.TabItem("Distractors brainstorm"):
+            with gr.TabItem(
+                label='<span class="tab-label" title="Distractors brainstorm: To generate more different distractors for the given exercise(s).">Distractors brainstorm 💡</span>'
+            ):
                 gr.Markdown("### Distractors brainstorm")
-                distractors_input = gr.Textbox(label="Enter Brainstorm Query", placeholder="Paste your exercise here (any format)...")
+                distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Paste your exercise here...")
                 distractors_button = gr.Button("Submit")
                 distractors_output = gr.Textbox(label="Response", interactive=False)
 

@@ -35,5 +35,5 @@ llms = {
     "gpt4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
     "o1": create_openai_reasoning_llm("o1"),
     "Claude3.5": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
-    "DeepseekR1": create_anthropic_llm("deepseek-reasoner", LOW),
+    "DeepseekR1🚧": create_anthropic_llm("deepseek-reasoner", LOW),
 }
