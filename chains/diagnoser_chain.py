@@ -25,7 +25,7 @@ class DiagnoserChain(BaseModel):
         # --- Step 2: Generate a diagnosis using the standardized exercise ---
         prompt_diagnose = await self.template_diagnose.aformat_prompt(standardized_exercise=standardized_exercise)
         diagnose_messages = prompt_diagnose.to_messages()
-        diagnosis = await self.llm_diagnose.astream(diagnose_messages)
+        diagnosis = await self.llm_diagnose.ainvoke(diagnose_messages)
 
         return diagnosis
 
