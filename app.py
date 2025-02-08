@@ -104,7 +104,7 @@ with gr.Blocks() as demo:
         with gr.Row():
             model_choice = gr.Dropdown(
                 choices=list(llms.keys()),
-                value="gpt4o",
+                value="gpt-4o",
                 label="Select LLM",
                 interactive=True,
             )
