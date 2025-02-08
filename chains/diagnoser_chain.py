@@ -9,7 +9,7 @@ from config.exercise_standardizer import standardize_exercise
 class DiagnoserChain(BaseModel):
     template_standardize: ChatPromptTemplate
     llm_standardize: Any  # Fixed LLM for step 1
-    template_diagnose: ChatPromptTemplate
+    templates_diagnose: ChatPromptTemplate
     llm_diagnose: Any  # User-selectable LLM for step 2
 
     async def run(self, user_query: str, exercise_format: str) -> str:
