@@ -140,8 +140,8 @@ with gr.Blocks() as demo:
                 )
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
                 diagnoser_button = gr.Button("Submit")
-                # Replace the single output textbox with a Column for multiple outputs:
-                diagnoser_responses = gr.Column(label="Response(s)")
+                gr.Markdown("**Response(s):**")
+                diagnoser_responses = gr.Column()
             with gr.TabItem("🤔 Generate distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -155,7 +155,8 @@ with gr.Blocks() as demo:
                 )
                 distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Stelling: Dit is een ..... voorbeeld van een stelling. A. Mooi B. Lelijk ...")
                 distractors_button = gr.Button("Submit")
-                distractors_responses = gr.Column(label="Response(s)")
+                gr.Markdown("**Response(s):**")
+                distractors_responses = gr.Column()
             with gr.TabItem("🚧 Generate learning objectives"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -169,7 +170,8 @@ with gr.Blocks() as demo:
                 )
                 learning_objectives_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="<h3>Infusie en infuussystemen</h3> <h4>Inleiding</h4> ...")
                 learning_objectives_button = gr.Button("Submit")
-                learning_objectives_responses = gr.Column(label="Response(s)")
+                gr.Markdown("**Response(s):**")
+                learning_objectives_responses = gr.Column()
 
     # -------------------------------
     # Set Up Interactions
