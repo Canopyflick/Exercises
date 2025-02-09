@@ -233,13 +233,13 @@ with gr.Blocks() as interface:
                     model_choice_distractors_1 = gr.Dropdown(
                         choices=list(llms.keys()),
                         value="GPT-4o (low temp)",
-                        label="Select first LLM",
+                        label="Select LLM 1",
                         interactive=True,
                     )
                     model_choice_distractors_2 = gr.Dropdown(
                         choices=list(llms.keys()),
                         value="GPT-4o (mid temp)",
-                        label="Select second LLM",
+                        label="LLM 2",
                         interactive=True,
                     )
                     exercise_format_distractors = gr.Dropdown(
@@ -284,7 +284,7 @@ with gr.Blocks() as interface:
                     </div>
                     """
                 )
-                learning_objectives_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="<h3>Infusie en infuussystemen</h3> <h4>Inleiding</h4> ...")
+                learning_objectives_input = gr.Textbox(label="Enter a study text in any format", placeholder="<h3>Infusie en infuussystemen</h3> <h4>Inleiding</h4> ...")
                 learning_objectives_button = gr.Button("Submit")
                 gr.Markdown("**Response(s):**")
                 learning_objectives_responses = gr.Column()

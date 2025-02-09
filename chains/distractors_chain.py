@@ -9,8 +9,8 @@ from config.exercise_standardizer import standardize_exercise
 class DistractorsChain(BaseModel):
     template_distractors_brainstorm_1: ChatPromptTemplate
     template_distractors_brainstorm_2: ChatPromptTemplate
-    llm_brainstorm_low: Any                  # User-selectable LLMs for brainstorm
-    llm_brainstorm_high: Any
+    llm_brainstorm_1: Any                  # User-selectable LLMs for brainstorm
+    llm_brainstorm_2: Any
     template_consolidate: ChatPromptTemplate
     llm_consolidate: Any
 
