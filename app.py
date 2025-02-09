@@ -81,7 +81,8 @@ async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str
         templates_diagnose=config["templates_diagnose"],
         llm_diagnose=llms.get(chosen_model, config["llm_diagnose"]),
         template_diagnose_scorecard=config["template_diagnose_scorecard"],
-        llm_4o_mini=config["llm_4o_mini"]
+        llm_4o_mini=config["llm_4o_mini"],
+        llm_4o=config["llm_4o"]
     )
 
     # 3) Run the multiple samples in parallel
