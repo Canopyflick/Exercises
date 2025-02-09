@@ -157,25 +157,16 @@ diagnose_scorecard_template = ChatPromptTemplate(
     messages=[
         ("system", """You analyze the results of the diagnoses of 4 issues, and consolidate that into a very simple one-line visual scorecard that summarizes all diagnoses, immediately giving an overview of the 4 results. 
         Use these two icons: 
-        - ✅ means the diagnosis came back negative, the issues is not present.
-        - ❌ means the diagnosis came back positive, the issues is present.
-        (and a third icon if need be: - ❔ means you don't understand the diagnosis result)
+        - ✅ means the diagnosis of the issue came back negative, so the issue is not present.
+        - ❌ means the diagnosis of the issue came back positive, so the issue is present.
+        (and a third icon if need be: - ❔ means the diagnosis is unclear)
         The scorecard should always look like this:
-        <template>
-        |Double negative: [icon] |Correct answer stands out: [icon] |Distractor clearly false: [icon] |Distractor kinda correct: [icon] |
-        </template>
         <example 1>
-        |Double negative:✅||Correct answer stands out:✅||Distractor clearly false:✅||Distractor kinda correct:✅|
-        </example1 >
+        |The exercise doesn't contain a double negative: ✅| |The correct answer does not stand out: ✅| |None of the distractors are too obviously false: ✅| |None of the distractors are actually also kinda correct: ✅|
+        </example 1>
         <example 2>
-        |Double negative:✅||Correct answer stands out:❌||Distractor clearly false:✅||Distractor kinda correct:❌|
+        |The exercise doesn't contain a double negative: ✅| |The correct answer does not stand out: ❌| |None of the distractors are too obviously false: ✅| |None of the distractors are actually also kinda correct: ❌| 
         </example 2>
-        <example 3>
-        |Double negative:❌||Correct answer stands out:❌||Distractor clearly false:✅||Distractor kinda correct:❔|
-        </example 3>
-        <example 4>
-        |Double negative:✅||Correct answer stands out:✅||Distractor clearly false:❌||Distractor kinda correct:✅|
-        </example 4>
         """),
         ("human", "{combined_diagnosis}")
     ],
