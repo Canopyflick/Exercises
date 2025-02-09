@@ -20,6 +20,7 @@ chain_configs = {
         "template_standardize": standardize_template,
         "llm_standardize": llms["GPT-4o-mini-zero"],     # Always fixed
         "llm_4o_mini": llms["GPT-4o-mini"],
+        "llm_4o": llms["GPT-4o"],
         # 4 different diagnosis templates (to run in parallel:
         "templates_diagnose": [
             template_diagnose_double_negation,
@@ -36,5 +37,6 @@ chain_configs = {
         "llm_standardize": llms["GPT-4o-mini-zero"],     # Always fixed
         "template_distractors": distractors_template,
         "llm_distractors": llms["GPT-4o"],                # Default; can be replaced in UI
+        "llm_4o_mini": llms["GPT-4o-mini"],
     },
 }

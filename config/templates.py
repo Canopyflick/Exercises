@@ -130,11 +130,10 @@ template_diagnose_correct_answer_stands_out = ChatPromptTemplate(
 template_diagnose_distractor_clearly_wrong = ChatPromptTemplate(
     messages=[
         ("system", """You assess a multiple-choice exercise to determine if any distractors 
-        are clearly incorrect and therefore too easy to eliminate. Effective distractors should 
-        be plausible but incorrect. 
-        Identify distractors that are obviously wrong, such that even students that are completely uninformed about the topic can eliminate them.
-        Your only focus is to accurately diagnose this issue, no need to provide a fix. If all distractors in the given exercise clearly are or aren't obviously incorrect, just give a short one-sentence diagnosis on this. 
-        If the issue is more nuanced, do some reasoning first, and give your diagnosis then."""),
+        are clearly incorrect and therefore too easy to eliminate. Effective distractors should at least sound plausible to some students.
+        Identify distractors that are too obviously wrong, such that even students that are completely uninformed about the topic can eliminate them.
+        Your only focus is to accurately diagnose this issue, no need to provide a fix. If all distractors in the given exercise clearly either are or aren't obviously incorrect, just give a short one-sentence diagnosis on this. 
+        If the issue is more nuanced, share your reasoning about it first, and give your diagnosis then."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]

@@ -44,7 +44,7 @@ class DiagnoserChain(BaseModel):
             combined_diagnosis=combined_diagnosis
         )
         scorecard_messages = prompt.to_messages()
-        scorecard_response = await self.llm_4o_mini.ainvoke(scorecard_messages)
+        scorecard_response = await self.llm_4o.ainvoke(scorecard_messages)
         scorecard = getattr(scorecard_response, "content", scorecard_response)
 
         return combined_diagnosis + "\n\n" + scorecard
