@@ -14,7 +14,7 @@ class DistractorsChain(BaseModel):
     template_consolidate: ChatPromptTemplate
     llm_consolidate: Any
 
-    async def run(self, standardized_exercise: str) -> str:
+    async def run(self, standardized_exercise: str, amount_of_distractors: str) -> str:
         """
         Overall flow:
         2) Run 4 parallel brainstorming calls:
@@ -33,7 +33,7 @@ class DistractorsChain(BaseModel):
         ) -> str:
             # Format prompt
             prompt = await prompt_template.aformat_prompt(
-                standardized_exercise=standardized_exercise
+                standardized_exercise=standardized_exercise, amount_of_distractors=amount_of_distractors
             )
             messages = prompt.to_messages()
 
@@ -73,7 +73,7 @@ class DistractorsChain(BaseModel):
         brainstorm_results = await asyncio.gather(*tasks)
 
         # Combine them in a single multiline string
-        combined_brainstorms = "\n\n".join(brainstorm_results)
+        combined_brainstorms = "\n\n--- separator between two lists ---\n\n".join(brainstorm_results)
 
         # --- Step 3: Consolidate the 4 partial outputs into a final response ---
         consolidation_prompt = await self.template_consolidate.aformat_prompt(

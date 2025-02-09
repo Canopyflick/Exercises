@@ -185,13 +185,39 @@ diagnose_scorecard_template = ChatPromptTemplate(
     input_variables=["combined_diagnosis"]
 )
 
-# Template for the distractors brainstorm
-distractors_template = ChatPromptTemplate(
+
+
+template_distractors_brainstorm_1 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with 10 additional distractors: "
-                   "alternative answer options that are not correct, yet plausible enough that a poorly informed student might pick them. "
-                   "Vary the degree of 'almost correctness' and 'clearly incorrectness' between them to provide a wide range of options."),
-        ("human", "{user_input}")
+        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_distractors} additional high-quality distractors: "
+                   "alternative answer options that are not correct, yet also not so implausible that even poorly informed students would immediately dismiss them."),
+        ("human", "{standardized_exercise}")
     ],
-    input_variables=["standardized_exercise"]
+    input_variables=["standardized_exercise", "amount_of_distractors"]
 )
+
+template_distractors_brainstorm_2 = ChatPromptTemplate(
+    messages=[
+        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_distractors} additional high-quality distractors: "
+                   "alternative answer options that are not correct, yet not so implausible that even poorly informed students would immediately dismiss them. Go about this very methodically: "
+                   "Really try to think outside of the box and get creative here, providing potential alternative distractors across a wide range of options. "
+                   "Before you present your final selection, take your time to really consider the entire solution space, weighing your different ideas an options, then to list the 10 distractors "),
+        ("human", "{standardized_exercise}")
+    ],
+    input_variables=["standardized_exercise", "amount_of_distractors"]
+)
+
+
+template_consolidate  = ChatPromptTemplate(
+    messages=[
+        ("system", "You are given two lists of potential distractors (answer options to a multiple choice exercise), that need to be consolidated into one list. "
+                   "Filter out duplicates, do some logical sorting among them, and just return one nicely readable list of all unique distractors. Only focus on the distractors (answer options) themselves, ignore any reasoning about them. "),
+        ("human", "For context, this is the exercise that the distractors are about: "
+                  "{standardized_exercise} "
+                  ""
+                  "Here are the two lists:"
+                  "{brainstorm_outputs}")
+    ],
+    input_variables=["standardized_exercise", "brainstorm_outputs"]
+)
+

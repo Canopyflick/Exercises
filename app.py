@@ -24,7 +24,7 @@ def update_exercise_format(selected_model: str):
 # Async wrappers for each chain.
 async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple:
     # figure out how many times to run
-    num_samples = int("".join(filter(str.isdigit, sampling_count)))
+    num_samples = int("".join(filter(str.isdigit, sampling_count_validate)))
 
     # Fetch the DiagnoserChain configuration.
     config = chain_configs["diagnoser"]
@@ -32,7 +32,7 @@ async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_fo
     # 1) Standardize the user query exactly once
     standardized_exercise = await standardize_exercise(
         user_query,
-        exercise_format,
+        exercise_format_validate,
         config["template_standardize"],  # Only if you kept them in config
         config["llm_standardize"]
     )
