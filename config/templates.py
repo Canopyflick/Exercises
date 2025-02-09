@@ -19,7 +19,7 @@ diagnose_template = ChatPromptTemplate(
     input_variables=["standardized_exercise"]
 )
 
-diagnose_double_negation_template = ChatPromptTemplate(
+template_diagnose_double_negation = ChatPromptTemplate(
     messages=[
         ("system", """You analyze a multiple-choice exercise for the presence of double negatives. 
         Here are some examples of double negatives:
@@ -66,7 +66,7 @@ diagnose_double_negation_template = ChatPromptTemplate(
     input_variables=["standardized_exercise"]
 )
 
-diagnose_correct_answer_stands_out_template = ChatPromptTemplate(
+template_diagnose_correct_answer_stands_out = ChatPromptTemplate(
     messages=[
         ("system", """You evaluate a multiple-choice exercise to determine if the correct answer 
         stands out too much compared to the distractors. If the correct answer is significantly 
@@ -127,7 +127,7 @@ diagnose_correct_answer_stands_out_template = ChatPromptTemplate(
 # </explanation how the correct answer stands out>
 # </example where X>
 
-diagnose_distractor_clearly_wrong_template = ChatPromptTemplate(
+template_diagnose_distractor_clearly_wrong = ChatPromptTemplate(
     messages=[
         ("system", """You assess a multiple-choice exercise to determine if any distractors 
         are clearly incorrect and therefore too easy to eliminate. Effective distractors should 
@@ -140,7 +140,7 @@ diagnose_distractor_clearly_wrong_template = ChatPromptTemplate(
     input_variables=["standardized_exercise"]
 )
 
-diagnose_distractor_partially_correct_template = ChatPromptTemplate(
+template_diagnose_distractor_partially_correct = ChatPromptTemplate(
     messages=[
         ("system", """You analyze a multiple-choice exercise to detect distractors that are 
         partially correct. Some answer choices may contain elements of truth, leading to 
@@ -151,6 +151,35 @@ diagnose_distractor_partially_correct_template = ChatPromptTemplate(
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
+)
+
+diagnose_scorecard_template = ChatPromptTemplate(
+    messages=[
+        ("system", """You analyze the results of the diagnoses of 4 issues, and consolidate that into a very simple one-line visual scorecard that summarizes all diagnoses, immediately giving an overview of the 4 results. 
+        Use these two icons: 
+        - ✅ means the diagnosis came back negative, the issues is not present.
+        - ❌ means the diagnosis came back positive, the issues is present.
+        (and a third icon if need be: - ❔ means you don't understand the diagnosis result)
+        The scorecard should always look like this:
+        <template>
+        |Double negative: [icon] |Correct answer stands out: [icon] |Distractor clearly false: [icon] |Distractor kinda correct: [icon] |
+        </template>
+        <example 1>
+        |Double negative:✅||Correct answer stands out:✅||Distractor clearly false:✅||Distractor kinda correct:✅|
+        </example1 >
+        <example 2>
+        |Double negative:✅||Correct answer stands out:❌||Distractor clearly false:✅||Distractor kinda correct:❌|
+        </example 2>
+        <example 3>
+        |Double negative:❌||Correct answer stands out:❌||Distractor clearly false:✅||Distractor kinda correct:❔|
+        </example 3>
+        <example 4>
+        |Double negative:✅||Correct answer stands out:✅||Distractor clearly false:❌||Distractor kinda correct:✅|
+        </example 4>
+        """),
+        ("human", "{combined_diagnosis}")
+    ],
+    input_variables=["combined_diagnosis"]
 )
 
 # Template for the distractors brainstorm

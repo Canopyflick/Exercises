@@ -1,7 +1,8 @@
 # config/chain_configs.py
 from config.templates import standardize_template, diagnose_template, distractors_template, \
-    diagnose_double_negation_template, diagnose_correct_answer_stands_out_template, \
-    diagnose_distractor_clearly_wrong_template, diagnose_distractor_partially_correct_template
+    template_diagnose_double_negation, template_diagnose_correct_answer_stands_out, \
+    template_diagnose_distractor_clearly_wrong, template_diagnose_distractor_partially_correct, \
+    diagnose_scorecard_template
 from chains.diagnoser_chain import DiagnoserChain
 from chains.distractors_chain import DistractorsChain
 from config.llm_config import llms
@@ -12,13 +13,14 @@ chain_configs = {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
         "llm_standardize": llms["GPT-4o-mini"],     # Always fixed
-        # Provide a list of 4 different diagnosis templates:
+        # 4 different diagnosis templates (to run in parallel:
         "templates_diagnose": [
-            diagnose_double_negation_template,
-            diagnose_correct_answer_stands_out_template,
-            diagnose_distractor_clearly_wrong_template,
-            diagnose_distractor_partially_correct_template,
+            template_diagnose_double_negation,
+            template_diagnose_correct_answer_stands_out,
+            template_diagnose_distractor_clearly_wrong,
+            template_diagnose_distractor_partially_correct,
         ],
+        "template_diagnose_scorecard": diagnose_scorecard_template,
         "llm_diagnose": llms["GPT-4o"],             # Default; can be replaced in UI
     },
     "distractors": {
