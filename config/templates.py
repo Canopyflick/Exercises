@@ -21,11 +21,11 @@ diagnose_template = ChatPromptTemplate(
 
 template_diagnose_double_negation = ChatPromptTemplate(
     messages=[
-        ("system", """You analyze a multiple-choice exercise for the presence of double negatives. 
+        ("system", """Analyze a multiple-choice exercise for the presence of double negatives: either two negations in the question/statement itself, or a negation in the question/statement AND in an answer option. 
         Here are some examples of double negatives:
         
         <example 1>
-        <exercise 1>
+        <exercise>
         Stelling  
         Expertfolio wordt niet aangeboden door ENI.  
         
@@ -35,14 +35,14 @@ template_diagnose_double_negation = ChatPromptTemplate(
         
         Correct antwoord:  
         1. Deze stelling is niet correct
-        </exercise 1>
+        </exercise>
         <double negative explanation>
-        Een niet-correctvraag met 'niet' (het is niet correct dat Expertfolio niet wordt aangeboden) is een dubbele ontkenning.
+        The statement itself contains one negation (wordt 'niet' aangeboden), and one answer option contains another (is 'niet' correct). Interpreted together, this forms a statement with a double negation ('het is niet correct dat Expertfolio niet wordt aangeboden' is een dubbele ontkenning).
         </double negative explanation>
         </example 1>
         
         <example 2>
-        <exercise 2>
+        <exercise>
         Vraag
         Welk aspect hoort niet bij eenzaamheid?
         
@@ -53,10 +53,10 @@ template_diagnose_double_negation = ChatPromptTemplate(
         4. Geen lijfelijk contact hebben
         
         Correct antwoord:
-        Het ontbreken van betekenisvolle relaties
-        </exercise 2>
+        1. Betekenisvolle relaties hebben
+        </exercise>
         <double negative explanation>
-        In de vraag staat al 'niet'. In keuzeoptie 4 staat ook nog 'geen', dat is dus een dubbele ontkenning. 
+        The question itself contains one negation  (hoort 'niet' bij), and an answer option contains the second ('Geen' lijfelijk contact). Together, the resulting statement contains a double negation ('Geen lichamelijk contact hebben hoort niet bij eenzaamheid'). 
         </double negative explanation>
         </example 2>. 
         If it's obvious that there is or isn't a double negative in this exercise, just give a short one-sentence diagnosis on this. 
@@ -167,16 +167,16 @@ diagnose_scorecard_template = ChatPromptTemplate(
         (and a third icon if need be: - ❔ means the diagnosis is unclear)
         The scorecard should always look like this:
         <template>
-        The exercise does not contain/contains a double negative: ✅/❌ -- The correct answer does not/does stand out: ✅/❌ -- None/Some of the distractors are too obviously false: ✅/❌ -- None/Some of the distractors are actually also kinda correct: ✅/❌
+        1. The exercise does not contain/contains a double negative: ✅/❌ -- 2. The correct answer does not/does stand out: ✅/❌ -- 3. None/Some of the distractors are too obviously false: ✅/❌ -- 4. None/Some of the distractors are actually also kinda correct: ✅/❌
         </template>
         <example 1>
-        The exercise doesn't contain a double negative: ✅ -- The correct answer does not stand out: ✅ -- None of the distractors are too obviously false: ✅ -- None of the distractors are actually also kinda correct: ✅
+        1. The exercise doesn't contain a double negative: ✅ -- 2. The correct answer does not stand out: ✅ -- 3. None of the distractors are too obviously false: ✅ -- 4. None of the distractors are actually also kinda correct: ✅
         </example 1>
         <example 2>
-        The exercise doesn't contain a double negative: ✅ -- The correct answer does stand out: ❌ -- None of the distractors are too obviously false: ✅ -- Some of the distractors are actually also kinda correct: ❌
+        1. The exercise doesn't contain a double negative: ✅ -- 2. The correct answer does stand out: ❌ -- 3. None of the distractors are too obviously false: ✅ -- 4. Some of the distractors are actually also kinda correct: ❌
         </example 2>
         <example 3>
-        The exercise contains a double negative: ❌ -- The correct answer does not stand out: ✅ -- Some of the distractors are too obviously false: ❌ -- None of the distractors are actually also kinda correct: ✅
+        1. The exercise contains a double negative: ❌ -- 2. The correct answer does not stand out: ✅ -- 3. Some of the distractors are too obviously false: ❌ -- 4. None of the distractors are actually also kinda correct: ✅
         </example 3>
         """),
         ("human", "{combined_diagnosis}")

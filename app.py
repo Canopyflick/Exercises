@@ -95,7 +95,7 @@ async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str
     responses = await asyncio.gather(*tasks)
 
     # pad up to 5 if needed
-    all_responses = list(responses) + [""] * (5 - len(responses))
+    all_responses = list(responses) + [""] * (10 - len(responses))
 
     # Return a tuple of exactly 5 responses.
     return tuple(all_responses)
@@ -133,9 +133,9 @@ with gr.Blocks() as interface:
                 interactive=True,
             )
             sampling_count = gr.Dropdown(
-                choices=["1", "2", "3", "4", "5"],
+                choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
                 value="1",
-                label="Sampling Count 🚧",
+                label="Sampling Count",
                 interactive=True,
             )
         # Set up a change callback so that if the user selects "Claude 3.5", the exercise format updates to "XML"
@@ -163,6 +163,11 @@ with gr.Blocks() as interface:
                 diagnoser_response_3 = gr.Textbox(label="Response 3", interactive=False)
                 diagnoser_response_4 = gr.Textbox(label="Response 4", interactive=False)
                 diagnoser_response_5 = gr.Textbox(label="Response 5", interactive=False)
+                diagnoser_response_6 = gr.Textbox(label="Response 6", interactive=False)
+                diagnoser_response_7 = gr.Textbox(label="Response 7", interactive=False)
+                diagnoser_response_8 = gr.Textbox(label="Response 8", interactive=False)
+                diagnoser_response_9 = gr.Textbox(label="Response 9", interactive=False)
+                diagnoser_response_10 = gr.Textbox(label="Response 10", interactive=False)
             with gr.TabItem("🤔 Generate distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -212,7 +217,12 @@ with gr.Blocks() as interface:
             diagnoser_response_2,
             diagnoser_response_3,
             diagnoser_response_4,
-            diagnoser_response_5
+            diagnoser_response_5,
+            diagnoser_response_6,
+            diagnoser_response_7,
+            diagnoser_response_8,
+            diagnoser_response_9,
+            diagnoser_response_10
         ]
     )
 
