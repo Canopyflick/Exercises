@@ -30,7 +30,8 @@ def create_deepseek_llm(model_name: str, temperature: float):
 
 llms = {
     "GPT-4o": create_openai_llm("gpt-4o", LOW),
-    "GPT-4o-mini": create_openai_llm("gpt-4o-mini", ZERO),
+    "GPT-4o-mini-zero": create_openai_llm("gpt-4o-mini", ZERO),
+    "GPT-4o-mini": create_openai_llm("gpt-4o-mini", LOW),
     "GPT-4o_high_temp": create_openai_llm("gpt-4o", HIGH),
     "GPT-4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
     "GPT-4 Turbo": create_openai_llm("gpt-4-turbo-2024-04-09", HIGH),

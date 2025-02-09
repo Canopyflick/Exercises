@@ -60,7 +60,7 @@ template_diagnose_double_negation = ChatPromptTemplate(
         </double negative explanation>
         </example 2>. 
         If it's obvious that there is or isn't a double negative in this exercise, just give a short one-sentence diagnosis on this. 
-        If you're not quite sure, do some reasoning first, and give your diagnosis then."""),
+        If the issue is more nuanced, do some reasoning first, and give your diagnosis then."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -114,7 +114,7 @@ template_diagnose_correct_answer_stands_out = ChatPromptTemplate(
         </example where the correct answer is grammatically different>
         
         Your only focus is to accurately diagnose this issue, no need to provide a fix. If the correct answer in the given exercise clearly does or does not stand out, just give a short one-sentence diagnosis on this. 
-        If you're not quite sure, do some reasoning first, and give your diagnosis then."""),
+        If the issue is more nuanced, do some reasoning first, and give your diagnosis then."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -134,7 +134,7 @@ template_diagnose_distractor_clearly_wrong = ChatPromptTemplate(
         be plausible but incorrect. 
         Identify distractors that are obviously wrong, such that even students that are completely uninformed about the topic can eliminate them.
         Your only focus is to accurately diagnose this issue, no need to provide a fix. If all distractors in the given exercise clearly are or aren't obviously incorrect, just give a short one-sentence diagnosis on this. 
-        If you're not quite sure, do some reasoning first, and give your diagnosis then."""),
+        If the issue is more nuanced, do some reasoning first, and give your diagnosis then."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -146,7 +146,7 @@ template_diagnose_distractor_partially_correct = ChatPromptTemplate(
         partially correct. Some answer choices may contain elements of truth, leading to 
         ambiguity. Identify such cases. Really stress-test them: is there a story you could tell where the distractor, in the context of this exercise, could be considered a (partially) correct answer?
         Your only focus is to accurately diagnose this issue, no need to provide a fix. If all distractors in the given exercise clearly are or aren't unambiguously false, just give a short one-sentence diagnosis on this. 
-        If you're not quite sure, do some reasoning first, and give your diagnosis then.
+        If the issue is more nuanced, do some reasoning first, and give your diagnosis then.
         """),
         ("human", "{standardized_exercise}")
     ],
@@ -166,16 +166,16 @@ diagnose_scorecard_template = ChatPromptTemplate(
         (and a third icon if need be: - ❔ means the diagnosis is unclear)
         The scorecard should always look like this:
         <template>
-        |The exercise does not contain/contains a double negative: ✅/❌| |The correct answer does not/does stand out: ✅/❌| |None/Some of the distractors are too obviously false: ✅/❌| |None/Some of the distractors are actually also kinda correct: ✅/❌|
+        The exercise does not contain/contains a double negative: ✅/❌ -- The correct answer does not/does stand out: ✅/❌ -- None/Some of the distractors are too obviously false: ✅/❌ -- None/Some of the distractors are actually also kinda correct: ✅/❌
         </template>
         <example 1>
-        |The exercise doesn't contain a double negative: ✅| |The correct answer does not stand out: ✅| |None of the distractors are too obviously false: ✅| |None of the distractors are actually also kinda correct: ✅|
+        The exercise doesn't contain a double negative: ✅ -- The correct answer does not stand out: ✅ -- None of the distractors are too obviously false: ✅ -- None of the distractors are actually also kinda correct: ✅
         </example 1>
         <example 2>
-        |The exercise doesn't contain a double negative: ✅| |The correct answer does stand out: ❌| |None of the distractors are too obviously false: ✅| |Some of the distractors are actually also kinda correct: ❌|
+        The exercise doesn't contain a double negative: ✅ -- The correct answer does stand out: ❌ -- None of the distractors are too obviously false: ✅ -- Some of the distractors are actually also kinda correct: ❌
         </example 2>
         <example 3>
-        |The exercise contains a double negative: ❌| |The correct answer does not stand out: ✅| |Some of the distractors are too obviously false: ❌| |None of the distractors are actually also kinda correct: ✅|
+        The exercise contains a double negative: ❌ -- The correct answer does not stand out: ✅ -- Some of the distractors are too obviously false: ❌ -- None of the distractors are actually also kinda correct: ✅
         </example 3>
         """),
         ("human", "{combined_diagnosis}")

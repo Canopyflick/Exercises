@@ -4,7 +4,8 @@ import os
 import asyncio
 import logging
 
-from utils.auth import login as auth_login  # Simple authentication
+from config.exercise_standardizer import standardize_exercise
+from utils.auth import login as auth_login
 from config.chain_configs import chain_configs
 from config.llm_config import llms
 
@@ -16,7 +17,7 @@ def update_exercise_format(selected_model: str):
     if selected_model == "Claude 3.5":
         return gr.update(value="XML")
     else:
-        return gr.update(value="Markdown")
+        return gr.update(value="Plaintext")
 
 # A generic async runner for chains.
 async def run_chain(chain_name: str, input_variables: dict, selected_model: str):
@@ -61,26 +62,40 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
 
 # Async wrappers for each chain.
 async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str, sampling_count: str) -> tuple:
+    # figure out how many times to run
     num_samples = int("".join(filter(str.isdigit, sampling_count)))
+
     # Fetch the DiagnoserChain configuration.
     config = chain_configs["diagnoser"]
 
-    # Instantiate DiagnoserChain using:
-    # - A fixed LLM for standardizing (gpt4o-mini)
-    # - The user-selected model for diagnosis (overriding the default)
-    chain_instance = config["class"](
-        template_standardize=config["template_standardize"],
-        templates_diagnose=config["templates_diagnose"],
-        template_diagnose_scorecard=config["template_diagnose_scorecard"],
-        llm_standardize=config["llm_standardize"],  # Fixed: gpt4o-mini
-        llm_diagnose=llms.get(chosen_model, config["llm_diagnose"])  # Override or fallback to default
+    # 1) Standardize the user query exactly once
+    standardized_exercise = await standardize_exercise(
+        user_query,
+        exercise_format,
+        config["template_standardize"],
+        config["llm_standardize"]
     )
-    responses = []
-    for i in range(num_samples):
-        response = await chain_instance.run(user_query, exercise_format)
-        responses.append(response)
-    # Fill missing responses (if any) up to 5 outputs.
-    all_responses = responses + [""] * (5 - len(responses))
+
+    # 2) Instantiate the DiagnoserChain using the user-selected LLM for diagnosing
+    chain_instance = config["class"](
+        templates_diagnose=config["templates_diagnose"],
+        llm_diagnose=llms.get(chosen_model, config["llm_diagnose"]),
+        template_diagnose_scorecard=config["template_diagnose_scorecard"],
+        llm_4o_mini=config["llm_4o_mini"]
+    )
+
+    # 3) Run the multiple samples in parallel
+    # Create a short helper that does only the "diagnose" steps:
+    tasks = [
+        chain_instance.diagnose_only(standardized_exercise)
+        for _ in range(num_samples)
+    ]
+    # run concurrently
+    responses = await asyncio.gather(*tasks)
+
+    # pad up to 5 if needed
+    all_responses = list(responses) + [""] * (5 - len(responses))
+
     # Return a tuple of exactly 5 responses.
     return tuple(all_responses)
 
