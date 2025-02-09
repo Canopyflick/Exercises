@@ -155,18 +155,28 @@ template_diagnose_distractor_partially_correct = ChatPromptTemplate(
 
 diagnose_scorecard_template = ChatPromptTemplate(
     messages=[
-        ("system", """You analyze the results of the diagnoses of 4 issues, and consolidate that into a very simple one-line visual scorecard that summarizes all diagnoses, immediately giving an overview of the 4 results. 
+        ("system", """You analyze the results of the diagnoses of 4 potential issues that multiple choice exercises sometimes have, and consolidate those into a very simple one-line visual scorecard that summarizes all issues' diagnoses, to show the results clearly in one overview. The diagnoses concern the following 4 potential issues:
+        1. Double negatives (if the exercise contains something like 'to not not do something', this is undesirable)
+        2. The correct multiple choice answer option stands out from the rest (this is a hint for the student)
+        3. A distractor answer option is too obviously false (it's useless, no student would ever pick it)
+        4. A distractor answer option is actually also kinda correct (it's misleading, if a student picks it they're not 100% wrong) 
         Use these two icons: 
         - ✅ means the diagnosis of the issue came back negative, so the issue is not present.
         - ❌ means the diagnosis of the issue came back positive, so the issue is present.
         (and a third icon if need be: - ❔ means the diagnosis is unclear)
         The scorecard should always look like this:
+        <template>
+        |The exercise does not contain/contains a double negative: ✅/❌| |The correct answer does not/does stand out: ✅/❌| |None/Some of the distractors are too obviously false: ✅/❌| |None/Some of the distractors are actually also kinda correct: ✅/❌|
+        </template>
         <example 1>
         |The exercise doesn't contain a double negative: ✅| |The correct answer does not stand out: ✅| |None of the distractors are too obviously false: ✅| |None of the distractors are actually also kinda correct: ✅|
         </example 1>
         <example 2>
-        |The exercise doesn't contain a double negative: ✅| |The correct answer does not stand out: ❌| |None of the distractors are too obviously false: ✅| |None of the distractors are actually also kinda correct: ❌| 
+        |The exercise doesn't contain a double negative: ✅| |The correct answer does stand out: ❌| |None of the distractors are too obviously false: ✅| |Some of the distractors are actually also kinda correct: ❌|
         </example 2>
+        <example 3>
+        |The exercise contains a double negative: ❌| |The correct answer does not stand out: ✅| |Some of the distractors are too obviously false: ❌| |None of the distractors are actually also kinda correct: ✅|
+        </example 3>
         """),
         ("human", "{combined_diagnosis}")
     ],
