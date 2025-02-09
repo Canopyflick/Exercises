@@ -189,22 +189,22 @@ diagnose_scorecard_template = ChatPromptTemplate(
 
 template_distractors_brainstorm_1 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_intermediate_distractors} additional high-quality distractors: "
+        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {intermediate_distractors_specification} additional high-quality distractors: "
                    "alternative answer options that are not correct, yet also not so implausible that even poorly informed students would immediately dismiss them. Make sure to use the same language as the existing exercise."),
         ("human", "{standardized_exercise}")
     ],
-    input_variables=["standardized_exercise", "amount_of_intermediate_distractors"]
+    input_variables=["standardized_exercise", "intermediate_distractors_specification"]
 )
 
 template_distractors_brainstorm_2 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_intermediate_distractors} additional high-quality distractors: "
+        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {intermediate_distractors_specification} additional high-quality distractors: "
                    "alternative answer options that are not correct, yet not so implausible that even poorly informed students would immediately dismiss them. Go about this very methodically: "
                    "Really try to think outside of the box and get creative here, providing potential alternative distractors across a wide range of options. "
                    "Before you present your final selection, take your time to really consider the entire solution space, weighing your different ideas an options, then to list the distractors. Make sure to use the same language as the existing exercise."),
         ("human", "{standardized_exercise}")
     ],
-    input_variables=["standardized_exercise", "amount_of_intermediate_distractors"]
+    input_variables=["standardized_exercise", "intermediate_distractors_specification"]
 )
 
 

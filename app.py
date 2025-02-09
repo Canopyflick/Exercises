@@ -198,8 +198,8 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise: Diagnoses potential issues for the given exercise(s).">
-                            ℹ️ <i>← mouseover</i>
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise: Diagnoses potential issues for the given exercise(s). The Exercise Format">
+                            ℹ️ <i>←</i>
                         </span>
                     </div>
                     """
@@ -216,7 +216,7 @@ with gr.Blocks() as interface:
                     exercise_format_validate = gr.Dropdown(
                         choices=["Markdown", "XML", "Plaintext", "Raw (input unconverted)"],
                         value="Markdown",
-                        label="Exercise Format (initial conversion used in prompts for standardization)",
+                        label="Exercise Format Standard (for standardization)",
                         interactive=True,
                     )
                     sampling_count_validate = gr.Dropdown(
@@ -284,7 +284,7 @@ with gr.Blocks() as interface:
                         label="Sampling Count",
                         interactive=True,
                     )
-                    amount_of_intermediate_distractors = gr.Dropdown(
+                    intermediate_distractors_specification = gr.Dropdown(
                         choices=["", "2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
                         value="8",
                         label="Intermediate distractors specification (generated x4 within pipeline)",
