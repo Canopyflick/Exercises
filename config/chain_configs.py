@@ -1,8 +1,6 @@
 # config/chain_configs.py
 from config.templates import (
     standardize_template,
-    diagnose_template,
-    distractors_template,
     template_diagnose_double_negation,
     template_diagnose_correct_answer_stands_out,
     template_diagnose_distractor_clearly_wrong,
@@ -10,7 +8,7 @@ from config.templates import (
     diagnose_scorecard_template,
     template_distractors_brainstorm_1,
     template_distractors_brainstorm_2,
-    distractors_consolidate_template
+    template_consolidate_distractors
 )
 from chains.diagnoser_chain import DiagnoserChain
 from chains.distractors_chain import DistractorsChain
@@ -42,7 +40,7 @@ chain_configs = {
         "template_distractors_brainstorm_2": template_distractors_brainstorm_2,
         "llm_brainstorm_1": llms["GPT-4o (low temp)"],
         "llm_brainstorm_2": llms["GPT-4o (mid temp"],
-        "template_consolidate": distractors_consolidate_template,
+        "template_consolidate": template_consolidate_distractors,
         "llm_consolidate": llms["GPT-4o (low temp)"],  # or something else
     },
 }
