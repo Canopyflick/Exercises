@@ -11,6 +11,7 @@ class DiagnoserChain(BaseModel):
     template_diagnose_scorecard: ChatPromptTemplate
     llm_diagnose: Any
     llm_4o_mini: Any
+    llm_4o: Any
 
     async def diagnose_only(self, standardized_exercise: str) -> str:
         """
@@ -47,7 +48,7 @@ class DiagnoserChain(BaseModel):
         scorecard_response = await self.llm_4o.ainvoke(scorecard_messages)
         scorecard = getattr(scorecard_response, "content", scorecard_response)
 
-        return combined_diagnosis + "\n\n" + scorecard
+        return combined_diagnosis + "\n--- [SCORECARD] ---\n" + scorecard
 
     class Config:
         arbitrary_types_allowed = True
