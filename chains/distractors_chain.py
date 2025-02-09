@@ -14,7 +14,7 @@ class DistractorsChain(BaseModel):
     template_consolidate: ChatPromptTemplate
     llm_consolidate: Any
 
-    async def run(self, standardized_exercise: str, amount_of_distractors: str, final_distractors_specification: str) -> str:
+    async def run(self, standardized_exercise: str, intermediate_distractors_specification: str, final_distractors_specification: str) -> str:
         """
         Overall flow:
         2) Run 4 parallel brainstorming calls:
@@ -33,7 +33,7 @@ class DistractorsChain(BaseModel):
         ) -> str:
             # Format prompt
             prompt = await prompt_template.aformat_prompt(
-                standardized_exercise=standardized_exercise, amount_of_distractors=amount_of_distractors
+                standardized_exercise=standardized_exercise, intermediate_distractors_specification=intermediate_distractors_specification
             )
             messages = prompt.to_messages()
 
