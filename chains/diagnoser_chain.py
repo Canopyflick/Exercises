@@ -8,7 +8,7 @@ from config.exercise_standardizer import standardize_exercise
 
 class DiagnoserChain(BaseModel):
     template_standardize: ChatPromptTemplate
-    llm_standardize: Any  # Fixed LLM for step 1 and 3
+    llm_standardize: Any  # Fixed LLM for step 1
     templates_diagnose: List[ChatPromptTemplate]
     llm_diagnose: Any  # User-selectable LLM for step 2
     template_diagnose_scorecard: ChatPromptTemplate
