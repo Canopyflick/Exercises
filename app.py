@@ -14,12 +14,98 @@ logger = logging.getLogger(__name__)
 # --- Callback to update the exercise format dropdown based on LLM selection ---
 def update_exercise_format(selected_model: str):
     # When "Claude3.5" is selected, default the format to XML; otherwise, default to Markdown.
-    if selected_model == "Claude 3.5":
+    if "Claude" in selected_model:
         return gr.update(value="XML")
     else:
         return gr.update(value="Plaintext")
 
-# A generic async runner for chains.
+
+
+# Async wrappers for each chain.
+async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple:
+    # figure out how many times to run
+    num_samples = int("".join(filter(str.isdigit, sampling_count)))
+
+    # Fetch the DiagnoserChain configuration.
+    config = chain_configs["diagnoser"]
+
+    # 1) Standardize the user query exactly once
+    standardized_exercise = await standardize_exercise(
+        user_query,
+        exercise_format,
+        config["template_standardize"],  # Only if you kept them in config
+        config["llm_standardize"]
+    )
+
+    # 2) Instantiate the DiagnoserChain using the user-selected LLM for diagnosing
+    chain_instance = config["class"](
+        templates_diagnose=config["templates_diagnose"],
+        llm_diagnose=llms.get(model_choice_validate, config["llm_diagnose"]),
+        template_diagnose_scorecard=config["template_diagnose_scorecard"],
+        llm_4o_mini=config["llm_4o_mini"],
+        llm_4o=config["llm_4o"]
+    )
+
+    # 3) Run the multiple samples in parallel
+    # Create a short helper that does only the "diagnose" steps:
+    tasks = [
+        chain_instance.diagnose_only(standardized_exercise)
+        for _ in range(num_samples)
+    ]
+    # run concurrently
+    responses = await asyncio.gather(*tasks)
+
+    # pad up to 10 if needed
+    all_responses = list(responses) + [""] * (10 - len(responses))
+
+    # Return a tuple of exactly 5 responses.
+    return tuple(all_responses)
+
+
+async def run_distractors(
+    user_query: str,
+    model_choice_distractors_1: str,
+    model_choice_distractors_2: str,
+    exercise_format_distractors: str,
+    sampling_count_distractors: str
+) -> tuple:
+    # 0) Parse how many concurrent runs (samples) we want
+    num_samples = int("".join(filter(str.isdigit, sampling_count_distractors)))
+    # Fetch the DistractorsChain configuration.
+    config = chain_configs["distractors"]
+
+    # 1) Standardize the user query exactly once
+    standardized_exercise = await standardize_exercise(
+        user_query,
+        exercise_format_distractors,
+        config["template_standardize"],
+        config["llm_standardize"]
+    )
+
+    # 2) Build the DistractorsChain instance
+    chain_instance = config["class"](
+        template_distractors_brainstorm_1=config["template_distractors_brainstorm_1"],
+        template_distractors_brainstorm_2=config["template_distractors_brainstorm_2"],
+        llm_brainstorm_1=llms.get(model_choice_distractors_1, config["llm_brainstorm_1"]),  # User-selected (low and high temp GPT-4o by default)
+        llm_brainstorm_2=llms.get(model_choice_distractors_2, config["llm_brainstorm_2"]),
+        template_consolidate=config["template_consolidate"],
+        llm_consolidate=config["llm_consolidate"],
+    )
+
+    # 3) Create N tasks in parallel (one full distractor generation pipeline per sample)
+    tasks = [
+        chain_instance.run(standardized_exercise) for _ in range(num_samples)
+    ]
+    results = await asyncio.gather(*tasks)
+
+    # 4) Pad up to 10 outputs to correspond to 10 response fields
+    all_responses = list(results) + [""] * (10 - len(results))
+
+    return tuple(all_responses)
+
+
+
+# A generic async runner for simple chains (currently not used)
 async def run_chain(chain_name: str, input_variables: dict, selected_model: str):
     try:
         chain_config = chain_configs.get(chain_name)
@@ -60,48 +146,6 @@ async def run_chain(chain_name: str, input_variables: dict, selected_model: str)
         logger.error(f"Error in run_chain for '{chain_name}': {e}")
         return f"Error: {e}"
 
-# Async wrappers for each chain.
-async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str, sampling_count: str) -> tuple:
-    # figure out how many times to run
-    num_samples = int("".join(filter(str.isdigit, sampling_count)))
-
-    # Fetch the DiagnoserChain configuration.
-    config = chain_configs["diagnoser"]
-
-    # 1) Standardize the user query exactly once
-    standardized_exercise = await standardize_exercise(
-        user_query,
-        exercise_format,
-        config["template_standardize"],  # Only if you kept them in config
-        config["llm_standardize"]
-    )
-
-    # 2) Instantiate the DiagnoserChain using the user-selected LLM for diagnosing
-    chain_instance = config["class"](
-        templates_diagnose=config["templates_diagnose"],
-        llm_diagnose=llms.get(chosen_model, config["llm_diagnose"]),
-        template_diagnose_scorecard=config["template_diagnose_scorecard"],
-        llm_4o_mini=config["llm_4o_mini"],
-        llm_4o=config["llm_4o"]
-    )
-
-    # 3) Run the multiple samples in parallel
-    # Create a short helper that does only the "diagnose" steps:
-    tasks = [
-        chain_instance.diagnose_only(standardized_exercise)
-        for _ in range(num_samples)
-    ]
-    # run concurrently
-    responses = await asyncio.gather(*tasks)
-
-    # pad up to 5 if needed
-    all_responses = list(responses) + [""] * (10 - len(responses))
-
-    # Return a tuple of exactly 5 responses.
-    return tuple(all_responses)
-
-async def run_distractors(user_query: str, model_choice: str) -> str:
-    return await run_chain("distractors", {"user_query": user_query}, model_choice)
 
 # -------------------------------
 # Build the Gradio Interface
@@ -116,46 +160,48 @@ with gr.Blocks() as interface:
 
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
-        gr.Markdown("## Pick the tab for your task of choice below")
-        # Dropdown for LLM selection.
-        # Create a row for the control dropdowns
-        with gr.Row():
-            model_choice = gr.Dropdown(
-                choices=list(llms.keys()),
-                value="GPT-4o",
-                label="Select LLM",
-                interactive=True,
-            )
-            exercise_format = gr.Dropdown(
-                choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
-                value="Markdown",
-                label="Exercise Format",
-                interactive=True,
-            )
-            sampling_count = gr.Dropdown(
-                choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-                value="1",
-                label="Sampling Count",
-                interactive=True,
-            )
-        # Set up a change callback so that if the user selects "Claude 3.5", the exercise format updates to "XML"
-        model_choice.change(
-            fn=update_exercise_format,
-            inputs=[model_choice],
-            outputs=[exercise_format]
-        )
+        gr.Markdown("## Pick the tab for your task of choice")
+
         with gr.Tabs():
-            with gr.TabItem("🩺 Validate exercise"):
+            with gr.TabItem("🩺 Diagnose exercise"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Validate exercise: Diagnoses potential issues for the given exercise(s).">
-                            ℹ️ <i>← mouseover for more info</i>
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise: Diagnoses potential issues for the given exercise(s).">
+                            ℹ️ <i>← mouseover</i>
                         </span>
                     </div>
                     """
                 )
+
+                # Create a row for the control dropdowns: LLM selection, exercise format, sampling count etc.
+                with gr.Row():
+                    model_choice_validate = gr.Dropdown(
+                        choices=list(llms.keys()),
+                        value="GPT-4o (low temp)",
+                        label="Select LLM",
+                        interactive=True,
+                    )
+                    exercise_format_validate = gr.Dropdown(
+                        choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
+                        value="Markdown",
+                        label="Exercise Format",
+                        interactive=True,
+                    )
+                    sampling_count_validate = gr.Dropdown(
+                        choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+                        value="1",
+                        label="Sampling Count",
+                        interactive=True,
+                    )
+                # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"
+                model_choice_validate.change(
+                    fn=update_exercise_format,
+                    inputs=[model_choice_validate],
+                    outputs=[exercise_format_validate]
+                )
+
                 diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_response_1 = gr.Textbox(label="Response 1", interactive=False)
@@ -168,6 +214,8 @@ with gr.Blocks() as interface:
                 diagnoser_response_8 = gr.Textbox(label="Response 8", interactive=False)
                 diagnoser_response_9 = gr.Textbox(label="Response 9", interactive=False)
                 diagnoser_response_10 = gr.Textbox(label="Response 10", interactive=False)
+
+
             with gr.TabItem("🤔 Generate distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -179,10 +227,52 @@ with gr.Blocks() as interface:
                     </div>
                     """
                 )
+
+                # Create a row for the control dropdowns: LLM selection, exercise format, sampling count etc.
+                with gr.Row():
+                    model_choice_distractors_1 = gr.Dropdown(
+                        choices=list(llms.keys()),
+                        value="GPT-4o (low temp)",
+                        label="Select first LLM",
+                        interactive=True,
+                    )
+                    model_choice_distractors_2 = gr.Dropdown(
+                        choices=list(llms.keys()),
+                        value="GPT-4o (mid temp)",
+                        label="Select second LLM",
+                        interactive=True,
+                    )
+                    exercise_format_distractors = gr.Dropdown(
+                        choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
+                        value="Plaintext",
+                        label="Exercise Format",
+                        interactive=True,
+                    )
+                    sampling_count_distractors = gr.Dropdown(
+                        choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+                        value="1",
+                        label="Sampling Count",
+                        interactive=True,
+                    )
+                # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"
+                model_choice_distractors_1.change(
+                    fn=update_exercise_format,
+                    inputs=[model_choice_distractors_1],
+                    outputs=[exercise_format_distractors]
+                )
+                
                 distractors_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Stelling: Dit is een ..... voorbeeld van een stelling. A. Mooi B. Lelijk ...")
                 distractors_button = gr.Button("Submit")
-                gr.Markdown("**Response(s):**")
-                distractors_responses = gr.Column()
+                distractors_response_1 = gr.Textbox(label="Response 1", interactive=False)
+                distractors_response_2 = gr.Textbox(label="Response 2", interactive=False)
+                distractors_response_3 = gr.Textbox(label="Response 3", interactive=False)
+                distractors_response_4 = gr.Textbox(label="Response 4", interactive=False)
+                distractors_response_5 = gr.Textbox(label="Response 5", interactive=False)
+                distractors_response_6 = gr.Textbox(label="Response 6", interactive=False)
+                distractors_response_7 = gr.Textbox(label="Response 7", interactive=False)
+                distractors_response_8 = gr.Textbox(label="Response 8", interactive=False)
+                distractors_response_9 = gr.Textbox(label="Response 9", interactive=False)
+                distractors_response_10 = gr.Textbox(label="Response 10", interactive=False)
             with gr.TabItem("🚧 Generate learning objectives"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
@@ -211,7 +301,7 @@ with gr.Blocks() as interface:
 
     diagnoser_button.click(
         fn=run_diagnoser,
-        inputs=[diagnoser_input, model_choice, exercise_format, sampling_count],
+        inputs=[diagnoser_input, model_choice_validate, exercise_format_validate, sampling_count_validate],
         outputs=[
             diagnoser_response_1,
             diagnoser_response_2,
@@ -228,8 +318,19 @@ with gr.Blocks() as interface:
 
     distractors_button.click(
         fn=run_distractors,
-        inputs=[distractors_input, model_choice, exercise_format, sampling_count],
-        outputs=[distractors_responses]
+        inputs=[distractors_input, model_choice_distractors_1, model_choice_distractors_2, exercise_format_distractors, sampling_count_distractors],
+        outputs=[
+            distractors_response_1,
+            distractors_response_2,
+            distractors_response_3,
+            distractors_response_4,
+            distractors_response_5,
+            distractors_response_6,
+            distractors_response_7,
+            distractors_response_8,
+            distractors_response_9,
+            distractors_response_10
+        ]
     )
 
 # Launch the app.

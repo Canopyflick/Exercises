@@ -178,6 +178,7 @@ diagnose_scorecard_template = ChatPromptTemplate(
         <example 3>
         1. The exercise contains a double negative: ❌ -- 2. The correct answer does not stand out: ✅ -- 3. Some of the distractors are too obviously false: ❌ -- 4. None of the distractors are actually also kinda correct: ✅
         </example 3>
+        Sometimes the diagnoses will be short and clear, but sometimes they will also be elaborate and view the issue from different angles. In that case, overweight the final sentence of the diagnosis. Here, usually the conclusion is drawn
         """),
         ("human", "{combined_diagnosis}")
     ],
