@@ -22,7 +22,7 @@ def update_exercise_format(selected_model: str):
 
 
 # Async wrappers for each chain.
-async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple
+async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple:
     """
     Diagnose exercise(s) in parallel using a configured DiagnoserChain.
 
