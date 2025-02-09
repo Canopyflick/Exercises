@@ -39,7 +39,7 @@ chain_configs = {
         "template_distractors_brainstorm_1": template_distractors_brainstorm_1,
         "template_distractors_brainstorm_2": template_distractors_brainstorm_2,
         "llm_brainstorm_1": llms["GPT-4o (low temp)"],
-        "llm_brainstorm_2": llms["GPT-4o (mid temp"],
+        "llm_brainstorm_2": llms["GPT-4o (mid temp)"],
         "template_consolidate": template_consolidate_distractors,
         "llm_consolidate": llms["GPT-4o (low temp)"],  # or something else
     },
