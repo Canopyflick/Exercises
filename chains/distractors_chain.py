@@ -73,7 +73,7 @@ class DistractorsChain(BaseModel):
         brainstorm_results = await asyncio.gather(*tasks)
 
         # Combine them in a single multiline string
-        combined_brainstorms = "\n\n--- separator between two lists ---\n\n".join(brainstorm_results)
+        combined_brainstorms = "\n\n--- separator between lists ---\n\n".join(brainstorm_results)
 
         # --- Step 3: Consolidate the 4 partial outputs into a final response ---
         consolidation_prompt = await self.template_consolidate.aformat_prompt(

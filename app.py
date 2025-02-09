@@ -69,6 +69,16 @@ async def run_distractors(
     exercise_format_distractors: str,
     sampling_count_distractors: str
 ) -> tuple:
+    """
+    Generate distractors by running the DistractorsChain multiple times in parallel.
+
+    1. Standardizes the exercise text once using a fixed LLM.
+    2. Constructs a DistractorsChain, where the user can pick two LLMs
+       (e.g. one low-temp, one mid-temp) for parallel brainstorming steps.
+    3. Invokes the chain ``num_samples`` times in parallel (based on ``sampling_count_distractors``),
+       each time producing one consolidated distractors output.
+    4. Pads the results to fill 10 output fields.
+    """
     # 0) Parse how many concurrent runs (samples) we want
     num_samples = int("".join(filter(str.isdigit, sampling_count_distractors)))
     # Fetch the DistractorsChain configuration.
@@ -94,7 +104,7 @@ async def run_distractors(
 
     # 3) Create N tasks in parallel (one full distractor generation pipeline per sample)
     tasks = [
-        chain_instance.run(standardized_exercise) for _ in range(num_samples)
+        chain_instance.run(standardized_exercise, amount_of_distractors) for _ in range(num_samples)
     ]
     results = await asyncio.gather(*tasks)
 
@@ -251,6 +261,12 @@ with gr.Blocks() as interface:
                     sampling_count_distractors = gr.Dropdown(
                         choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
                         value="1",
+                        label="Sampling Count",
+                        interactive=True,
+                    )
+                    amount_of_distractors = gr.Dropdown(
+                        choices=["2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
+                        value="8",
                         label="Sampling Count",
                         interactive=True,
                     )
