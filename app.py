@@ -198,7 +198,7 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise for the 4 most common issues. The Exercise Format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance and consistent results. Claude typically works better with XML, OpenAI better with markdown. Sampling count = amount of responses.">
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise for the 4 most common issues. The Exercise Format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance and consistent results. Claude typically works better with XML, OpenAI better with markdown. Response count = amount of responses that will be generated (costing 5 LLM calls each)">
                             ℹ️ <i>←</i>
                         </span>
                     </div>
@@ -216,7 +216,7 @@ with gr.Blocks() as interface:
                     exercise_format_validate = gr.Dropdown(
                         choices=["Markdown", "XML", "Plaintext", "Raw (input unconverted)"],
                         value="Markdown",
-                        label="Exercise Format (for intermediate processing",
+                        label="Exercise Format (for intermediate processing)",
                         interactive=True,
                     )
                     sampling_count_validate = gr.Dropdown(
@@ -287,7 +287,7 @@ with gr.Blocks() as interface:
                     intermediate_distractors_specification = gr.Dropdown(
                         choices=["", "2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
                         value="8",
-                        label="Brainstorm X intermediate distractors (done x4)",
+                        label="Brainstorm Nx4 distractors",
                         interactive=True,
                     )
                     final_distractors_specification = gr.Dropdown(
