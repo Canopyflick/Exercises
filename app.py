@@ -72,7 +72,7 @@ async def run_diagnoser(user_query: str, chosen_model: str, exercise_format: str
     standardized_exercise = await standardize_exercise(
         user_query,
         exercise_format,
-        config["template_standardize"],
+        config["template_standardize"],  # Only if you kept them in config
         config["llm_standardize"]
     )
 

@@ -17,6 +17,8 @@ from config.llm_config import llms
 chain_configs = {
     "diagnoser": {
         "class": DiagnoserChain,
+        "template_standardize": standardize_template,
+        "llm_standardize": llms["GPT-4o-mini-zero"],     # Always fixed
         "llm_4o_mini": llms["GPT-4o-mini"],
         # 4 different diagnosis templates (to run in parallel:
         "templates_diagnose": [
