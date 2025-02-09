@@ -33,7 +33,7 @@ class DiagnoserChain(BaseModel):
             messages = prompt.to_messages()
             diagnosis_response = await self.llm_diagnose.ainvoke(messages)
             content = diagnosis_response.content if hasattr(diagnosis_response, "content") else diagnosis_response
-            return f"[DIAGNOSIS {idx}]{content}"
+            return f"--- [DIAGNOSIS {idx}] --- \n{content}"
 
         # Launch all diagnosis tasks concurrently.
         tasks = [
@@ -43,7 +43,7 @@ class DiagnoserChain(BaseModel):
         diagnoses = await asyncio.gather(*tasks)
 
         # Step 3: Combine the outputs from each prompt.
-        combined_diagnosis = "\n\n---\n".join(diagnoses)
+        combined_diagnosis = "\n\n".join(diagnoses)
 
         # Step 4: Generate scorecard
         prompt = await self.template_diagnose_scorecard.aformat_prompt(combined_diagnosis=combined_diagnosis)
@@ -51,7 +51,7 @@ class DiagnoserChain(BaseModel):
         scorecard_response = await self.llm_diagnose.ainvoke(scorecard_messages)
         scorecard = scorecard_response.content if hasattr(scorecard_response, "content") else scorecard_response
 
-        return scorecard + "\n" + combined_diagnosis
+        return combined_diagnosis + "\n\n" + scorecard
 
     class Config:
         arbitrary_types_allowed = True
