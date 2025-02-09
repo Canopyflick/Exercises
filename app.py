@@ -22,7 +22,25 @@ def update_exercise_format(selected_model: str):
 
 
 # Async wrappers for each chain.
-async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple:
+async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple
+    """
+    Diagnose exercise(s) in parallel using a configured DiagnoserChain.
+
+    This function:
+      1. Standardizes the exercise text once using the chain's fixed LLM.
+      2. Instantiates the DiagnoserChain with a user-selected diagnosing LLM.
+      3. Performs multiple diagnoses in parallel (as many times as `sampling_count_validate`).
+      4. Pads the results to ensure a fixed number of output fields (10).
+
+    Args:
+        user_query (str): Raw exercise data submitted by the user.
+        model_choice_validate (str): The key/name of the chosen LLM for diagnosing.
+        exercise_format_validate (str): The desired format for standardizing the exercise.
+        sampling_count_validate (str): A string representing how many diagnoses to run concurrently (e.g., "3").
+
+    Returns:
+        tuple: A tuple of length 10, each containing a diagnosis result (or empty string if not enough samples).
+    """
     # figure out how many times to run
     num_samples = int("".join(filter(str.isdigit, sampling_count_validate)))
 
@@ -67,7 +85,9 @@ async def run_distractors(
     model_choice_distractors_1: str,
     model_choice_distractors_2: str,
     exercise_format_distractors: str,
-    sampling_count_distractors: str
+    sampling_count_distractors: str,
+    intermediate_distractors_specification: str,
+    final_distractors_specification: str,
 ) -> tuple:
     """
     Generate distractors by running the DistractorsChain multiple times in parallel.
@@ -104,7 +124,7 @@ async def run_distractors(
 
     # 3) Create N tasks in parallel (one full distractor generation pipeline per sample)
     tasks = [
-        chain_instance.run(standardized_exercise, amount_of_distractors) for _ in range(num_samples)
+        chain_instance.run(standardized_exercise, intermediate_distractors_specification, final_distractors_specification) for _ in range(num_samples)
     ]
     results = await asyncio.gather(*tasks)
 
@@ -194,9 +214,9 @@ with gr.Blocks() as interface:
                         interactive=True,
                     )
                     exercise_format_validate = gr.Dropdown(
-                        choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
+                        choices=["Markdown", "XML", "Plaintext", "Raw (input unconverted)"],
                         value="Markdown",
-                        label="Exercise Format",
+                        label="Exercise Format (initial conversion used in prompts for standardization)",
                         interactive=True,
                     )
                     sampling_count_validate = gr.Dropdown(
@@ -231,7 +251,7 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Generate more different distractors for the given exercise">
+                        <span style="font-size: 1.5em; cursor: help;" title="Generate alternative distractors for the given exercise. Works with 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) and a final consolidation prompt.">
                             ℹ️
                         </span>
                     </div>
@@ -264,10 +284,17 @@ with gr.Blocks() as interface:
                         label="Sampling Count",
                         interactive=True,
                     )
-                    amount_of_distractors = gr.Dropdown(
-                        choices=["2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
+                    amount_of_intermediate_distractors = gr.Dropdown(
+                        choices=["", "2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
                         value="8",
-                        label="Sampling Count",
+                        label="Intermediate distractors specification (generated x4 within pipeline)",
+                        interactive=True,
+                    )
+                    final_distractors_specification = gr.Dropdown(
+                        choices=["all unique distractors", "the best distractors", "only the very best distractors", "4", "5", "6", "7", "8", "9", "10", "11", "12", "a few", "some", "a whole lot of",
+                                 "a wide range of", "novel"],
+                        value="all unique distractors",
+                        label="Final distractors specification (shown at the end in 1 consolidated Response)",
                         interactive=True,
                     )
                 # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"

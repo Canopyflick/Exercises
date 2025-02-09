@@ -189,35 +189,36 @@ diagnose_scorecard_template = ChatPromptTemplate(
 
 template_distractors_brainstorm_1 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_distractors} additional high-quality distractors: "
-                   "alternative answer options that are not correct, yet also not so implausible that even poorly informed students would immediately dismiss them."),
+        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_intermediate_distractors} additional high-quality distractors: "
+                   "alternative answer options that are not correct, yet also not so implausible that even poorly informed students would immediately dismiss them. Make sure to use the same language as the existing exercise."),
         ("human", "{standardized_exercise}")
     ],
-    input_variables=["standardized_exercise", "amount_of_distractors"]
+    input_variables=["standardized_exercise", "amount_of_intermediate_distractors"]
 )
 
 template_distractors_brainstorm_2 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_distractors} additional high-quality distractors: "
+        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with {amount_of_intermediate_distractors} additional high-quality distractors: "
                    "alternative answer options that are not correct, yet not so implausible that even poorly informed students would immediately dismiss them. Go about this very methodically: "
                    "Really try to think outside of the box and get creative here, providing potential alternative distractors across a wide range of options. "
-                   "Before you present your final selection, take your time to really consider the entire solution space, weighing your different ideas an options, then to list the 10 distractors "),
+                   "Before you present your final selection, take your time to really consider the entire solution space, weighing your different ideas an options, then to list the distractors. Make sure to use the same language as the existing exercise."),
         ("human", "{standardized_exercise}")
     ],
-    input_variables=["standardized_exercise", "amount_of_distractors"]
+    input_variables=["standardized_exercise", "amount_of_intermediate_distractors"]
 )
 
 
 template_consolidate_distractors  = ChatPromptTemplate(
     messages=[
         ("system", "You are given several lists of potential distractors (answer options to a multiple choice exercise), that need to be consolidated into one list. "
-                   "Filter out duplicates, do some logical sorting among them, and just return one nicely readable list of all unique distractors. Only focus on the distractors (answer options) themselves, ignore any reasoning about them. "),
+                   "Filter out duplicates, do some logical sorting among them, and just return one plain list of {final_distractors_specification}. "
+                   "Only focus on the distractors (answer options) themselves, ignore any reasoning about them. Return only the list, formatted without numbering or bullet points, just every distractor on its own line. Use the same language as the existing exercise. "),
         ("human", "For context, this is the exercise that the distractors are about: "
                   "{standardized_exercise} "
                   ""
                   "Here are the lists:"
                   "{brainstorm_outputs}")
     ],
-    input_variables=["standardized_exercise", "brainstorm_outputs"]
+    input_variables=["standardized_exercise", "brainstorm_outputs", "final_distractors_specification"]
 )
 
