@@ -198,7 +198,7 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise: Diagnoses potential issues for the given exercise(s). The Exercise Format">
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise for the 4 most common issues. The Exercise Format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance and consistent results. Claude typically works better with XML, OpenAI better with markdown. Sampling count = amount of responses.">
                             ℹ️ <i>←</i>
                         </span>
                     </div>
@@ -216,13 +216,13 @@ with gr.Blocks() as interface:
                     exercise_format_validate = gr.Dropdown(
                         choices=["Markdown", "XML", "Plaintext", "Raw (input unconverted)"],
                         value="Markdown",
-                        label="Exercise Format Standard (for standardization)",
+                        label="Exercise Format (for intermediate processing",
                         interactive=True,
                     )
                     sampling_count_validate = gr.Dropdown(
                         choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
                         value="1",
-                        label="Sampling Count",
+                        label="Response Count",
                         interactive=True,
                     )
                 # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"
@@ -232,7 +232,7 @@ with gr.Blocks() as interface:
                     outputs=[exercise_format_validate]
                 )
 
-                diagnoser_input = gr.Textbox(label="Enter exercise(s) in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
+                diagnoser_input = gr.Textbox(label="Enter exercise in any format", placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
                 diagnoser_button = gr.Button("Submit")
                 diagnoser_response_1 = gr.Textbox(label="Response 1", interactive=False)
                 diagnoser_response_2 = gr.Textbox(label="Response 2", interactive=False)
@@ -246,12 +246,12 @@ with gr.Blocks() as interface:
                 diagnoser_response_10 = gr.Textbox(label="Response 10", interactive=False)
 
 
-            with gr.TabItem("🤔 Generate distractors"):
+            with gr.TabItem("🤔 Brainstorm distractors"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Generate alternative distractors for the given exercise. Works with 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) and a final consolidation prompt.">
+                        <span style="font-size: 1.5em; cursor: help;" title="Generate alternative distractors for the given exercise. Works with 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) and a final consolidation prompt combining all results together to present to the user.">
                             ℹ️
                         </span>
                     </div>
@@ -263,7 +263,7 @@ with gr.Blocks() as interface:
                     model_choice_distractors_1 = gr.Dropdown(
                         choices=list(llms.keys()),
                         value="GPT-4o (low temp)",
-                        label="Select LLM 1",
+                        label="LLM 1",
                         interactive=True,
                     )
                     model_choice_distractors_2 = gr.Dropdown(
@@ -281,20 +281,20 @@ with gr.Blocks() as interface:
                     sampling_count_distractors = gr.Dropdown(
                         choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
                         value="1",
-                        label="Sampling Count",
+                        label="Response Count",
                         interactive=True,
                     )
                     intermediate_distractors_specification = gr.Dropdown(
                         choices=["", "2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
                         value="8",
-                        label="Intermediate distractors specification (generated x4 within pipeline)",
+                        label="Brainstorm X intermediate distractors (done x4)",
                         interactive=True,
                     )
                     final_distractors_specification = gr.Dropdown(
                         choices=["all unique distractors", "the best distractors", "only the very best distractors", "4", "5", "6", "7", "8", "9", "10", "11", "12", "a few", "some", "a whole lot of",
                                  "a wide range of", "novel"],
                         value="all unique distractors",
-                        label="Final distractors specification (shown at the end in 1 consolidated Response)",
+                        label="Finally display X distractors",
                         interactive=True,
                     )
                 # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"

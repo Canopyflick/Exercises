@@ -3,17 +3,17 @@
 FORMAT_MAPPINGS = {
     "Markdown": (
         "Please format the exercise in Markdown, similarly to this example:\n\n"
-        "**Theorie**  \n"
+        "**Theorie:**  \n"
         "Eenzaamheid wordt door ieder persoon anders ervaren en is daarom subjectief.\n\n"
         "---\n\n"
-        "**Vraag**  \n"
+        "**Vraag:**  \n"
         "Wat is de meest passende definitie van eenzaamheid?\n\n"
         "1. Het gevoel geen connectie te hebben met anderen  \n"
         "2. Regelmatig in je eentje zijn  \n"
         "3. Beide bovenstaande  \n"
         "4. Geen van bovenstaande  \n\n"
         "**Correct antwoord:**  \n"
-        "1. Het gevoel geen connectie te hebben met anderen."
+        "1. Het gevoel geen connectie te hebben met anderen"
     ),
     "XML": (
         "Please reformat in XML, following this example:\n"
@@ -38,15 +38,15 @@ FORMAT_MAPPINGS = {
     ),
     "Plaintext": (
         "Please reformat in plain text, following this example:\n\n"
-        "Theorie\n"
+        "Theorie:\n"
         "Eenzaamheid wordt door ieder persoon anders ervaren en is daarom subjectief.\n\n"
-        "Vraag\n"
+        "Vraag:\n"
         "Wat is de meest passende definitie van eenzaamheid?\n\n"
         "1. Het gevoel geen connectie te hebben met anderen\n"
         "2. Regelmatig in je eentje zijn\n"
         "3. Beide bovenstaande\n"
         "4. Geen van bovenstaande\n\n"
         "Correct antwoord:\n"
-        "1. Het gevoel geen connectie te hebben met anderen."
+        "1. Het gevoel geen connectie te hebben met anderen"
     )
 }
