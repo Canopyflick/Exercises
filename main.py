@@ -1,4 +1,4 @@
-# app.py
+# main.py
 import gradio as gr
 import logging
 
