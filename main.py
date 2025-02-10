@@ -110,7 +110,7 @@ with gr.Blocks() as interface:
                 # Create 5 Response textboxes
                 distractors_responses = [
                     gr.Textbox(label=f"Response {i + 1}", interactive=False, visible=(i == 0))
-                    for i in range(5)
+                    for i in range(10)
                 ]
 
     # -------------------------------

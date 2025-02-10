@@ -25,9 +25,9 @@ def update_response_textboxes_amount(sampling_count: str):
     updates = []
     for i in range(10):
         if i < num:
-            # Show and label (i+1), if you like
-            updates.append(gr.Textbox.update(visible=True, label=f"Response {i+1}"))
+            # Show and label (i+1)
+            updates.append(gr.update(visible=True, label=f"Response {i+1}"))
         else:
             # Hide the rest
-            updates.append(gr.Textbox.update(visible=False, label=f"Response {i+1}"))
+            updates.append(gr.update(visible=False, label=f"Response {i + 1}"))
     return updates
