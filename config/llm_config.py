@@ -54,6 +54,8 @@ llms = {
     "Claude 3.5 (low temp)": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
     "Claude 3.5 (mid temp)": create_anthropic_llm("claude-3-5-sonnet-latest", MID),
     "Claude 3.5 (high temp)": create_anthropic_llm("claude-3-5-sonnet-latest", HIGH),
+    "Claude 3.5 Haiku (zero temp)": create_anthropic_llm("claude-3-5-haiku-latest", ZERO),
+    "Claude 3.5 Haiku (low temp)": create_anthropic_llm("claude-3-5-haiku-latest", LOW),
 
     # DeepSeek
     "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),
@@ -84,8 +86,8 @@ llms_most_wanted = {
     "Claude 3.5 (low temp)": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
     "Claude 3.5 (mid temp)": create_anthropic_llm("claude-3-5-sonnet-latest", MID),
     "Claude 3.5 (high temp)": create_anthropic_llm("claude-3-5-sonnet-latest", HIGH),
-    "Claude 3.5 Haiku (zero temp)": create_anthropic_llm("claude-3-5-haiku-latest", HIGH),
-    "Claude 3.5 Haiku (low temp)": create_anthropic_llm("claude-3-5-haiku-latest", HIGH),
+    "Claude 3.5 Haiku (zero temp)": create_anthropic_llm("claude-3-5-haiku-latest", ZERO),
+    "Claude 3.5 Haiku (low temp)": create_anthropic_llm("claude-3-5-haiku-latest", LOW),
 
     # DeepSeek
     "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),

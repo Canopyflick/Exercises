@@ -369,13 +369,21 @@ with gr.Blocks() as interface:
     distractors_button.click(
         fn=run_distractors,
         inputs=[
+            # 1) user_query
             distractors_input,
+            # 2) model_choice_distractors_1
             model_choice_distractors_1,
+            # 3) model_choice_distractors_2
             model_choice_distractors_2,
-            exercise_format_distractors,
-            sampling_count_distractors,
-            intermediate_distractors_specification,
+            # 4) model_choice_distractors_3
             model_choice_distractors_3,
+            # 5) exercise_format_distractors
+            exercise_format_distractors,
+            # 6) sampling_count_distractors
+            sampling_count_distractors,
+            # 7) intermediate_distractors_specification
+            intermediate_distractors_specification,
+            # 8) final_distractors_specification
             final_distractors_specification,
         ],
         outputs=[
