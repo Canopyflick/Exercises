@@ -96,4 +96,16 @@ def build_distractors_tab():
             outputs=distractors_responses
         )
 
-    return()
+    # return errything in the SAME ORDER they're unpacked in main.py:
+    return (
+        model_choice_distractors_1,
+        model_choice_distractors_2,
+        model_choice_distractors_3,
+        exercise_format_distractors,
+        sampling_count_distractors,
+        distractors_input,
+        distractors_button,
+        distractors_responses,
+        intermediate_distractors_specification,
+        final_distractors_specification,
+    )
