@@ -84,6 +84,7 @@ async def run_distractors(
     user_query: str,
     model_choice_distractors_1: str,
     model_choice_distractors_2: str,
+    model_choice_distractors_3: str,
     exercise_format_distractors: str,
     sampling_count_distractors: str,
     intermediate_distractors_specification: str,
@@ -367,7 +368,16 @@ with gr.Blocks() as interface:
 
     distractors_button.click(
         fn=run_distractors,
-        inputs=[distractors_input, model_choice_distractors_1, model_choice_distractors_2, exercise_format_distractors, sampling_count_distractors],
+        inputs=[
+            distractors_input,
+            model_choice_distractors_1,
+            model_choice_distractors_2,
+            exercise_format_distractors,
+            sampling_count_distractors,
+            intermediate_distractors_specification,
+            model_choice_distractors_3,
+            final_distractors_specification,
+        ],
         outputs=[
             distractors_response_1,
             distractors_response_2,
