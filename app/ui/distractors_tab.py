@@ -1,6 +1,7 @@
 # ui/distractors_tab.py
 import gradio as gr
-from common import update_response_textboxes_amount, update_exercise_format
+
+from app.ui.common import update_exercise_format, update_response_textboxes_amount
 from config.llm_config import llms
 
 

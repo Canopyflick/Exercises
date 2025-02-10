@@ -2,7 +2,6 @@
 import gradio as gr
 import logging
 
-from app.ui.common import update_exercise_format
 from app.ui.diagnoser_tab import build_diagnoser_tab
 from app.ui.distractors_tab import build_distractors_tab
 from chains.diagnoser.runner import run_diagnoser

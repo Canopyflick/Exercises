@@ -1,7 +1,8 @@
 # ui/diagnoser_tab.py
 import gradio as gr
+
+from app.ui.common import update_exercise_format, update_response_textboxes_amount
 from config.llm_config import llms
-from common import update_exercise_format, update_response_textboxes_amount
 
 
 def build_diagnoser_tab():
