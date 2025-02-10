@@ -211,7 +211,7 @@ template_distractors_brainstorm_2 = ChatPromptTemplate(
 template_consolidate_distractors  = ChatPromptTemplate(
     messages=[
         ("system", "You are given several lists of potential distractors (answer options to a multiple choice exercise), that need to be consolidated into one list. "
-                   "Filter out duplicates, do some logical sorting among them, and just return one plain list{final_distractors_specification}. "
+                   "Filter out duplicates, do some logical sorting, and just return one plain list{final_distractors_specification}. "
                    "Only focus on the distractors (answer options) themselves, ignore any reasoning about them. Return only the list, nothing else. Format the list without numbering or bullet points, just put every distractor on its own line. Use the same language as the existing exercise. "),
         ("human", "For context, this is the exercise that the distractors are about:\n "
                   "{standardized_exercise} "

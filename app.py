@@ -198,7 +198,7 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnose exercise for the 4 most common issues. The Exercise Format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance and consistent results. Claude typically works better with XML, OpenAI better with markdown. Response count = amount of responses that will be generated (costing 5 LLM calls each)">
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoses exercise for their 4 most common issues.\n\nThe Exercise Format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance irrespective of source format.\nAnthropic models typically work better with XML, OpenAI's with markdown.\n\nResponse count is the amount of times a final response will be generated in the fields below (5-6 LLM queries for each).">
                             ℹ️ <i>←</i>
                         </span>
                     </div>
@@ -216,7 +216,7 @@ with gr.Blocks() as interface:
                     exercise_format_validate = gr.Dropdown(
                         choices=["Markdown", "XML", "Plaintext", "Raw (input unconverted)"],
                         value="Markdown",
-                        label="Exercise Format (for intermediate processing)",
+                        label="Exercise Format (for standardizing input)",
                         interactive=True,
                     )
                     sampling_count_validate = gr.Dropdown(
@@ -251,7 +251,7 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Generate alternative distractors for the given exercise. Works with 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) and a final consolidation prompt combining all results together to present to the user.">
+                        <span style="font-size: 1.5em; cursor: help;" title="Generates alternative distractors for the given exercise in two stages. First, 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) generate a bunch of options, then a final consolidation prompt (using LLM 3) combines all results together for presentation below.\n\nFor both stages, prompts can be customized via dropdowns to influence the amount of distractors that will be generated during each (brainstormed and displayed).\n5-6 LLM calls per final response.">
                             ℹ️
                         </span>
                     </div>
@@ -275,7 +275,7 @@ with gr.Blocks() as interface:
                     exercise_format_distractors = gr.Dropdown(
                         choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
                         value="Plaintext",
-                        label="Exercise Format",
+                        label="Exercise Reformatting",
                         interactive=True,
                     )
                     intermediate_distractors_specification = gr.Dropdown(
@@ -287,7 +287,7 @@ with gr.Blocks() as interface:
                     model_choice_distractors_3 = gr.Dropdown(
                         choices=list(llms.keys()),
                         value="GPT-4o (low temp)",
-                        label="LLM 3 - for interpreting results",
+                        label="LLM 3 - for consolidation",
                         interactive=True,
                     )
                     final_distractors_specification = gr.Dropdown(
