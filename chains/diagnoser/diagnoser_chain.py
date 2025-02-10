@@ -1,4 +1,4 @@
-# chains/diagnoser_chain.py
+# chains/diagnoser/diagnoser_chain.py
 import asyncio
 from pydantic import BaseModel
 from typing import Any, List

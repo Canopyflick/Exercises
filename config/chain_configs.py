@@ -10,8 +10,8 @@ from config.templates import (
     template_distractors_brainstorm_2,
     template_consolidate_distractors
 )
-from chains.diagnoser_chain import DiagnoserChain
-from chains.distractors_chain import DistractorsChain
+from chains.diagnoser.diagnoser_chain import DiagnoserChain
+from chains.distractors.distractors_chain import DistractorsChain
 from config.llm_config import llms
 
 # Note: The default LLM here is GPT-4o (low temp); the UI can override this choice.
