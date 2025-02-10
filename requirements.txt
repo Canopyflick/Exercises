@@ -1,3 +1,4 @@
+# requirements.txt
 gradio==5.15.0
 openai==1.61.1
 langchain-openai==0.3.4

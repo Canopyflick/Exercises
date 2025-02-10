@@ -71,6 +71,7 @@ with gr.Blocks() as interface:
         gr.Markdown("## Pick the tab for your task of choice")
 
         with gr.Tabs():
+            # Build Diagnoser tab
             (model_choice_diagnose,
              exercise_format_diagnose,
              sampling_count_diagnose,
@@ -79,6 +80,7 @@ with gr.Blocks() as interface:
              diagnoser_responses
             ) = build_diagnoser_tab()
 
+            # Build Distractors tab
             (model_choice_distractors_1,
              model_choice_distractors_2,
              model_choice_distractors_3,
@@ -90,7 +92,6 @@ with gr.Blocks() as interface:
              intermediate_distractors_specification,
              final_distractors_specification,
              ) = build_distractors_tab()
-
 
             with gr.TabItem("🚧 Generate learning objectives"):
                 # Insert an HTML info icon with a tooltip at the top of the tab content.
@@ -106,7 +107,11 @@ with gr.Blocks() as interface:
                 learning_objectives_input = gr.Textbox(label="Enter a study text in any format", placeholder="<h3>Infusie en infuussystemen</h3> <h4>Inleiding</h4> ...")
                 learning_objectives_button = gr.Button("Submit")
                 gr.Markdown("**Response(s):**")
-                learning_objectives_responses = gr.Column()
+                # Create 5 Response textboxes
+                distractors_responses = [
+                    gr.Textbox(label=f"Response {i + 1}", interactive=False, visible=(i == 0))
+                    for i in range(5)
+                ]
 
     # -------------------------------
     # Set Up Interactions
