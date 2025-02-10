@@ -116,10 +116,10 @@ async def run_distractors(
     chain_instance = config["class"](
         template_distractors_brainstorm_1=config["template_distractors_brainstorm_1"],
         template_distractors_brainstorm_2=config["template_distractors_brainstorm_2"],
-        llm_brainstorm_1=llms.get(model_choice_distractors_1, config["llm_brainstorm_1"]),  # User-selected (low and high temp GPT-4o by default)
-        llm_brainstorm_2=llms.get(model_choice_distractors_2, config["llm_brainstorm_2"]),
+        llm_brainstorm_1=llms.get(model_choice_distractors_1, config["llm_brainstorm_1"]),  # User-selected LLM 1
+        llm_brainstorm_2=llms.get(model_choice_distractors_2, config["llm_brainstorm_2"]),  # User-selected LLM 2
         template_consolidate=config["template_consolidate"],
-        llm_consolidate=config["llm_consolidate"],
+        llm_consolidate=llms.get(model_choice_distractors_3, config["llm_consolidate"]),    # User-selected LLM 3
     )
 
     # 3) Create N tasks in parallel (one full distractor generation pipeline per sample)
@@ -262,14 +262,14 @@ with gr.Blocks() as interface:
                 with gr.Row():
                     model_choice_distractors_1 = gr.Dropdown(
                         choices=list(llms.keys()),
-                        value="GPT-4o (low temp)",
-                        label="LLM 1",
+                        value="GPT-4o (mid temp)",
+                        label="LLM 1 - for brainstorming",
                         interactive=True,
                     )
                     model_choice_distractors_2 = gr.Dropdown(
                         choices=list(llms.keys()),
-                        value="GPT-4o (mid temp)",
-                        label="LLM 2",
+                        value="Claude 3.5 (mid temp)",
+                        label="LLM 2 - for brainstorming",
                         interactive=True,
                     )
                     exercise_format_distractors = gr.Dropdown(
@@ -278,23 +278,29 @@ with gr.Blocks() as interface:
                         label="Exercise Format",
                         interactive=True,
                     )
+                    intermediate_distractors_specification = gr.Dropdown(
+                        choices=[" ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " 10 ", " a few ", " some ", " a whole lot of ", " a wide range of ", " novel "],
+                        value=" 8 ",
+                        label="Brainstorm X distractors x4",
+                        interactive=True,
+                    )
+                    model_choice_distractors_3 = gr.Dropdown(
+                        choices=list(llms.keys()),
+                        value="GPT-4o (low temp)",
+                        label="LLM 3 - for interpreting results",
+                        interactive=True,
+                    )
+                    final_distractors_specification = gr.Dropdown(
+                        choices=[" ", " of all unique distractors", " of the top 5", " of the best distractors", " of only the very best", " of the best 4", " of the best 5", " of the best 6", " of the best 7", " of the best 8", " of the best 9", " of the best 10", " of the best 11", " of the best 12", " of a few of them", " of some of them", " of most of them",
+                                 " of a wide range of", " of the 3 worst"],
+                        value=" of all unique distractors",
+                        label="Finally display X distractors",
+                        interactive=True,
+                    )
                     sampling_count_distractors = gr.Dropdown(
                         choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
                         value="1",
                         label="Response Count",
-                        interactive=True,
-                    )
-                    intermediate_distractors_specification = gr.Dropdown(
-                        choices=["", "2", "3", "4", "5", "6", "7", "8", "9", "10", "a few", "some", "a whole lot of", "a wide range of", "novel"],
-                        value="8",
-                        label="Brainstorm Nx4 distractors",
-                        interactive=True,
-                    )
-                    final_distractors_specification = gr.Dropdown(
-                        choices=["all unique distractors", "the best distractors", "only the very best distractors", "4", "5", "6", "7", "8", "9", "10", "11", "12", "a few", "some", "a whole lot of",
-                                 "a wide range of", "novel"],
-                        value="all unique distractors",
-                        label="Finally display X distractors",
                         interactive=True,
                     )
                 # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"

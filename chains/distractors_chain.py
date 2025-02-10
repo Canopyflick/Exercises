@@ -41,32 +41,32 @@ class DistractorsChain(BaseModel):
             response = await llm_brainstorm.ainvoke(messages)
             content = getattr(response, "content", response)
 
-            return f"[Brainstorm {index_label}]\n{content}"
+            return f"[ --- list separator {index_label} ---]\n\n{content}"
 
         tasks = []
-        # Template 1, low-temp
+        # Template 1, LLM 1
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_1,
             self.llm_brainstorm_1,
-            "T1-Low"
+            "T1-1"
         ))
-        # Template 1, high-temp
+        # Template 1, LLM 2
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_1,
             self.llm_brainstorm_2,
-            "T1-High"
+            "T1-2"
         ))
-        # Template 2, low-temp
+        # Template 2, LLM 1
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_2,
             self.llm_brainstorm_1,
-            "T2-Low"
+            "T2-1"
         ))
-        # Template 2, high-temp
+        # Template 2, LLM 2
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_2,
             self.llm_brainstorm_2,
-            "T2-High"
+            "T2-2"
         ))
 
         # Kick them off concurrently

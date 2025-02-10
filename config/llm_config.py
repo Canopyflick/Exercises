@@ -12,7 +12,7 @@ DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 # Define temperature presets (adjust as needed)
 ZERO = 0
 LOW = 0.2
-MID = 0.7
+MID = 0.6
 HIGH = 1.2
 
 # Factory functions for each provider
@@ -35,15 +35,13 @@ def create_deepseek_llm(model_name: str, temperature: float):
 # all of them in one dictionary
 llms = {
     # OpenAI models with temperature
-
+    "GPT-4o (zero temp)": create_openai_llm("gpt-4o", ZERO),
     "GPT-4o (low temp)": create_openai_llm("gpt-4o", LOW),
     "GPT-4o (mid temp)": create_openai_llm("gpt-4o", MID),
     "GPT-4o (high temp)": create_openai_llm("gpt-4o", HIGH),
-    "GPT-4o-mini-zero": create_openai_llm("gpt-4o-mini", ZERO),
-    "GPT-4o-mini": create_openai_llm("gpt-4o-mini", LOW),
-    "GPT-4o_high_temp": create_openai_llm("gpt-4o", HIGH),
-    "GPT-4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
-    "GPT-4 Turbo": create_openai_llm("gpt-4-turbo-2024-04-09", LOW),
+    "GPT-4o-mini (zero temp)": create_openai_llm("gpt-4o-mini", ZERO),
+    "GPT-4o-mini (low temp)": create_openai_llm("gpt-4o-mini", LOW),
+    "GPT-4 Turbo (low temp)": create_openai_llm("gpt-4-turbo-2024-04-09", LOW),
 
     # OpenAI reasoning models (no temperature)
     "o1": create_openai_reasoning_llm("o1-2024-12-17"),
@@ -52,40 +50,46 @@ llms = {
     "o3-mini (high-reasoning effort version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="high"),
 
     # Anthropic models (Claude)
+    "Claude 3.5 (zero temp)": create_anthropic_llm("claude-3-5-sonnet-latest", ZERO),
     "Claude 3.5 (low temp)": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
     "Claude 3.5 (mid temp)": create_anthropic_llm("claude-3-5-sonnet-latest", MID),
     "Claude 3.5 (high temp)": create_anthropic_llm("claude-3-5-sonnet-latest", HIGH),
 
     # DeepSeek
+    "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),
     "Deepseek R1 (low temp)🚧": create_anthropic_llm("deepseek-reasoner", LOW),
+    "Deepseek R1 (mid temp)🚧": create_anthropic_llm("deepseek-reasoner", MID),
+    "Deepseek R1 (high temp)🚧": create_anthropic_llm("deepseek-reasoner", HIGH),
 }
 
 # specific for Diagnosis tab
-llms_diagnosis_tab = {
-    # OpenAI models with temperature
-
+llms_most_wanted = {
+    # OpenAI models
+    "GPT-4o (zero temp)": create_openai_llm("gpt-4o", ZERO),
     "GPT-4o (low temp)": create_openai_llm("gpt-4o", LOW),
     "GPT-4o (mid temp)": create_openai_llm("gpt-4o", MID),
     "GPT-4o (high temp)": create_openai_llm("gpt-4o", HIGH),
-    "GPT-4o-mini-zero": create_openai_llm("gpt-4o-mini", ZERO),
-    "GPT-4o-mini": create_openai_llm("gpt-4o-mini", LOW),
-    "GPT-4o_high_temp": create_openai_llm("gpt-4o", HIGH),
-    "GPT-4o-mini_high_temp": create_openai_llm("gpt-4o-mini", HIGH),
-    "GPT-4 Turbo": create_openai_llm("gpt-4-turbo-2024-04-09", LOW),
+    "GPT-4o-mini (zero temp)": create_openai_llm("gpt-4o-mini", ZERO),
+    "GPT-4o-mini (low temp)": create_openai_llm("gpt-4o-mini", LOW),
+    "GPT-4 Turbo (low temp)": create_openai_llm("gpt-4-turbo-2024-04-09", LOW),
 
     # OpenAI reasoning models (no temperature)
     "o1": create_openai_reasoning_llm("o1-2024-12-17"),
-    "o3-mini (low-reasoning version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="low"),
-    "o3-mini (medium-reasoning version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="medium"),
-    "o3-mini (high-reasoning version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="high"),
+    "o3-mini (low-reasoning effort version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="low"),
+    "o3-mini (medium-reasoning effort version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="medium"),
+    "o3-mini (high-reasoning effort version)": create_openai_reasoning_llm("o3-mini", reasoning_effort="high"),
 
-
-
-    # Anthropic models (Claude)
+    # Anthropic models
+    "Claude 3.5 (zero temp)": create_anthropic_llm("claude-3-5-sonnet-latest", ZERO),
     "Claude 3.5 (low temp)": create_anthropic_llm("claude-3-5-sonnet-latest", LOW),
     "Claude 3.5 (mid temp)": create_anthropic_llm("claude-3-5-sonnet-latest", MID),
     "Claude 3.5 (high temp)": create_anthropic_llm("claude-3-5-sonnet-latest", HIGH),
+    "Claude 3.5 Haiku (zero temp)": create_anthropic_llm("claude-3-5-haiku-latest", HIGH),
+    "Claude 3.5 Haiku (low temp)": create_anthropic_llm("claude-3-5-haiku-latest", HIGH),
 
     # DeepSeek
+    "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),
     "Deepseek R1 (low temp)🚧": create_anthropic_llm("deepseek-reasoner", LOW),
+    "Deepseek R1 (mid temp)🚧": create_anthropic_llm("deepseek-reasoner", MID),
+    "Deepseek R1 (high temp)🚧": create_anthropic_llm("deepseek-reasoner", HIGH),
 }

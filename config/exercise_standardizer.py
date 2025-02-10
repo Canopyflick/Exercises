@@ -22,6 +22,7 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
     )
 
     std_messages = prompt_std.to_messages()
-    standardized_exercise = await llm.ainvoke(std_messages)
+    response = await llm.ainvoke(std_messages)
+    standardized_exercise = getattr(response, "content", response)
 
     return standardized_exercise

@@ -19,8 +19,8 @@ chain_configs = {
     "diagnoser": {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
-        "llm_standardize": llms["GPT-4o-mini-zero"],     # Always fixed
-        "llm_4o_mini": llms["GPT-4o-mini"],
+        "llm_standardize": llms["GPT-4o-mini (zero temp)"],     # Always fixed
+        "llm_4o_mini": llms["GPT-4o-mini (low temp)"],
         "llm_4o": llms["GPT-4o (low temp)"],
         # 4 different diagnosis templates (to run in parallel:
         "templates_diagnose": [
@@ -35,7 +35,7 @@ chain_configs = {
     "distractors": {
         "class": DistractorsChain,
         "template_standardize": standardize_template,
-        "llm_standardize": llms["GPT-4o-mini-zero"],     # Always fixed
+        "llm_standardize": llms["GPT-4o-mini (zero temp)"],     # Always fixed
         "template_distractors_brainstorm_1": template_distractors_brainstorm_1,
         "template_distractors_brainstorm_2": template_distractors_brainstorm_2,
         "llm_brainstorm_1": llms["GPT-4o (low temp)"],
