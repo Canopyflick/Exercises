@@ -198,7 +198,7 @@ with gr.Blocks() as interface:
                 gr.HTML(
                     """
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoses exercise for their 4 most common issues.\n\nThe Exercise Format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance irrespective of source format.\nAnthropic models typically work better with XML, OpenAI's with markdown.\n\nResponse count is the amount of times a final response will be generated in the fields below (5-6 LLM queries for each).">
+                        <span style="font-size: 1.5em; cursor: help;" title="Diagnoses exercise for their 4 most common issues.\n\nThe exercise format dropdown decides into what standardized format the exercise is converted initially for intermediate processing, to ensure reliable performance irrespective of source format.\nAnthropic models typically work better with XML, OpenAI's with markdown.\n\nResponse count is the amount of times a final response will be generated in the fields below (5-6 LLM queries for each).">
                             ℹ️ <i>←</i>
                         </span>
                     </div>
@@ -214,9 +214,9 @@ with gr.Blocks() as interface:
                         interactive=True,
                     )
                     exercise_format_validate = gr.Dropdown(
-                        choices=["Markdown", "XML", "Plaintext", "Raw (input unconverted)"],
+                        choices=["Markdown", "XML", "Plaintext", "Raw (input not reformatted)"],
                         value="Markdown",
-                        label="Exercise Format (for standardizing input)",
+                        label="Exercise Reformat",
                         interactive=True,
                     )
                     sampling_count_validate = gr.Dropdown(
@@ -273,9 +273,9 @@ with gr.Blocks() as interface:
                         interactive=True,
                     )
                     exercise_format_distractors = gr.Dropdown(
-                        choices=["Markdown", "XML", "Plaintext", "Raw (original)"],
+                        choices=["Markdown", "XML", "Plaintext", "Raw (input not reformatted)"],
                         value="Plaintext",
-                        label="Exercise Reformatting",
+                        label="Exercise Reformat",
                         interactive=True,
                     )
                     intermediate_distractors_specification = gr.Dropdown(
@@ -367,7 +367,7 @@ with gr.Blocks() as interface:
 
     distractors_button.click(
         fn=run_distractors,
-        inputs=[distractors_input, model_choice_distractors_1, model_choice_distractors_2, exercise_format_distractors, sampling_count_distractors],
+        inputs=[distractors_input, model_choice_distractors_1, model_choice_distractors_2, model_choice_distractors_3, exercise_format_distractors, sampling_count_distractors],
         outputs=[
             distractors_response_1,
             distractors_response_2,

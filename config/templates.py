@@ -189,8 +189,8 @@ diagnose_scorecard_template = ChatPromptTemplate(
 
 template_distractors_brainstorm_1 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with{intermediate_distractors_specification}additional high-quality distractors: "
-                   "alternative answer options that are not correct, yet also not so implausible that even poorly informed students would immediately dismiss them. Make sure to use the same language as the existing exercise."),
+        ("system", "Help me brainstorm. Based on the given multiple choice exercise, come up with{intermediate_distractors_specification}additional distractors: "
+                   "alternative answer options that are not correct answers to the question, yet neither so implausible that even poorly informed students could immediately dismiss and eliminate them. (use the same language as the existing exercise)."),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise", "intermediate_distractors_specification"]
@@ -198,10 +198,23 @@ template_distractors_brainstorm_1 = ChatPromptTemplate(
 
 template_distractors_brainstorm_2 = ChatPromptTemplate(
     messages=[
-        ("system", "You are a brainstorming assistant. Based on the given multiple choice exercise, come up with{intermediate_distractors_specification}additional high-quality distractors: "
-                   "alternative answer options that are not correct, yet not so implausible that even poorly informed students would immediately dismiss them. Go about this very methodically: "
-                   "Really try to think outside of the box and get creative here, providing potential alternative distractors across a wide range of options. "
-                   "Before you present your final selection, take your time to really consider the entire solution space, weighing your different ideas an options, then to list the distractors. Make sure to use the same language as the existing exercise."),
+        ("system", "Help me brainstorm answer options for a multiple choice exercise. Based on the given question, come up with{intermediate_distractors_specification}additional alternative distractors: "
+                   "alternative answer options that are not correct, yet neither so implausible that even poorly informed students could immediately dismiss and eliminate them.\n\n"
+                   "You can think about this as a spectrum between 'too correct' & 'too obviously false'. Or, in other words, a spectrum between two extreme ends that could be described as: "
+                   "'An answer option that is not the correct answer to the question, yet extremely similar in meaning and scope to the correct answer, such that it's very debatable whether this answer option is not in fact actually also correct' & "
+                   "'An answer option that is exceedingly unlikely, fantastical, off-base or ridiculous and therefore maximally obviously incorrect, such that no one who can read would think this could ever be the correct answer to the question'\n"
+                   "Whether any particular distractor falls on the 'too correct' or 'too obviously incorrect' part of the spectrum, is highly context-dependent. "
+                   "This often depends on many aspects to do with the exact context of the question, for example its phrasing, specific (background) domain-knowledge around the subject, "
+                   "and assumptions about what test takers in the target group for this exercise already can be assumed to know or not know, and their intelligence. In other words, it is not easy to pick distractors that are positioned inside the acceptable range on this spectrum. "
+                   "Therefore, really try to go about your task here methodically: first establish the borders of the acceptable range of distractors by lingering there for a bit; taking into account the specific context of the given question, as follows.\n\n"
+                   "Before drafting the final list, first come up with one or two faulty distractors, that are faulty in the sense that they would be júst too much on the 'too correct' side of the aforementioned spectrum.\n"
+                   "Then, come up with one or two distractors that are júst faulty on the other side of that spectrum: júst too much on the side of 'too obviously false'.\n"
+                   "As an intuition pump for the first category (distractors that are júst too correct), try to imagine experts in the question's domain discussing the answer option, and some of them arguing that the distractor would also be a valid answer to the given question. "
+                   "As an intuition pump for the second category (distractors that are júst too obviously incorrect), try to image a student who is both generally stupid (bottom of his class) ánd uninformed about the given topic (didn't prepare for the test). Would even they just so find it easy to eliminate the faulty distractors as clearly false?\n\n"
+                   "Through the above process of picking the júst faulty distractors in the context of the given question, you've established the two boundaries of acceptable distractors to brainstorm between. Don't play it safe though, when in doubt, just list the distractor you come up with anyway.\n"
+                   "Next, in the brainstorming phase, it's most important that you get really creative and really try to think outside the box, to come up with the required potential alternative answer options to the exercise. We want to approach this task from all different angles."
+                   "to arrive at varied options, to serve as inspiration for a later stage of final selection (not now). For now, carry out the above-described prep in writing, then draft the list of{intermediate_distractors_specification} alternative distractors (in the same language as the existing exercise)."
+                   ""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise", "intermediate_distractors_specification"]
@@ -214,7 +227,7 @@ template_consolidate_distractors  = ChatPromptTemplate(
                    "Filter out duplicates, do some logical sorting, and just return one plain list{final_distractors_specification}. "
                    "Only focus on the distractors (answer options) themselves, ignore any reasoning about them. Return only the list, nothing else. Format the list without numbering or bullet points, just put every distractor on its own line. Use the same language as the existing exercise. "),
         ("human", "For context, this is the exercise that the distractors are about:\n "
-                  "{standardized_exercise} "
+                  "{standardized_exercise}\n\n"
                   "Here are the lists:\n "
                   "{brainstorm_outputs} ")
     ],
