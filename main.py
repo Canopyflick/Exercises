@@ -26,7 +26,19 @@ with gr.Blocks() as interface:
     with gr.Column(visible=False, elem_id="main_app") as app_container:
 
         # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
-        standardized_format_display = gr.HTML("", visible=True)
+        # A row for the standardized text & copy button
+        with gr.Row():
+            with gr.Column(scale=3):
+                gr.Markdown("")
+                # Right column is narrower (scale=1), so the box sits on the right
+            with gr.Column(scale=1):
+                standardized_box = gr.Textbox(
+                    label="Standardized Data",
+                    value="",
+                    lines=4,
+                    interactive=False,
+                    show_copy_button=True
+                )
 
         gr.Markdown("## Pick the tab for your task of choice")
 
