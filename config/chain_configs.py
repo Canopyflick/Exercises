@@ -19,7 +19,7 @@ chain_configs = {
     "diagnoser": {
         "class": DiagnoserChain,
         "template_standardize": standardize_template,
-        "llm_standardize": llms["GPT-4o-mini (zero temp)"],     # Always fixed
+        "llm_standardize": llms["Claude 3.5 Haiku (zero temp)"],     # Always fixed
         "llm_4o_mini": llms["GPT-4o-mini (low temp)"],
         "llm_4o": llms["GPT-4o (low temp)"],
         # 4 different diagnosis templates (to run in parallel:
