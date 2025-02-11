@@ -21,7 +21,7 @@ async def run_learning_objectives_generator(
     config = chain_configs["learning_objectives"]  # you define this in chain_configs.py
     standardized = await standardize_studytext(
         user_input_text, text_format,
-        config["template_studytext_standardize"],
+        config["template_standardize"],
         config["llm_standardize_studytext"]
     )
 

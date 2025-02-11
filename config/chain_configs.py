@@ -50,7 +50,7 @@ chain_configs = {
     },
     "learning_objectives": {
         "class": LearningObjectivesChain,
-        "template_standardize_studytext": template_standardize_studytext,
+        "template_standardize": template_standardize_studytext,
         "llm_standardize": llms["GPT-4o-mini (zero temp)"],     # Always fixed
         "template_gen_prompt_a": template_gen_prompt_a,
         "template_gen_prompt_b": template_gen_prompt_b,
