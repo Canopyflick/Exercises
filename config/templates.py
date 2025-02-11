@@ -11,15 +11,6 @@ standardize_template = ChatPromptTemplate(
     input_variables=["user_input", "formatting_instructions"]
 )
 
-# Template to generate a diagnosis from the standardized exercise.
-diagnose_template = ChatPromptTemplate(
-    messages=[
-        ("system", "Based on the given exercise, provide a detailed diagnosis of potential issues. What makes this exercise sub-par, worse than it could be, not yet perfect? Only give the diagnosis, no solutions."),
-        ("human", "{standardized_exercise}")
-    ],
-    input_variables=["standardized_exercise"]
-)
-
 template_diagnose_double_negation = ChatPromptTemplate(
     messages=[
         ("system", """Analyze a multiple-choice exercise for the presence of double negatives: either two negations in the question/statement itself, or a negation in the question/statement AND in an answer option. 
@@ -61,7 +52,7 @@ template_diagnose_double_negation = ChatPromptTemplate(
         </double negative explanation>
         </example 2>. 
         If it's obvious that there is or isn't a double negative in this exercise, just give a short one-sentence diagnosis on this. 
-        If the issue is more nuanced, do some reasoning first, and give your diagnosis then."""),
+        If the issue is more nuanced, take more time to do some reasoning first, and give your diagnosis only after."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -114,8 +105,8 @@ template_diagnose_correct_answer_stands_out = ChatPromptTemplate(
         </explanation how the correct answer stands out>
         </example where the correct answer is grammatically different>
         
-        Your only focus is to accurately diagnose this issue, no need to provide a fix. If the correct answer in the given exercise clearly does or does not stand out, just give a short one-sentence diagnosis on this. 
-        If the issue is more nuanced, do some reasoning first, and give your diagnosis then."""),
+        Your only focus is to accurately diagnose this issue, no need to provide a fix. Really take your time to arrive at the correct diagnosis. 
+        Do some reasoning first, and give your diagnosis then."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -133,8 +124,8 @@ template_diagnose_distractor_clearly_wrong = ChatPromptTemplate(
         ("system", """You assess a multiple-choice exercise to determine if any distractors 
         are clearly incorrect and therefore too easy to eliminate. Effective distractors should at least sound plausible to some students.
         Identify distractors that are too obviously wrong, such that even students that are completely uninformed about the topic can eliminate them.
-        Your only focus is to accurately diagnose this issue, no need to provide a fix. If all distractors in the given exercise clearly either are or aren't obviously incorrect, just give a short one-sentence diagnosis on this. 
-        If the issue is more nuanced, share your reasoning about it first, and give your diagnosis then."""),
+        Your only focus is to accurately diagnose this issue, no need to provide a fix. Really take your time to arrive at the correct diagnosis. 
+        Do some reasoning first, and give your diagnosis then."""),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -147,8 +138,8 @@ template_diagnose_distractor_partially_correct = ChatPromptTemplate(
         ambiguity. Identify such cases. Really stress-test them: is there a story you could tell where the distractors, in the context of this exercise, could be considered a (partially) correct answer?
         After this, consider if this is bad enough in the context of this question. It's fine if the correct answer is still obviously most correct, and some distractors that contain elements of truth. This is only a problem if the gap becomes too small. 
         As an intuition pump, ask this question: would there be any experts that would consider this distractors also a correct answer? If so, diagnose the problem. If not, it's fine.  
-        Your only focus is to accurately diagnose this issue, no need to provide a fix. If all distractors in the given exercise clearly are or aren't unambiguously false, just give a short one-sentence diagnosis on this. 
-        If the issue is more nuanced, do some reasoning first, and give your diagnosis then.
+        Your only focus is to accurately diagnose this issue, no need to provide a fix. Really take your time to arrive at the correct diagnosis. 
+        Do some reasoning first, and give your diagnosis then.
         """),
         ("human", "{standardized_exercise}")
     ],
@@ -179,7 +170,7 @@ diagnose_scorecard_template = ChatPromptTemplate(
         <example 3>
         1. The exercise contains a double negative: ❌ -- 2. The correct answer does not stand out: ✅ -- 3. Some of the distractors are too obviously false: ❌ -- 4. None of the distractors are actually also kinda correct: ✅
         </example 3>
-        Sometimes the diagnoses will be short and clear, but sometimes they will also be elaborate and view the issue from different angles. In that case, overweight the final sentence of the diagnosis. Here, usually the conclusion is drawn
+        Sometimes, diagnoses will be elaborate and first view the issue from different angles, considering both scenarios of passing and failing equally. In that case, overweight the final sentence of the diagnosis, because there you'll find the conclusion.
         """),
         ("human", "{combined_diagnosis}")
     ],
