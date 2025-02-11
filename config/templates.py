@@ -368,3 +368,13 @@ The latter objective does not specify a single fact but combines two (can be pai
     ],
     input_variables=["standardized_text"]
 )
+
+template_sanitize_learning_objectives = ChatPromptTemplate(
+    messages=[
+        ("system", "You are given an output of a brainstorming session that lead to the generation of learning objectives. Your task is to "
+                   "turn distill this into a numbered list of just the learning objectives."),
+        ("human", "Here is the output:\n "
+                  "{raw_output}")
+    ],
+    input_variables=["raw_output"]
+)

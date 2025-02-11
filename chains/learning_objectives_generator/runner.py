@@ -34,6 +34,8 @@ async def run_learning_objectives_generator(
     llm_a = llms.get(model_choice_1, config["default_llm_a"])
     llm_b = llms.get(model_choice_2, config["default_llm_b"])
 
+    llm_sanitize=llms.get(config["llm_sanitize"])
+
     # We will store the final sanitized results in an array of 4 strings
     # (2 prompts × 2 LLMs)
     partial_results = ["", "", "", ""]
@@ -50,7 +52,7 @@ async def run_learning_objectives_generator(
 
         # Step: sanitize
         sanitize_msg = await sanitize_prompt.aformat_prompt(raw_output=generation_output)
-        sanitize_resp = await llm_a.ainvoke(sanitize_msg.to_messages())  # or use a separate LLM for sanitization
+        sanitize_resp = await llm_sanitize.ainvoke(sanitize_msg.to_messages())  # or use a separate LLM for sanitization
         sanitized_output = getattr(sanitize_resp, "content", sanitize_resp)
 
         return (track_index, sanitized_output)
