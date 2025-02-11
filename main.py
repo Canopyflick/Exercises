@@ -18,13 +18,13 @@ with gr.Blocks() as interface:
     # --- Login Page ---
     with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
-        with gr.Row():
-            with gr.Column(scale=2):  # Adjust scale for width
-                password_input = gr.Textbox(
-                    label="Enter Password",
-                    type="password",
-                    placeholder="hunter2"
-                )
+        password_input = gr.Textbox(
+            label="Enter Password",
+            type="password",
+            placeholder="hunter2",
+            container=False,
+            max_width=42,
+        )
         login_button = gr.Button("Login")
         login_error = gr.Markdown(value="")
 
