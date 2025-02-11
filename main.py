@@ -28,21 +28,21 @@ with gr.Blocks() as interface:
         # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
         # A row for the standardized text & copy button
         with gr.Row():
-
-            with gr.Column(scale=5):
-                gr.Markdown("")
-            with gr.Column(scale=12):
+            with gr.Column(scale=4):
+                gr.Markdown("## Pick the tab for your task of choice")
+            with gr.Column(scale=11):
                 standardized_format_display = gr.Textbox(
-                    label="Standardized Data",
+                    info="Standardized Data",
+                    label="",
                     show_label=True,
-                    value="will populate with most recent reformatting result",
+                    placeholder="will populate with most recent reformatting result",
                     lines=1,
                     max_lines=6,
                     interactive=False,
                     show_copy_button=True
                 )
 
-        gr.Markdown("## Pick the tab for your task of choice")
+        # gr.Markdown("## Pick the tab for your task of choice")
 
         with gr.Tabs():
             # Build Diagnoser tab
