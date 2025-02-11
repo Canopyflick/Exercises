@@ -1,7 +1,7 @@
 # app/helpers/exercise_standardizer.py
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Any
-from config.format_mappings import FORMAT_MAPPINGS
+from config.format_mappings import FORMAT_MAPPINGS_EXERCISES
 
 
 
@@ -12,7 +12,7 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
     if exercise_format == "Raw (original)":
         return user_query  # No transformation needed
 
-    formatting_instructions = FORMAT_MAPPINGS.get(
+    formatting_instructions = FORMAT_MAPPINGS_EXERCISES.get(
         exercise_format,
         "Please reformat the given exercise to ease further processing."
     )

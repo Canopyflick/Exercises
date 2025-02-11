@@ -6,16 +6,7 @@ from langchain_core.prompts.chat import ChatPromptTemplate
 
 class LearningObjectivesChain(BaseModel):
     """
-    Orchestrates multi-step generation of learning objectives:
-      1) Two parallel calls to 'learning_objective_generator' (LLM1, LLM2).
-      2) Combine those outputs.
-      3) 'learning_objective_eliminator' on the combined output (Main LLM).
-      4) 'learning_objective_finetuner' on the output of that (Main LLM).
-      5) 'learning_objective_presenter' to finalize (Main LLM).
 
-    Each step can have its own ChatPromptTemplate and uses the relevant LLM.
-
-    If you want a separate alt LLM for step #3 or #4, just expand as needed.
     """
 
     # Templates

@@ -1,8 +1,7 @@
 # config/templates.py
 from langchain_core.prompts.chat import ChatPromptTemplate
 
-# Template to standardize the exercise description.
-standardize_template = ChatPromptTemplate(
+template_standardize_exercise = ChatPromptTemplate(
     messages=[
         ("system", "You reformat a given multiple choice exercise into a standardized format. {formatting_instructions}\n\n"
                    "Only 3 elements are always mandatory:\n"
@@ -14,6 +13,15 @@ standardize_template = ChatPromptTemplate(
                    "new content that is not present in the given exercise. You should sometimes leave out certain content "
                    "however, if there are artifacts with the given exercise that don't contribute to it."),
         ("human", "Here's the given exercise:\n{user_input}")
+    ],
+    input_variables=["user_input", "formatting_instructions"]
+)
+
+template_standardize_studytext = ChatPromptTemplate(
+    messages=[
+        ("system", "You reformat a given study text into a standardized format. {formatting_instructions}\n\n"
+                   ),
+        ("human", "Here's the given study text:\n{user_input}")
     ],
     input_variables=["user_input", "formatting_instructions"]
 )
@@ -221,8 +229,6 @@ template_distractors_brainstorm_2 = ChatPromptTemplate(
 )
 
 
-
-
 template_consolidate_distractors  = ChatPromptTemplate(
     messages=[
         ("system", "You are given several lists of potential distractors (answer options to a multiple choice exercise), that need to be consolidated and/or trimmed down into one list. "
@@ -238,3 +244,127 @@ template_consolidate_distractors  = ChatPromptTemplate(
     input_variables=["standardized_exercise", "brainstorm_outputs", "final_distractors_specification"]
 )
 
+
+template_gen_prompt_a = ChatPromptTemplate(
+    messages=[
+        ("system", """
+        You are given a study text that is part of an e-learning and an accompanying list of learning objectives based on the text. Your goal is to refine the learning objectives, such that they adhere to the requirements as closely as possible. These learning objectives will later serve as the basis for multiple-choice exercises, and for this purpose it is crucial that they live up to the requirements in every way.
+
+        # General approach
+        - First intensely study and really internalize the requirements for good learning objectives (listed below).
+        - Then, rewrite and improve the learning objectives to better fall in line with the requirements. 
+        
+        # Requirements for individual learning objectives
+        Good learning objectives:
+        - Start with 'The student knows that '
+        - Are unambiguous, and contain what later will become the specific correct answer for any multiple choice exercises that would test the learning objective 
+        - Represent exactly the knowledge as written in the study text 
+        - Use exactly the same terminology that's used in the study text 
+        - Mirror also the general language level of the study text. If the text is written with very simple words, then the learning objectives should be also written in very simple words
+        - Mirror also the voice of the text (passive or active voice) and the perspective of the text (second or third person)
+        - Are as concise as can be: they contain the smallest possible knowledge element. A learning objective does not combine multiple facts, but rather isolates individual facts
+        - Avoid absolute terms that overstate their universality, like 'always' and 'never', unless that actually is true 100% of the time (usually there are exceptions to every rule, so account for those in your phrasing)
+        - Alternatively avoid vague terms that make what they wanna say too meaningless, like 'can', 'could', 'might' and 'may' (many things 'can', 'could' or 'might be', this doesn't say much)
+        - Also avoid subjective terms like 'often', 'sometimes', 'many', 'few', 'common', 'rare'. Instead, make more specific and falsifiable claims like 'in most cases' or 'A is more common than B'
+        - Avoid the use of 'important', again a signal word indicating subjectivity. Only use 'important' in statements that you cannot rephrase, yet are actually indisputable ánd meaningful to know when phrased in this way
+        
+        # Process
+        - For each learning objective, go over all of the requirements, like methodically checking off a checklist.
+        - For any aspect of any learning objective that upon reflection doesn't adhere to the requirements as well as it could, carry out a rewrite (or split up one learning objective into two, for example) of the learning objective.
+        - Iteratively keep doing this for each of the individual learning objectives again and again, until you are certain that they are the best versions they can be: each entirely and maximally satisfying the requirements for good learning objectives. 
+        - Take as much time as you need to get it perfect, then return the list of final learning objectives (for this, use the same language as the study text).
+        """),
+        ("human", "{standardized_text}")
+    ],
+    input_variables=["standardized_text"]
+)
+
+template_gen_prompt_b = ChatPromptTemplate(
+    messages=[
+        ("system", """
+        You are given a study text. Based on this, you will identify learning objectives. Follow the following protocol meticulously:
+
+        # Protocol for Creating Exercises for eLearning Modules
+        ## General Working Method
+        
+        ### Text Orientation  
+        Assigned a study text, your initial task is to read it to understand the topic for creating exercises.
+        
+        ### Learning objectives 
+        Based on the text, define clear, concise learning objectives. Make sure you have enough learning objectives so that all information is covered, but not too many so that learning objectives won't overlap.  It's really important that every learning objective only states 1 single fact and doesn't combine multiple facts. Choose objectives based on text analysis and audience level. Objectives always start with 'The student knows that'. 
+        
+        Observe the following rules meticulously when writing learning objectives:
+        
+        #### Avoid 'always' and 'never' 
+        Don't use words like 'always' or 'never' in learning objectives, it is likely an exception exists. Instead use constructions like 'X *fits with* Y', 'X *suggests* Y', 'X *is more common than* Y'
+        
+        So not:
+        > BAD: The students knows that fever *never* occurs with a viral infection. 
+        > BAD: The students knows that fever *always* occurs with a viral infection. 
+        
+        But:
+        > GOOD: The students knows that fever is a symptom *that fits with* a viral infection. 
+        
+        #### Avoid 'can', 'could', 'may' or 'might' 
+        Don't use words like *'can'*, *'could'*, *'may'* or *'might'* in learning objectives, because almost everything can, could or might be something, so too suggestive. Instead use constructions like 'X *fits with* Y', 'X *suggests* Y', 'X *is more common than* Y'
+        
+        So not:
+        > BAD: The students knows that pain *might* occur with rheumatoid arthritis.
+        > BAD: The students knows that pain *can* occur with rheumatoid arthritis.
+        > BAD: The students knows that pain *could* occur with rheumatoid arthritis.
+        > BAD: The students knows that pain *may* occur with rheumatoid arthritis.
+        
+        But: 
+        > GOOD: The students knows that pain *is a symptom of* rheumatoid arthritis.
+        
+        #### Avoid subjective terminology like many, few and common 
+        Don't use words like *'many'*, *'few'*, *'common'*, *'rare'* et cetera as these are subjective. Instead be specific. Instead use terminology like *'in most cases'* or compare: *'symptom A is more common than symptom B'*. 
+        
+        Example of a bad learning objective, leading to suggestive or subjective answers: 
+        > BAD: The student knows that fever commonly occurs with a viral infection. 
+        
+        #### Avoid important, essential significant
+        Don't use words like *'important'*, *'essential'*, *'significant'* et cetera in learning objectives, as these are prone to subjectivity. 
+        
+        Examples of a bad learning objective, leading to suggestive or subjective answers: 
+        > BAD: The students knows that it's *important* to rest when having a viral infection. 
+        
+        The objective uses the word *'important'* which is subjective.  
+        
+        > BAD: The students knows that it's *essential* to rest when having a viral infection. 
+        
+        The objective uses the word *'essential'* which is subjective. 
+        
+        > BAD: The students knows that fever has a *significant* effect on how people feel when they are sick. 
+        
+        The objective uses the word *'significant'* which is subjective. 
+        
+        > BAD: The student knows that drinking *enough* water is *important* to stay hydrated. 
+        
+        The objective uses the word *'important'* which is subjective. Also the word *'enough'* is subjective. 
+        
+        
+        A good example is: 
+        
+        > GOOD: The student knows that proteinuria is a symptom of nephrotic syndrome. 
+        
+        An example of a bad learning objective: 
+        
+        > BAD: The student knows the symptoms of nephrotic syndrome. 
+        
+        The bad objective does not specify a single fact as symptoms are not specified.
+        
+        A good example is:
+        
+        >  GOOD: The student knows that besides pain, rheumatoid arthritis also causes loss of mobility. 
+        
+        An example of a bad learning objective:
+        
+        > BAD: The student knows that problems with movement due to joint problems, such as rheumatism, can be painful or completely limit movement
+        
+The latter objective does not specify a single fact but combines two (can be painful or completely limit movement). The first objective focuses on the 'loss of mobility' element, while the 'pain- element' is already considered known. The exercises generated by this learning objective will test the 'loss of mobility' element (so not the 'pain-element')
+        """),
+        ("human", "{standardized_text}")
+    ],
+    input_variables=["standardized_text"]
+)

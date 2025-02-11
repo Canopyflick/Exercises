@@ -1,6 +1,7 @@
 # format_mappings.py
 
-FORMAT_MAPPINGS = {
+# Intermediate plain processing
+FORMAT_MAPPINGS_EXERCISES = {
     "Markdown": (
         "Please reformat in Markdown, following this example:\n"
         "**Theorie:**  \n"
@@ -50,3 +51,38 @@ FORMAT_MAPPINGS = {
         "1. Het gevoel geen connectie te hebben met anderen"
     )
 }
+
+
+FORMAT_MAPPINGS_STUDY_TEXTS = {
+    "Markdown": (
+        "Please reformat into Markdown."
+    ),
+    "XML": (
+        """
+        Please reformat into XML, use tags like <title></title> and <b></b>.
+        """
+    ),
+    "Plaintext": (
+        "Please reformat into neat plaintext, without any tags or other formatting."
+    )
+}
+
+# Final processing
+studytext_HTML = (
+        """
+        Please reformat into XML. The target conventions are:
+        - always start with a title like this: <h3>TITLE</h3>;
+        - subheadings are just in bold. Usually there won't be any subheadings though, just different paragraphs;
+        - for bold text, use <strong></strong>;
+        - divide the text up into <p></p>-blocks;
+        - for lists, adhere to the following capitalization and interpunction rules:
+        <p>This is an example list, pay attention to lowercase beginnings and final interpunction endings of each item:</p>
+            <ul>
+                <li>each item starts with lowercase;</li>
+                <li>always. Even if it's several sentences long. Like this one;</li>
+                <li>each item ends with a semicolon;</li>
+                <li>except for the very latest item;</li>
+                <li>that (this) final item, ends with a full-stop, a period.</li>
+            </ul>
+        """
+)

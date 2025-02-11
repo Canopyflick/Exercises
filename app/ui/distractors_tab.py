@@ -73,7 +73,7 @@ def build_distractors_tab():
 
         distractors_input = gr.Textbox(label="Enter exercise(s) in any format",
                                        placeholder="Stelling: Dit is een ..... voorbeeld van een stelling. A. Mooi B. Lelijk ...")
-        distractors_button = gr.Button("Submit")
+        distractors_button = gr.Button("Brainstorm")
 
         # Create 10 Response textboxes
         distractors_responses = [

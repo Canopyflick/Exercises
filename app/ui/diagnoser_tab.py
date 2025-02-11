@@ -46,7 +46,7 @@ def build_diagnoser_tab():
         diagnoser_input = gr.Textbox(label="Enter exercise in any format",
                                      placeholder="Exercise body: <mc:exercise xmlns:mc= ...")
         # A button to run the chain
-        diagnoser_button = gr.Button("Submit")
+        diagnoser_button = gr.Button("Diagnose")
 
         # Create 10 Response textboxes
         diagnoser_responses = [
