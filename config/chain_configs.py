@@ -58,7 +58,7 @@ chain_configs = {
         "default_llm_a": llms["o1"],
         "default_llm_b": llms["o3-mini (high reasoning_effort)"],
         "template_sanitize": template_sanitize_learning_objectives,
-        "llm_sanitize": llms["GPT-4o-mini (zero temp)"],
+        "llm_sanitize": "GPT-4o-mini (zero temp)",
     },
 }
 
