@@ -22,8 +22,7 @@ with gr.Blocks() as interface:
             label="Enter Password",
             type="password",
             placeholder="hunter2",
-            container=False,
-            max_width=42,
+            container=True
         )
         login_button = gr.Button("Login")
         login_error = gr.Markdown(value="")
@@ -41,7 +40,7 @@ with gr.Blocks() as interface:
                     info="",
                     label="",
                     show_label=False,
-                    show_copy_button=False,
+                    show_copy_button=True,
                     placeholder="will show most recent reformatting result",
                     lines=1,
                     max_lines=10,
