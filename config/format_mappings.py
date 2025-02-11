@@ -2,7 +2,7 @@
 
 FORMAT_MAPPINGS = {
     "Markdown": (
-        "Please format the exercise in Markdown, similarly to this example:\n\n"
+        "Please reformat in Markdown, following this example:\n"
         "**Theorie:**  \n"
         "Eenzaamheid wordt door ieder persoon anders ervaren en is daarom subjectief.\n\n"
         "---\n\n"
@@ -37,7 +37,7 @@ FORMAT_MAPPINGS = {
         "</exercise>"
     ),
     "Plaintext": (
-        "Please reformat in plain text, following this example:\n\n"
+        "Please reformat in plain text, following this example:\n"
         "Theorie:\n"
         "Eenzaamheid wordt door ieder persoon anders ervaren en is daarom subjectief.\n\n"
         "Vraag:\n"
