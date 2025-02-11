@@ -9,12 +9,12 @@ def build_distractors_tab():
     """
     Builds and returns the Diagnoser tab UI elements (and any references).
     """
-    with gr.TabItem("🤔 Brainstorm distractors"):
+    with gr.TabItem("🤔 Brainstorm Distractors"):
         # Insert an HTML info icon with a tooltip at the top of the tab content.
         gr.HTML(
             """
             <div style="margin-bottom: 10px;">
-                <span style="font-size: 1.5em; cursor: help;" title="Generates alternative distractors for the given exercise in two stages. First, 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) generate a bunch of options, then a final consolidation prompt (using LLM 3) combines all results together for presentation below.\n\nFor both stages, prompts can be customized via dropdowns to influence the amount of distractors that will be generated during each (brainstormed and displayed).\n5-6 LLM calls per final response.">
+                <span style="font-size: 1.5em; cursor: help;" title="Generates alternative distractors for the given exercise in two stages. First, 2x2 brainstorming prompts (2 approaches, each using LLM 1 & LLM 2 once) generate a bunch of options. Then, a final consolidation prompt (using LLM 3) combines all results together for presentation below.\n\nFor both stages, prompts can be customized via dropdowns to instruct the models how many distractors they should generate and how/whether to filter the results (brainstorm X/display X).\n5-6 LLM calls per final response.">
                     ℹ️
                 </span>
             </div>
@@ -42,7 +42,7 @@ def build_distractors_tab():
                 interactive=True,
             )
             intermediate_distractors_specification = gr.Dropdown(
-                choices=[" ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " 10 ", " a few ", " some ",
+                choices=[" ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " 10 ", " 11 ", " 12 ", " a few ", " some ",
                          " a whole lot of ", " a wide range of ", " novel "],
                 value=" 8 ",
                 label="Brainstorm X distractors x4",

@@ -13,21 +13,23 @@ def build_learning_objectives_tab():
             </div>
             """
         )
-        # 2 dropdowns for the user-chosen LLMs:
-        model_choice_1 = gr.Dropdown(
-            choices=list(llms.keys()),
-            label="LLM 1"
-        )
-        model_choice_2 = gr.Dropdown(
-            choices=list(llms.keys()),
-            label="LLM 2"
-        )
-        text_format = gr.Dropdown(
-                choices=["Markdown", "XML", "Plaintext", "Raw (input not reformatted)"],
-                value="Markdown",
-                label="Studytext Reformat",
-                interactive=True,
-        )
+
+        with gr.Row():
+            # 2 dropdowns for the user-chosen LLMs:
+            model_choice_1 = gr.Dropdown(
+                choices=list(llms.keys()),
+                label="LLM 1"
+            )
+            model_choice_2 = gr.Dropdown(
+                choices=list(llms.keys()),
+                label="LLM 2"
+            )
+            text_format = gr.Dropdown(
+                    choices=["Markdown", "XML", "Plaintext", "Raw (input not reformatted)"],
+                    value="Markdown",
+                    label="Studytext Reformat",
+                    interactive=True,
+            )
 
         studytext_input = gr.Textbox(label="Enter a study text in any format", placeholder="<h3>Infusie en infuussystemen</h3> <h4>Inleiding</h4> ...")
         learning_objectives_button = gr.Button("Identify LOs")

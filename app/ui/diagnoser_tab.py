@@ -9,7 +9,7 @@ def build_diagnoser_tab():
     """
     Builds and returns the Diagnoser tab UI elements (and any references).
     """
-    with gr.TabItem("🩺 Diagnose exercise"):
+    with gr.TabItem("🩺 Diagnose Exercise"):
         # Insert an HTML info icon with a tooltip at the top of the tab content.
         gr.HTML(
             """
