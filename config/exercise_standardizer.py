@@ -1,12 +1,14 @@
 # exercise_standardizer.py
+import gradio as gr
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Any
 from config.format_mappings import FORMAT_MAPPINGS
+from utils.state_manager import standardized_format_state
+
 
 async def standardize_exercise(user_query: str, exercise_format: str, template: ChatPromptTemplate, llm: Any) -> str:
     """
-    Standardizes an exercise's format using the specified template and LLM.
-    Uses token streaming for efficiency.
+    Standardizes an exercise's format using the specified template and LLM, and updates the UI via standardized_format_state.
     """
     if exercise_format == "Raw (original)":
         return user_query  # No transformation needed
@@ -25,4 +27,7 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
     response = await llm.ainvoke(std_messages)
     standardized_exercise = getattr(response, "content", response)
 
+    standardized_format_state.value = standardized_exercise
+
     return standardized_exercise
+

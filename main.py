@@ -1,7 +1,7 @@
 # main.py
 import gradio as gr
 import logging
-
+from utils.state_manager import standardized_format_state
 from app.ui.diagnoser_tab import build_diagnoser_tab
 from app.ui.distractors_tab import build_distractors_tab
 from chains.diagnoser.runner import run_diagnoser
@@ -68,6 +68,9 @@ with gr.Blocks() as interface:
 
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
+        # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
+        standardized_format_display = gr.Markdown("", visible=True)
+
         gr.Markdown("## Pick the tab for your task of choice")
 
         with gr.Tabs():
@@ -121,6 +124,12 @@ with gr.Blocks() as interface:
         fn=auth_login,
         inputs=[password_input],
         outputs=[login_container, app_container, login_error]
+    )
+
+    standardized_format_state.change(
+        fn=lambda text: gr.update(value="#### Here's the most recent standardized format" + f"\n{standardized_format_state}"),  # ✅ Only update value, no need to toggle visibility
+        inputs=[standardized_format_state],
+        outputs=[standardized_format_display]
     )
 
     diagnoser_button.click(
