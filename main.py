@@ -16,9 +16,9 @@ logger = logging.getLogger(__name__)
 # -------------------------------
 with gr.Blocks() as interface:
     # --- Login Page ---
-    with gr.Column(min_width=42, visible=True, elem_id="login_page") as login_container:
+    with gr.Column(visible=True, elem_id="login_page") as login_container:
         gr.Markdown("## 🔒 Please Login")
-        password_input = gr.Textbox(label="Enter Password", type="password", placeholder="hunter2")
+        password_input = gr.Textbox(min_width=42, label="Enter Password", type="password", placeholder="hunter2")
         login_button = gr.Button("Login")
         login_error = gr.Markdown(value="")
 
@@ -29,22 +29,21 @@ with gr.Blocks() as interface:
         # A row for Title & the standardized text & copy button
         with gr.Row():
             with gr.Column(scale=3):
-                gr.Markdown("")  # Empty spacer
-                gr.Markdown("## Pick the tab for your task of choice")
+                gr.Markdown("")
             with gr.Column(scale=5):
                 standardized_format_display = gr.Textbox(
-                    info="Standardized Data",
-                    label="♻️",
-                    show_label=True,
+                    info="",
+                    label="",
+                    show_label=False,
                     show_copy_button=False,
                     placeholder="will show most recent reformatting result",
                     lines=1,
-                    max_lines=8,
+                    max_lines=10,
                     interactive=False,
                     container=False
                 )
 
-        # gr.Markdown("## Pick the tab for your task of choice")
+        gr.Markdown("## Pick the tab for your task of choice")
 
         with gr.Tabs():
             # Build Diagnoser tab
