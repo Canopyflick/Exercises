@@ -29,14 +29,15 @@ with gr.Blocks() as interface:
         # A row for the standardized text & copy button
         with gr.Row():
 
-            with gr.Column(scale=1):
+            with gr.Column(scale=5):
                 gr.Markdown("")
-            with gr.Column(scale=3):
+            with gr.Column(scale=12):
                 standardized_format_display = gr.Textbox(
                     label="Standardized Data",
                     show_label=True,
-                    value="",
-                    lines=3,
+                    value="will populate with most recent reformatting result",
+                    lines=1,
+                    max_lines=6,
                     interactive=False,
                     show_copy_button=True
                 )
