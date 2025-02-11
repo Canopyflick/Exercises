@@ -1,58 +1,17 @@
 # main.py
 import gradio as gr
 import logging
-from utils.state_manager import standardized_format_state
+
+from app.helpers import update_standardized_markdown
+from app.helpers.update_standardized_markdown import dummy_state
 from app.ui.diagnoser_tab import build_diagnoser_tab
 from app.ui.distractors_tab import build_distractors_tab
 from chains.diagnoser.runner import run_diagnoser
 from chains.distractors.runner import run_distractors
 from utils.auth import login as auth_login
-from config.chain_configs import chain_configs
-from config.llm_config import llms
 
 logger = logging.getLogger(__name__)
 
-
-# A generic async runner for simple chains (currently not used)
-async def run_chain(chain_name: str, input_variables: dict, selected_model: str):
-    try:
-        chain_config = chain_configs.get(chain_name)
-        if not chain_config:
-            raise KeyError(f"Chain '{chain_name}' not found.")
-
-        # Override the LLM based on user selection.
-        chosen_llm = llms.get(selected_model)
-        if not chosen_llm:
-            raise KeyError(f"LLM '{selected_model}' is not configured.")
-
-        # Instantiate the chain with the chosen LLM.
-        if chain_name == "diagnoser":
-            chain_instance = chain_config["class"](
-                template_standardize=chain_config["template_standardize"],
-                template_diagnose=chain_config["template_diagnose"],
-                llm=chosen_llm,
-            )
-        elif chain_name == "distractors":
-            chain_instance = chain_config["class"](
-                template=chain_config["template"],
-                llm=chosen_llm,
-            )
-        else:
-            raise KeyError(f"Chain '{chain_name}' is not implemented.")
-
-        result = await chain_instance.run(input_variables["user_query"])
-        content = result.content if hasattr(result, "content") else result
-        # Replace literal "\n" (backslash-n) with actual newline characters.
-        formatted_content = content.replace("\\n", "\n")
-
-        logger.info(f"Chain '{chain_name}' executed successfully.")
-
-        return formatted_content
-
-
-    except Exception as e:
-        logger.error(f"Error in run_chain for '{chain_name}': {e}")
-        return f"Error: {e}"
 
 
 # -------------------------------
@@ -69,6 +28,7 @@ with gr.Blocks() as interface:
     # --- Main App (initially hidden) ---
     with gr.Column(visible=False, elem_id="main_app") as app_container:
         # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
+
         standardized_format_display = gr.Markdown("", visible=True)
 
         gr.Markdown("## Pick the tab for your task of choice")
@@ -126,9 +86,9 @@ with gr.Blocks() as interface:
         outputs=[login_container, app_container, login_error]
     )
 
-    standardized_format_state.change(
-        fn=lambda text: gr.update(value="#### Here's the most recent standardized format" + f"\n{standardized_format_state}"),  # ✅ Only update value, no need to toggle visibility
-        inputs=[standardized_format_state],
+    dummy_state.change(
+        fn=update_standardized_markdown,
+        inputs=[dummy_state],
         outputs=[standardized_format_display]
     )
 

@@ -2,7 +2,7 @@
 import asyncio
 
 from config.chain_configs import chain_configs
-from config.exercise_standardizer import standardize_exercise
+from app.helpers.exercise_standardizer import standardize_exercise
 from config.llm_config import llms
 
 async def run_distractors(

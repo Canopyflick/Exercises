@@ -3,7 +3,6 @@ import asyncio
 from pydantic import BaseModel
 from typing import Any
 from langchain_core.prompts.chat import ChatPromptTemplate
-from config.exercise_standardizer import standardize_exercise
 
 
 class DistractorsChain(BaseModel):

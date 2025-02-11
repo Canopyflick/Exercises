@@ -1,9 +1,9 @@
-# exercise_standardizer.py
-import gradio as gr
+# app/helpers/exercise_standardizer.py
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Any
+from app.helpers.update_standardized_markdown import dummy_state
 from config.format_mappings import FORMAT_MAPPINGS
-from utils.state_manager import standardized_format_state
+
 
 
 async def standardize_exercise(user_query: str, exercise_format: str, template: ChatPromptTemplate, llm: Any) -> str:
@@ -27,7 +27,7 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
     response = await llm.ainvoke(std_messages)
     standardized_exercise = getattr(response, "content", response)
 
-    standardized_format_state.value = standardized_exercise
+    dummy_state.update(value=standardized_exercise)
 
     return standardized_exercise
 
