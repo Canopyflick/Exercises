@@ -1,7 +1,6 @@
 # app/helpers/exercise_standardizer.py
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Any
-from app.helpers.update_standardized_markdown import dummy_state
 from config.format_mappings import FORMAT_MAPPINGS
 
 
@@ -26,8 +25,6 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
     std_messages = prompt_std.to_messages()
     response = await llm.ainvoke(std_messages)
     standardized_exercise = getattr(response, "content", response)
-
-    dummy_state.update(value=standardized_exercise)
 
     return standardized_exercise
 

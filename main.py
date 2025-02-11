@@ -84,16 +84,10 @@ with gr.Blocks() as interface:
         outputs=[login_container, app_container, login_error]
     )
 
-    dummy_state.change(
-        fn=update_standardized_markdown,
-        inputs=[dummy_state],
-        outputs=[standardized_format_display]
-    )
-
     diagnoser_button.click(
         fn=run_diagnoser,
         inputs=[diagnoser_input, model_choice_diagnose, exercise_format_diagnose, sampling_count_diagnose],
-        outputs=diagnoser_responses + [dummy_state]
+        outputs=diagnoser_responses + [standardized_format_display],
     )
 
     distractors_button.click(
@@ -108,7 +102,7 @@ with gr.Blocks() as interface:
             intermediate_distractors_specification,
             final_distractors_specification,
         ],
-        outputs=distractors_responses + [dummy_state]
+        outputs=distractors_responses + [standardized_format_display],
     )
 
 # Launch the app.
