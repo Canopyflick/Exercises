@@ -5,11 +5,14 @@ from langchain_core.prompts.chat import ChatPromptTemplate
 standardize_template = ChatPromptTemplate(
     messages=[
         ("system", "You reformat a given multiple choice exercise into a standardized format. {formatting_instructions}\n\n"
-                   "Only 3 elements are always mandatory:\n "
-                   "1. A question or statement\n"
+                   "Only 3 elements are always mandatory:\n"
+                   "1. A question or statement that starts with 'Vraag:' or 'Stelling:' (or their semantic equivalents in the language of the exercise).\n"
                    "2. A minimum of two answer options (in the spirit of 'multiple choice'), one of them the correct answer\n"
                    "3. An indication of what the correct answer is.\n\n"
-                   "Always return an exercise with these minimum required elements. If any of the 3 elements are missing in the input, do your best to generate them. Beyond the 3 mandatory elements, never make up any new content that is not present in the given exercise."),
+                   "Always return an exercise with at least these mandatory elements. If any of the 3 elements are missing "
+                   "in the input, do your educated best to make them up. Beyond the 3 mandatory elements, never make up any "
+                   "new content that is not present in the given exercise. You should sometimes leave out certain content "
+                   "however, if there are artifacts with the given exercise that don't contribute to it."),
         ("human", "Here's the given exercise:\n{user_input}")
     ],
     input_variables=["user_input", "formatting_instructions"]
