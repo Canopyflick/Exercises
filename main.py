@@ -29,8 +29,9 @@ with gr.Blocks() as interface:
         # A row for Title & the standardized text & copy button
         with gr.Row():
             with gr.Column(scale=4):
-                gr.Markdown("## Pick the tab for your task of choice")
-            with gr.Column(scale=11):
+                gr.Markdown("## Pick the tab for your task of choice",
+                elem_classes=["align-bottom"])
+            with gr.Column(scale=9):
                 standardized_format_display = gr.Textbox(
                     info="Standardized Data",
                     label="",
