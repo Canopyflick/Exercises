@@ -372,7 +372,12 @@ The latter objective does not specify a single fact but combines two (can be pai
 template_sanitize_learning_objectives = ChatPromptTemplate(
     messages=[
         ("system", "You are given an output of a brainstorming session that lead to the generation of learning objectives. Your task is to "
-                   "turn distill this into a numbered list of just the learning objectives."),
+                   "turn this output into a neat numbered list of just the learning objectives, nothing else.\n"
+                   "<example of a perfect list>\n"
+                   "1. De student weet dat de neus een zintuig is.\n"
+                   "2. De student weet dat de tong een zintuig is.\n"
+                   "3. De student weet dat de huid een zintuig is.\n"
+                   "</example of a perfect list>"),
         ("human", "Here is the output:\n "
                   "{raw_output}")
     ],
