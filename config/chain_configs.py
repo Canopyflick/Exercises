@@ -11,7 +11,8 @@ from config.templates import (
     template_distractors_brainstorm_2,
     template_consolidate_distractors,
     template_gen_prompt_a,
-    template_gen_prompt_b
+    template_gen_prompt_b,
+    template_sanitize_learning_objectives
 )
 from chains.diagnoser.diagnoser_chain import DiagnoserChain
 from chains.distractors.distractors_chain import DistractorsChain
@@ -58,8 +59,6 @@ chain_configs = {
         "default_llm_b": llms["o3-mini (high reasoning_effort)"],
         "template_sanitize": template_sanitize_learning_objectives,
         "llm_sanitize": llms["GPT-4o-mini (zero temp)"],
-
-
     },
 }
 
