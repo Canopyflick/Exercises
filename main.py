@@ -32,7 +32,7 @@ with gr.Blocks() as interface:
                 gr.Markdown("")
                 # Right column is narrower (scale=1), so the box sits on the right
             with gr.Column(scale=1):
-                standardized_box = gr.Textbox(
+                standardized_format_display = gr.Textbox(
                     label="Standardized Data",
                     value="",
                     lines=4,
