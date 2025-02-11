@@ -1,7 +1,6 @@
 # main.py
 import gradio as gr
 import logging
-from app.helpers.update_standardized_markdown import dummy_state, update_standardized_markdown
 from app.ui.diagnoser_tab import build_diagnoser_tab
 from app.ui.distractors_tab import build_distractors_tab
 from chains.diagnoser.runner import run_diagnoser

@@ -61,4 +61,4 @@ async def run_diagnoser(user_query: str, model_choice_diagnose: str, exercise_fo
     all_responses = list(responses) + [""] * (10 - len(responses))
 
     # Return a tuple of exactly 10 responses, + the standardized exercise.
-    return (*all_responses, standardized_exercise)
+    return tuple(all_responses) + (standardized_exercise)
