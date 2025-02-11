@@ -34,7 +34,7 @@ async def run_learning_objectives_generator(
     llm_a = llms.get(model_choice_1, config["default_llm_a"])
     llm_b = llms.get(model_choice_2, config["default_llm_b"])
 
-    llm_sanitize=llms.get(config["llm_sanitize"])
+    llm_sanitize = llms.get(config["llm_sanitize"])
 
     # We will store the final sanitized results in an array of 4 strings
     # (2 prompts × 2 LLMs)
