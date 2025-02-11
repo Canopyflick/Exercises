@@ -57,4 +57,4 @@ async def run_distractors(
     # 4) Pad up to 10 outputs to correspond to 10 response fields
     all_responses = list(results) + [""] * (10 - len(results))
 
-    return tuple(all_responses)
+    return tuple(all_responses) + (standardized_exercise)

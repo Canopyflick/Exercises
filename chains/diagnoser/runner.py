@@ -6,7 +6,7 @@ from app.helpers.exercise_standardizer import standardize_exercise
 from config.llm_config import llms
 
 
-async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_format_validate: str, sampling_count_validate: str) -> tuple:
+async def run_diagnoser(user_query: str, model_choice_diagnose: str, exercise_format_diagnose: str, sampling_count_diagnose: str) -> tuple:
     """
     Diagnose exercise(s) in parallel using a configured DiagnoserChain.
 
@@ -18,15 +18,15 @@ async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_fo
 
     Args:
         user_query (str): Raw exercise data submitted by the user.
-        model_choice_validate (str): The key/name of the chosen LLM for diagnosing.
-        exercise_format_validate (str): The desired format for standardizing the exercise.
-        sampling_count_validate (str): A string representing how many diagnoses to run concurrently (e.g., "3").
+        model_choice_diagnose (str): The key/name of the chosen LLM for diagnosing.
+        exercise_format_diagnose (str): The desired format for standardizing the exercise.
+        sampling_count_diagnose (str): A string representing how many diagnoses to run concurrently (e.g., "3").
 
     Returns:
         tuple: A tuple of length 10, each containing a diagnosis result (or empty string if not enough samples).
     """
     # figure out how many times to run
-    num_samples = int("".join(filter(str.isdigit, sampling_count_validate)))
+    num_samples = int("".join(filter(str.isdigit, sampling_count_diagnose)))
 
     # Fetch the DiagnoserChain configuration.
     config = chain_configs["diagnoser"]
@@ -34,7 +34,7 @@ async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_fo
     # 1) Standardize the user query exactly once
     standardized_exercise = await standardize_exercise(
         user_query,
-        exercise_format_validate,
+        exercise_format_diagnose,
         config["template_standardize"],  # Only if you kept them in config
         config["llm_standardize"]
     )
@@ -42,7 +42,7 @@ async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_fo
     # 2) Instantiate the DiagnoserChain using the user-selected LLM for diagnosing
     chain_instance = config["class"](
         templates_diagnose=config["templates_diagnose"],
-        llm_diagnose=llms.get(model_choice_validate, config["llm_diagnose"]),
+        llm_diagnose=llms.get(model_choice_diagnose, config["llm_diagnose"]),
         template_diagnose_scorecard=config["template_diagnose_scorecard"],
         llm_4o_mini=config["llm_4o_mini"],
         llm_4o=config["llm_4o"]
@@ -61,4 +61,4 @@ async def run_diagnoser(user_query: str, model_choice_validate: str, exercise_fo
     all_responses = list(responses) + [""] * (10 - len(responses))
 
     # Return a tuple of exactly 5 responses.
-    return tuple(all_responses)
+    return tuple(all_responses) + (standardized_exercise,)

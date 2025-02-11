@@ -93,30 +93,22 @@ with gr.Blocks() as interface:
     diagnoser_button.click(
         fn=run_diagnoser,
         inputs=[diagnoser_input, model_choice_diagnose, exercise_format_diagnose, sampling_count_diagnose],
-        outputs=diagnoser_responses
+        outputs=diagnoser_responses + [dummy_state]
     )
 
     distractors_button.click(
         fn=run_distractors,
         inputs=[
-            # 1) user_query
-            distractors_input,
-            # 2) model_choice_distractors_1
+            distractors_input,  # user query
             model_choice_distractors_1,
-            # 3) model_choice_distractors_2
             model_choice_distractors_2,
-            # 4) model_choice_distractors_3
             model_choice_distractors_3,
-            # 5) exercise_format_distractors
             exercise_format_distractors,
-            # 6) sampling_count_distractors
             sampling_count_distractors,
-            # 7) intermediate_distractors_specification
             intermediate_distractors_specification,
-            # 8) final_distractors_specification
             final_distractors_specification,
         ],
-        outputs=distractors_responses
+        outputs=distractors_responses + [dummy_state]
     )
 
 # Launch the app.
