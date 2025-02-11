@@ -27,8 +27,8 @@ with gr.Blocks() as interface:
 
         # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
         # A row for the standardized text & copy button
-        with gr.Row:
-            
+        with gr.Row():
+
             with gr.Column(scale=1):
                 gr.Markdown("")
             with gr.Column(scale=3):
