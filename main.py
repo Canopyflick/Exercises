@@ -26,7 +26,7 @@ with gr.Blocks() as interface:
     with gr.Column(visible=False, elem_id="main_app") as app_container:
 
         # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
-        standardized_format_display = gr.Markdown("", visible=True, unsafe_allow_html=True)
+        standardized_format_display = gr.HTML("", visible=True, unsafe_allow_html=True)
 
         gr.Markdown("## Pick the tab for your task of choice")
 
