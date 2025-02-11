@@ -26,7 +26,7 @@ with gr.Blocks() as interface:
     with gr.Column(visible=False, elem_id="main_app") as app_container:
 
         # --- Standardized Exercise/Studytext Display (Initially Invisible Because it's empty) ---
-        # A row for the standardized text & copy button
+        # A row for Title & the standardized text & copy button
         with gr.Row():
             with gr.Column(scale=4):
                 gr.Markdown("## Pick the tab for your task of choice")
@@ -35,11 +35,12 @@ with gr.Blocks() as interface:
                     info="Standardized Data",
                     label="",
                     show_label=True,
+                    show_copy_button=True,
                     placeholder="will populate with most recent reformatting result",
                     lines=1,
-                    max_lines=6,
+                    max_lines=8,
                     interactive=False,
-                    show_copy_button=True
+                    container=False
                 )
 
         # gr.Markdown("## Pick the tab for your task of choice")
