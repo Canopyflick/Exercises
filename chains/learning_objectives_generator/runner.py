@@ -22,7 +22,7 @@ async def run_learning_objectives_generator(
     standardized = await standardize_studytext(
         user_input_text, text_format,
         config["template_standardize"],
-        config["llm_standardize_studytext"]
+        config["llm_standardize"]
     )
 
     # Prepare references for the generation prompts:
