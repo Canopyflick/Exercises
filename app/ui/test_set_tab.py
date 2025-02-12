@@ -1,7 +1,7 @@
 import gradio as gr
 
 def build_test_set_tab():
-    with gr.TabItem("❔ Test Set"):
+    with gr.TabItem("🚧 Test Set"):
         gr.HTML(
             """
             <div style="margin-bottom: 10px;">
@@ -16,7 +16,7 @@ def build_test_set_tab():
             with gr.Column(scale=1):
                 subset_choice = gr.Dropdown(
                     choices=["Exercises ❔🚧", "Study Texts ️ℹ️🚧", "Show all ❔ℹ️"],
-                    value="Both ❔ℹ️",
+                    value="Show all ❔ℹ️",
                     label="Subset Filter 🚧"
                 )
             with gr.Column(scale=2):

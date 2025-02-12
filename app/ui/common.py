@@ -31,3 +31,10 @@ def update_response_textboxes_amount(sampling_count: str):
             # Hide the rest
             updates.append(gr.update(visible=False, label=f"Response {i + 1}"))
     return updates
+
+
+def log_dropdown_choice(choice):
+    print(f"A dropdown menu changed to: {choice}")
+
+
+

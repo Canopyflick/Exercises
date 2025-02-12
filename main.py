@@ -1,6 +1,8 @@
 # main.py
 import gradio as gr
 import logging
+
+from app.ui.common import log_dropdown_choice
 from app.ui.diagnoser_tab import build_diagnoser_tab
 from app.ui.distractors_tab import build_distractors_tab
 from app.ui.learning_objectives_tab import build_learning_objectives_tab
@@ -138,6 +140,9 @@ with gr.Blocks() as interface:
         api_name=None,
         # or "stream=True" depending on your version of Gradio
     )
+
+    pipeline_choice.change(fn=log_dropdown_choice, inputs=pipeline_choice, outputs=[])
+    subset_choice.change(fn=log_dropdown_choice, inputs=subset_choice, outputs=[])
 
 # Launch the app.
 interface.launch()

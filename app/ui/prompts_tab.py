@@ -17,7 +17,7 @@ def build_prompts_tab():
                 pipeline_choice = gr.Dropdown(
                     choices=["Exercise Diagnosis 🩺", "Distractors Brainstorm 🤔", "Learning Objectives Identification 🧠", "ALL OF THEM ✨", ],
                     value="Exercise Diagnosis 🩺",
-                    label="Tasks Pipelines"
+                    label="Tasks Pipelines 🚧"
                 )
             with gr.Column(scale=2):
                 pass # only here to keep the first column in check: force narrower dropdown
