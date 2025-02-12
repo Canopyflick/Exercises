@@ -250,6 +250,27 @@ Before extracting learning objectives:
   - Terminology and jargon
   - Voice (active/passive)
   - Perspective (2nd/3rd person)
+  
+<examples>
+    <language_level_examples>
+        <text>
+            # Observeren Oefenen
+            Dagelijks oefen je om zo objectief (zonder je eigen mening) mogelijk te observeren. Dit betekent onder andere dat je aan een zorgvrager vraagt of het klopt wat je hebt geobserveerd.
+        </text>
+        <too_difficult>
+            - De student weet dat objectief observeren betekent dat de observatie zonder eigen mening plaatsvindt.
+            - De student weet dat je dagelijks oefent om zo objectief mogelijk te observeren.
+            - De student weet dat een zorgverlener de juistheid van observaties moet verifiëren bij de zorgvrager zelf.  
+        </too_difficult>
+        <explanation>The text's language is simple, showing that it was written for a simple target audience. Therefore, don't use any words that they might find difficult to understand (like "plaatsvinden" and "verifiëren"). Also, don't use the third person ("een zorgverlener") when the text uses second person.</explanation>
+        <better>
+            - De student weet dat objectief observeren betekent dat je zonder je eigen mening observeert.
+            - De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren.  
+            - De student weet dat je aan de zorgvrager vraagt of jouw observatie klopt.
+        </better>
+        <explanation>Now they are stated mirroring the language of the text, without introducing new, potentially difficult words.</explanation>
+    </language_level_examples>
+</examples>
 
 ### Content Quality
 * **Falsifiable**: Must be unambiguously, demonstrably true or false
@@ -257,18 +278,21 @@ Before extracting learning objectives:
 * **Specific**: Express the smallest coherent, testable knowledge unit, instead of several things at once
 
 <examples>
-    <specificity_example>
+    <specificity_examples>
         <too_broad>- De student weet dat het hart uit vier holtes bestaat: twee boezems aan de bovenkant en twee kamers aan de onderkant.</too_broad>
         <explanation>Combines multiple knowledge elements that could be tested separately</explanation>
         <better>
-        - De student weet dat het hart uit vier holtes bestaat.
-        - De student weet dat het hart uit twee boezems en twee kamers bestaat.
-        - De student weet dat de boezems van het hart aan de bovenkant zitten.
-        - De student weet dat de kamers van het hart aan de onderkant zitten.
+            - De student weet dat het hart uit vier holtes bestaat.
+            - De student weet dat het hart uit twee boezems en twee kamers bestaat.
+            - De student weet dat de boezems van het hart aan de bovenkant zitten.
+            - De student weet dat de kamers van het hart aan de onderkant zitten.
         </better>
         <explanation>Focuses on each specific, testable knowledge element individually</explanation>
-    </specificity_example>
+    </specificity_examples>
 </examples>
+
+### Additional notes
+* 
 
 ### Language Precision
 * Avoid universal terms ("always", "never") unless 100% accurate, and there are in fact no exceptions
@@ -289,25 +313,45 @@ Before extracting learning objectives:
 
 
 """
-<examples_of_specificity>
-    <bad_example>
-        <content>
-            [sample too broad learning objective
-        </content>
-        <explanation>
-            not specific enough, can still be decomposed into smaller knowledge elements that are individually coherent and useful to know.
-        </explanation>
-    </bad_example>
-    
-    <good_example>
-        <content>
-            [sample nice and focused learning objective]
-        </content>
-        <explanation>
-            states the most distilled, isolated version of useful fact.
-        </explanation>
-    </good_example>
-</examples_of_specificity> 
+<examples>
+    <language_level_examples>
+        <text>
+            # Observeren Oefenen
+            Dagelijks oefen je om zo objectief (zonder je eigen mening) mogelijk te observeren. Dit betekent onder andere dat je aan een zorgvrager vraagt of het klopt wat je hebt geobserveerd.
+        </text>
+        <too_difficult>
+            - De student weet dat objectief observeren betekent dat de observatie zonder eigen mening plaatsvindt.
+            - De student weet dat je dagelijks oefent om zo objectief mogelijk te observeren.
+            - De student weet dat een zorgverlener de juistheid van observaties moet verifiëren bij de zorgvrager zelf.  
+        </too_difficult>
+        <explanation>The text's language is simple, showing that it was written for a simple target audience. Therefore, don't use any words that they might find difficult to understand (like "plaatsvinden" and "verifiëren"). Also, don't use the third person ("een zorgverlener") when the text uses second person.</explanation>
+        <better>
+            - De student weet dat objectief observeren betekent dat je zonder je eigen mening observeert.
+            - De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren.  
+            - De student weet dat je aan de zorgvrager vraagt of jouw observatie klopt.
+        </better>
+        <explanation>Now they are stated mirroring the language of the text, without introducing new, potentially difficult words.</explanation>
+    </language_level_examples>
+</examples>
+
+        
+            
+        <too_broad>- De student weet dat het hart uit vier holtes bestaat: twee boezems aan de bovenkant en twee kamers aan de onderkant.</too_broad>
+        <explanation>Combines multiple knowledge elements that could be tested separately</explanation>
+        <better>
+        - De student weet dat het hart uit vier holtes bestaat.
+        - De student weet dat het hart uit twee boezems en twee kamers bestaat.
+        - De student weet dat de boezems van het hart aan de bovenkant zitten.
+        - De student weet dat de kamers van het hart aan de onderkant zitten.
+        </better>
+        <explanation>Focuses on each specific, testable knowledge element individually</explanation>
+    </specificity_examples>
+</examples>
+"""
+
+"""
+< unnecessary > < / unnecessary >
+< explanation > < / explanation >
 """
 
 """
