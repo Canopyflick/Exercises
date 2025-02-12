@@ -82,7 +82,7 @@ Correct antwoord:
 ### 3
 
 # Learning objectives
-## 1 
+## 1 Specificity
 ### Text
 Het hart bestaat uit vier holtes: twee boezems aan de bovenkant en twee kamers aan de onderkant.
 ### Good LOs
@@ -91,3 +91,5 @@ Het hart bestaat uit vier holtes: twee boezems aan de bovenkant en twee kamers a
 - De student weet dat de boezems van het hart aan de bovenkant zitten.
 - De student weet dat het hart uit twee kamers bestaat.
 - De student weet dat de kamers van het hart aan de onderkant zitten.
+## 2 Require "Theorie"
+- De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten, moet onderzoeken waar het vandaan komt en het met collega’s moet bespreken.  
