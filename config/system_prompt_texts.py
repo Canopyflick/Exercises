@@ -279,12 +279,12 @@ Before extracting learning objectives:
 * **Specific**: Must express the smallest coherent, testable knowledge unit, instead of several things at once. For composite knowledge, like 
 
 <examples>
-    <self_contained_example>
+    <self-contained_example>
         <too_context_dependent>- De student weet dat als je dit gevoel krijgt, je hierop moet letten en moet onderzoeken waar het vandaan komt.</too_context_dependent>
         <explanation>From just reading the learning objective, it is not clear what 'dit' refers to</explanation>
         <better>- De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten en moet onderzoeken waar het vandaan komt.</better>
         <explanation>Now it includes the relevant part of the text such that it becomes self-contained, not referencing to parts outside of it</explanation>
-    </self_contained_example>
+    </self-contained_example>
     <specificity_examples>
         <too_broad>- De student weet dat het hart uit vier holtes bestaat: twee boezems aan de bovenkant en twee kamers aan de onderkant.</too_broad>
         <explanation>Combines multiple knowledge elements that could be tested separately</explanation>
@@ -302,6 +302,8 @@ Before extracting learning objectives:
 * If a term is explained in the text, and it's central to the topic, knowing what it means should also become a learning objective
 * If a term is explained in the text, also explain it briefly (between parentheses) in each learning objective that uses it 
 * If the text is so knowledge dense that it contains more than 16 potential learning objectives, cap them at around that number and eliminate the less important ones. For non-hierarchical learning objectives (all equally important), just trim randomly
+* Exclude examples, they are not important knowledge (unless they are critical to understanding the topic OR there would otherwise be less than 3 learning objectives)
+
 
 ### Language Precision
 * Avoid universal terms ("always", "never") unless 100% accurate, and there are in fact no exceptions
