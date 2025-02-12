@@ -24,7 +24,7 @@ def build_test_set_tab():
 
         search_field = gr.Textbox(label="Text Search 🚧", placeholder="Dummy placeholder element, doesn't work")
 
-        with open("test_samples.md", "r", encoding="utf-8") as file:
+        with open("test samples.md", "r", encoding="utf-8") as file:
             markdown_content = file.read()
 
         gr.Markdown(markdown_content)
