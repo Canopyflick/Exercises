@@ -1,7 +1,7 @@
 import gradio as gr
 
 def build_prompts_tab():
-    with gr.TabItem("🗒🚧️ See Prompts"):
+    with gr.TabItem("🗒🚧️ See Prompts", visible=False):
         gr.HTML(
             """
             <div style="margin-bottom: 10px;">

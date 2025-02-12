@@ -230,8 +230,106 @@ template_distractors_brainstorm_2_text = """
 template_consolidate_distractors_text = """ 
 """
 
-template_gen_prompt_a_text = """ 
+template_gen_prompt_a_text = """
+# Learning Objective Extraction Task
+
+Your task is to analyze a study text and extract high-quality learning objectives that will later serve as the basis for multiple-choice questions. Each learning objective must perfectly adhere to all specified requirements.
+
+## Analysis Approach
+Before extracting learning objectives:
+* Carefully analyze the text's language level and target audience
+* Note the terminology, voice (active/passive), and perspective (2nd/3rd person)
+* Pay attention to the complexity of vocabulary and sentence structures used
+
+## Core Requirements for Learning Objectives
+
+### Format and Language
+* Begin with "- The student knows that" (or equivalent in the text's language)
+* Mirror the source text's:
+  - Language level and vocabulary
+  - Terminology and jargon
+  - Voice (active/passive)
+  - Perspective (2nd/3rd person)
+
+### Content Quality
+* **Falsifiable**: Must be unambiguously, demonstrably true or false
+* **Factually Equivalent**: Represent exactly the knowledge as written
+* **Specific**: Express the smallest coherent, testable knowledge unit, instead of several things at once
+
+<examples>
+    <specificity_example>
+        <too_broad>- De student weet dat het hart uit vier holtes bestaat: twee boezems aan de bovenkant en twee kamers aan de onderkant.</too_broad>
+        <explanation>Combines multiple knowledge elements that could be tested separately</explanation>
+        <better>
+        - De student weet dat het hart uit vier holtes bestaat.
+        - De student weet dat het hart uit twee boezems en twee kamers bestaat.
+        - De student weet dat de boezems van het hart aan de bovenkant zitten.
+        - De student weet dat de kamers van het hart aan de onderkant zitten.
+        </better>
+        <explanation>Focuses on each specific, testable knowledge element individually</explanation>
+    </specificity_example>
+</examples>
+
+### Language Precision
+* Avoid universal terms ("always", "never") unless 100% accurate, and there are in fact no exceptions
+* Avoid vague modifiers ("can", "could", "might", "may"), because those make meaningless statements
+* Replace subjective terms ("often", "sometimes", "many", "few") with specific comparisons
+* Use "important" only when there is no other option to say something more meaningful ("X is important" doesn't say much)
+
+## Quality Assurance Process
+1. Extract all potential learning objectives
+2. For each objective, verify it meets ALL requirements
+3. Refine and potentially split objectives until each one is:
+   - Maximally specific
+   - Perfectly aligned with source text, mirroring difficulty level and terminology
+   - Completely falsifiable
+   - Properly phrased
+4. Return final list in the same language as the source text
 """
+
+
+"""
+<examples_of_specificity>
+    <bad_example>
+        <content>
+            [sample too broad learning objective
+        </content>
+        <explanation>
+            not specific enough, can still be decomposed into smaller knowledge elements that are individually coherent and useful to know.
+        </explanation>
+    </bad_example>
+    
+    <good_example>
+        <content>
+            [sample nice and focused learning objective]
+        </content>
+        <explanation>
+            states the most distilled, isolated version of useful fact.
+        </explanation>
+    </good_example>
+</examples_of_specificity> 
+"""
+
+"""
+<examples_of_>
+    <bad_example>
+        <content>
+            content
+        </content>
+        <explanation>
+            explanation
+        </explanation>
+    </bad_example>
+    
+    <good_example>
+
+            <explanation>
+            
+            </explanation>
+    </good_example>
+</examples_of_> 
+"""
+
 
 template_gen_prompt_b_text = """ 
 """

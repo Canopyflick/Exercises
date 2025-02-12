@@ -175,41 +175,7 @@ template_consolidate_distractors  = ChatPromptTemplate(
 
 template_gen_prompt_a = ChatPromptTemplate(
     messages=[
-        ("system", """
-        You are given a study text that is part of an e-learning and an accompanying list of learning objectives based on the text. Your goal is to refine the learning objectives, such that they adhere to the requirements as closely as possible. These learning objectives will later serve as the basis for multiple-choice exercises, and for this purpose it is crucial that they live up to the requirements in every way.
-
-        # General approach
-        - First intensely study and really internalize the requirements for good learning objectives (listed below).
-        - Then, rewrite and improve the learning objectives to better fall in line with the requirements. 
-        
-        # Requirements for individual learning objectives
-        Good learning objectives:
-        - Start with 'The student knows that', or whatever semantic equivalent matching the language of the study text (eg. for Dutch texts, use 'De student weet dat')  
-        - Are unambiguous, and contain what later will become the specific correct answer for any multiple choice exercises that would test the learning objective 
-        - Represent exactly the knowledge as written in the study text 
-        - Use exactly the same terminology that's used in the study text 
-        - Mirror also the general language level of the study text. If the text is written with very simple words, then the learning objectives should be also written in very simple words
-        - Mirror also the voice of the text (passive or active voice) and the perspective of the text (second or third person)
-        - Are as **specific** as can be: they contain the smallest possible knowledge element. A learning objective does not combine multiple facts, but rather isolates individual facts
-        <illustration of 'specific'>
-    <bad example: not specific enough>
-    
-    </bad example: not specific enough>
-    <good example: states isolated fact>
-    
-    </good example: states isolated fact>
-</illustration of 'specific'> 
-        - Avoid absolute terms that overstate their universality, like 'always' and 'never', unless that actually is true 100% of the time (usually there are exceptions to every rule, so account for those in your phrasing)
-        - Alternatively avoid vague terms that make what they wanna say too meaningless, like 'can', 'could', 'might' and 'may' (many things 'can', 'could' or 'might be', this doesn't say much)
-        - Also avoid subjective terms like 'often', 'sometimes', 'many', 'few', 'common', 'rare'. Instead, make more specific and falsifiable claims like 'in most cases' or 'A is more common than B'
-        - Avoid the use of 'important', again a signal word indicating subjectivity. Only use 'important' in statements that you cannot rephrase, yet are actually indisputable ánd meaningful to know when phrased in this way
-        
-        # Process
-        - For each learning objective, go over all of the requirements, like methodically checking off a checklist.
-        - For any aspect of any learning objective that upon reflection doesn't adhere to the requirements as well as it could, carry out a rewrite (or split up one learning objective into two, for example) of the learning objective.
-        - Iteratively keep doing this for each of the individual learning objectives again and again, until you are certain that they are the best versions they can be: each entirely and maximally satisfying the requirements for good learning objectives. 
-        - Take as much time as you need to get it perfect, then return the list of final learning objectives (for this, use the same language as the study text).
-        """),
+        ("system", template_gen_prompt_a_text),
         ("human", "{standardized_text}")
     ],
     input_variables=["standardized_text"]
@@ -318,14 +284,15 @@ template_gen_prompt_b = ChatPromptTemplate(
 
 template_sanitize_learning_objectives = ChatPromptTemplate(
     messages=[
-        ("system", "You are given an output of a brainstorming session that lead to the generation of learning objectives. Your task is to "
-                   "turn this output into a neat clean list of just the learning objectives, nothing else. Do not translate or otherwise edit the learning objectives, just relay them as a list.\n"
+        ("system", "You are given the result of a brainstorming session that lead to the generation of learning objectives. Your task is to "
+                   "turn this result into a neat clean prose list of just the learning objectives, nothing else. Do not translate or otherwise edit the learning objectives, just relay them as a list without explicit formatting: merely every learning objective on its own line, without newline separation.\n\n"
+                   "Here's an example of what good output could look like:\n"
                    "<example of a perfect list>\n"
                    "De student weet dat de neus een zintuig is.\n"
                    "De student weet dat de tong een zintuig is.\n"
                    "De student weet dat de huid een zintuig is.\n"
-                   "</example of a perfect list>"),
-        ("human", "Here is the output:\n "
+                   "</example of a perfect list>\n"),
+        ("human", "Here is the brainstorming result:\n "
                   "{raw_output}")
     ],
     input_variables=["raw_output"]
