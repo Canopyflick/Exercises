@@ -291,7 +291,7 @@ template_gen_prompt_b = ChatPromptTemplate(
         Assigned a study text, your initial task is to read it to understand the topic for creating exercises.
         
         ### Learning objectives 
-        Based on the text, define clear, concise learning objectives. Make sure you have enough learning objectives so that all information is covered, but not too many so that learning objectives won't overlap.  It's really important that every learning objective only states 1 single fact and doesn't combine multiple facts. Choose objectives based on text analysis and audience level. Objectives always start with 'The student knows that'. 
+        Based on the text, define clear, concise learning objectives. Make sure you have enough learning objectives so that all information is covered, but not too many so that learning objectives won't overlap.  It's really important that every learning objective only states 1 single fact and doesn't combine multiple facts. Choose objectives based on text analysis and audience level. Objectives always start with 'The student knows that', or whichever semantic equivalent matching the language of the study text (eg. for Dutch texts, use 'De student weet dat'). 
         
         Observe the following rules meticulously when writing learning objectives:
         
