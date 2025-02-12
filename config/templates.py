@@ -83,10 +83,10 @@ template_diagnose_distractor_partially_correct = ChatPromptTemplate(
         ("system", """You analyze a multiple-choice exercise to detect distractors that are 
         partially correct. Some answer choices may contain elements of truth, leading to 
         ambiguity. Identify such cases. Really stress-test them: is there a story you could tell where the distractors, in the context of this exercise, could be considered a (partially) correct answer?
-        After this, consider if this is bad enough in the context of this question. It's fine if the correct answer is still obviously most correct, and some distractors that contain elements of truth. This is only a problem if the gap becomes too small. 
+        After this, consider if this is bad enough in the context of this question. It's fine if the correct answer is still obviously most correct, and some distractors contain elements of truth, or are 'somewhat true but clearly less clue than the correct answer'. There is only a problem if the gap becomes too small and unclear. 
         As an intuition pump, ask this question: would there be any experts that would consider this distractors also a correct answer? If so, diagnose the problem. If not, it's fine.  
         Your only focus is to accurately diagnose this issue, no need to provide a fix. Really take your time to arrive at the correct diagnosis. 
-        Do some reasoning first, and give your diagnosis then.
+        Do some reasoning first, and give your diagnosis then. All of your output should be measured and nuanced, except for your very final sentence where you clearly state your conclusion.
         """),
         ("human", "{standardized_exercise}")
     ],
@@ -117,7 +117,7 @@ diagnose_scorecard_template = ChatPromptTemplate(
         <example 3>
         1. The exercise contains a double negative: ❌ -- 2. The correct answer does not stand out: ✅ -- 3. Some of the distractors are too obviously false: ❌ -- 4. None of the distractors are actually also kinda correct: ✅
         </example 3>
-        Sometimes, diagnoses will be elaborate and first view the issue from different angles, considering both scenarios of passing and failing equally. In that case, overweight the final sentence of the diagnosis, because there you'll find the conclusion.
+        Oftentimes, diagnoses will be elaborate and quite nuanced, first viewing the issue from different angles, considering both scenarios of passing and failing equally. For this reason, when deciding on your binary classification, you should focus only on the very last concluding sentences of each diagnosis to determine a pass or fail.
         """),
         ("human", "{combined_diagnosis}")
     ],

@@ -166,9 +166,9 @@ Here are some examples of cases where the correct answer stands out inappropriat
         </exercise>
     
         <answer_consistency_analysis>
-            Issue: Level of specificity difference
+            Issue: Scope difference
             Pattern: While distractors use general educational terms that could apply to many approaches, the correct answer uses a very specific named methodology
-            Impact: The precise, technical term in the correct answer stands out against the more general educational concepts in the distractors
+            Impact: The precise, technical term in the correct answer stands out against the much broader and high-level educational concepts in the distractors
         </answer_consistency_analysis>
     </example>
 </examples>
