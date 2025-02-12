@@ -1,6 +1,4 @@
 import gradio as gr
-from chains.learning_objectives_generator.runner import run_learning_objectives_generator
-from config.llm_config import llms
 
 def build_prompts_tab():
     with gr.TabItem("🗒🚧️ See Prompts"):

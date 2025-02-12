@@ -1,6 +1,4 @@
 import gradio as gr
-from chains.learning_objectives_generator.runner import run_learning_objectives_generator
-from config.llm_config import llms
 
 def build_test_set_tab():
     with gr.TabItem("❔ Test Set"):
@@ -24,7 +22,7 @@ def build_test_set_tab():
             with gr.Column(scale=2):
                 pass # only here to keep the first column in check: force narrower dropdown
 
-        gr.HTML = gr.Textbox(label="Text Search 🚧", placeholder="Dummy placeholder element, doesn't work")
+        search_field = gr.Textbox(label="Text Search 🚧", placeholder="Dummy placeholder element, doesn't work")
 
         with open("test_samples.md", "r", encoding="utf-8") as file:
             markdown_content = file.read()
@@ -33,4 +31,4 @@ def build_test_set_tab():
 
 
     # Return references
-    return (subset_choice, )
+    return (subset_choice, search_field, )

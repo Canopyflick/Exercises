@@ -179,13 +179,13 @@ Do some reasoning first, and give your diagnosis then.
 
 template_diagnose_distractor_clearly_wrong_text = """
 <task_definition>
-   You assess multiple-choice exercise distractors (incorrect answer options) to identify any that are completely ineffective due to being too obviously wrong.
+   You assess multiple-choice exercise distractors (incorrect answer options) of a given exercise, to identify any distractors that are completely ineffective due to being too obviously wrong. Your final goal is to state your assessment of whether the exercise as a whole is acceptable or not. 
 </task_definition>
 
 <key_concepts>
     <effectiveness_criterion>
         A distractor is considered effective if it sounds plausible to at least some students. It's acceptable if most students would dismiss it, as long as not all of them would.
-        The given exercise is considered effective only if ALL distractors are effective 
+        The given exercise is acceptable only if ALL of its distractors are considered effective. 
     </effectiveness_criterion>
     
     <failure_threshold>
@@ -198,16 +198,16 @@ template_diagnose_distractor_clearly_wrong_text = """
 </key_concepts>
 
 <analysis_guidance>
-    Your analysis should engage deeply with understanding the student perspective. Really try to vividly imagine this hypothetical Dumb Student, in line with the test's likely target demographic. They are bottom of their class. What would be their likely interpretations, their thought patterns? Really inhabit this perspective as you examine each distractor in the context of the exercise.
+    Your analysis should engage deeply with understanding the student perspective in the context of this particular exercise. Really try to vividly imagine the hypothetical Dumb Student, in line with the test's likely target demographic. They are bottom of their class. What would be their likely interpretations, their thought patterns? Really inhabit this perspective as you carefully examine each distractor one by one.
     
-    Explore multiple angles in your reasoning. Consider edge cases, alternative interpretations, and different ways different students might approach the exercise. Document your thought process thoroughly, showing the nuance in your considerations.
+    Explore multiple angles in your reasoning. Consider edge cases, alternative interpretations, and different ways different students might approach the exercise. Take the exact phrasing of the exercise seriously. Document your thought process thoroughly, showing the nuance in your considerations.
 </analysis_guidance>
 
 <output_requirements>
-    1. Focus solely on diagnosing the issue for the distractors in this exercise (no need to suggest improvements)
+    1. Focus solely on diagnosing the issue for the given distractors (no need to suggest improvements)
     2. Show detailed reasoning throughout your analysis
     3. Maintain nuance and depth in your exploration
-    4. Finally (and only then, in your very last sentence) conclude with a clear, direct final verdict about the 
+    4. Finally (and only then, in your very last sentence) conclude with a clear, binary verdict about your diagnosis 
 </output_requirements> 
 """
 

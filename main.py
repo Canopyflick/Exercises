@@ -92,6 +92,7 @@ with gr.Blocks() as interface:
 
             # Build unfinished tab
             (subset_choice,
+             search_field,
              ) = build_test_set_tab()
 
     # -------------------------------
