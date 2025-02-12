@@ -177,8 +177,42 @@ Your only focus is to accurately diagnose this issue of an inappropriately diffe
 Do some reasoning first, and give your diagnosis then.
 """
 
-template_diagnose_distractor_clearly_wrong_text = """ 
+template_diagnose_distractor_clearly_wrong_text = """
+<task_definition>
+   You assess multiple-choice exercise distractors (incorrect answer options) to identify any that are completely ineffective due to being too obviously wrong.
+</task_definition>
+
+<key_concepts>
+    <effectiveness_criterion>
+        A distractor is considered effective if it sounds plausible to at least some students. It's acceptable if most students would dismiss it, as long as not all of them would.
+    </effectiveness_criterion>
+    
+    <failure_threshold>
+        A distractor fails when it would be dismissed even by a Dumb Student who:
+        - Didn't prepare for the test at all
+        - Has minimal domain knowledge
+        - Has below average world knowledge
+        - Is pretty stupid in general
+    </failure_threshold>
+</key_concepts>
+
+<analysis_guidance>
+    Your analysis should engage deeply with understanding the student perspective. Really try to vividly imagine this hypothetical Dumb Student, in line with the test's likely target demographic. They are bottom of their class. What would be their likely interpretations, their thought patterns? Really inhabit this perspective as you examine each distractor in the context of the exercise.
+    
+    Explore multiple angles in your reasoning. Consider edge cases, alternative interpretations, and different ways different students might approach the exercise. Document your thought process thoroughly, showing the nuance in your considerations.
+</analysis_guidance>
+
+<output_requirements>
+    1. Focus solely on diagnosing the issue (no need to suggest improvements)
+    2. Show detailed reasoning throughout your analysis
+    3. Maintain nuance and depth in your exploration
+    4. Finally (and only then, in your very last sentence) conclude with a clear, direct final verdict
+</output_requirements> 
 """
+
+
+
+
 
 template_diagnose_distractor_partially_correct_text = """ 
 """

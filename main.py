@@ -4,6 +4,8 @@ import logging
 from app.ui.diagnoser_tab import build_diagnoser_tab
 from app.ui.distractors_tab import build_distractors_tab
 from app.ui.learning_objectives_tab import build_learning_objectives_tab
+from app.ui.prompts_tab import build_prompts_tab
+from app.ui.test_set_tab import build_test_set_tab
 from chains.diagnoser.runner import run_diagnoser
 from chains.distractors.runner import run_distractors
 from chains.learning_objectives_generator.runner import run_learning_objectives_generator
@@ -83,6 +85,14 @@ with gr.Blocks() as interface:
             learning_objectives_button,
             [box_0, box_1, box_2, box_3]
              ) = build_learning_objectives_tab()
+
+            # Build unfinished tab
+            (pipeline_choice,
+             ) = build_prompts_tab()
+
+            # Build unfinished tab
+            (subset_choice,
+             ) = build_test_set_tab()
 
     # -------------------------------
     # Set Up Interactions
