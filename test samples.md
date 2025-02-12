@@ -71,8 +71,6 @@ De bovenste holle ader (*Vena Cava Superior*) komt niet uit in de rechterboezem.
 Correct antwoord:
 2. Deze stelling is niet correct.
 
-
-
 ### 3
 
 ---
@@ -80,6 +78,9 @@ Correct antwoord:
 ### 1
 ### 2
 ### 3
+
+
+
 
 # Learning objectives
 ## 1 Specificity
@@ -92,4 +93,13 @@ Het hart bestaat uit vier holtes: twee boezems aan de bovenkant en twee kamers a
 - De student weet dat het hart uit twee kamers bestaat.
 - De student weet dat de kamers van het hart aan de onderkant zitten.
 ## 2 Require "Theorie"
-- De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten, moet onderzoeken waar het vandaan komt en het met collega’s moet bespreken.  
+- De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten, moet onderzoeken waar het vandaan komt en het met collega’s moet bespreken.
+## 3 Must be tested approximately (not with 1 year precision)
+- De student weet dat de Wet Bopz sinds 1994 in gebruik was.
+
+
+
+# Studytexts
+## Very simple and vague
+- 114167
+## Pretty complex and long
