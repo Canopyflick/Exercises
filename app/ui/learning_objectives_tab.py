@@ -18,7 +18,7 @@ def build_learning_objectives_tab():
             # 2 dropdowns for the user-chosen LLMs:
             model_choice_1 = gr.Dropdown(
                 choices=list(llms.keys()),
-                value="o1",
+                value="o1 (high reasoning_effort)",
                 label="LLM 1"
             )
             model_choice_2 = gr.Dropdown(
