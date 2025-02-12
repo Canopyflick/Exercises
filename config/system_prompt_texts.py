@@ -273,10 +273,10 @@ Before extracting learning objectives:
 </examples>
 
 ### Content Quality
-* **Self-contained**: Must be understandable without relying on any outside context
-* **Falsifiable**: Must be unambiguously, demonstrably true or false
+* **Self-contained**: Must be understandable without relying on any outside context, like 'previous' learning objectives (they will in fact be presented to the student non-chronologically, so cannot build on each other) 
+* **Falsifiable**: Must be unambiguously, demonstrably true or false 
 * **Factually Equivalent**: Must represent exactly the knowledge as written
-* **Specific**: Must express the smallest coherent, testable knowledge unit, instead of several things at once
+* **Specific**: Must express the smallest coherent, testable knowledge unit, instead of several things at once. For composite knowledge, like 
 
 <examples>
     <self_contained_example>
@@ -299,7 +299,9 @@ Before extracting learning objectives:
 </examples>
 
 ### Additional notes
-* 
+* If a term is explained in the text, and it's central to the topic, knowing what it means should also become a learning objective
+* If a term is explained in the text, also explain it briefly (between parentheses) in each learning objective that uses it 
+* If the text is so knowledge dense that it contains more than 16 potential learning objectives, cap them at around that number and eliminate the less important ones. For non-hierarchical learning objectives (all equally important), just trim randomly
 
 ### Language Precision
 * Avoid universal terms ("always", "never") unless 100% accurate, and there are in fact no exceptions
@@ -308,7 +310,7 @@ Before extracting learning objectives:
 * Use "important" only when there is no other option to say something more meaningful ("X is important" doesn't say much)
 
 ## Quality Assurance Process
-1. Extract all potential learning objectives
+1. Extract all potential learning objectives (up to ~16 max)
 2. For each objective, verify it meets ALL requirements
 3. Refine and potentially split objectives until each one is:
    - Maximally specific
@@ -337,7 +339,7 @@ Before extracting learning objectives:
             - De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren.  
             - De student weet dat je aan de zorgvrager vraagt of jouw observatie klopt.
         </better>
-        <explanation>Now they are stated mirroring the language of the text, without introducing new, potentially difficult words.</explanation>
+        <explanation>Now they are stated mirroring the language of the text, without introducing new, potentially difficult words. Words that are explained in the text, need to be explained in each learning objective that reuses it between parentheses as well.</explanation>
     </language_level_examples>
 </examples>
 

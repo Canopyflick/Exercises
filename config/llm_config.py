@@ -44,7 +44,8 @@ llms = {
     "GPT-4 Turbo (low temp)": create_openai_llm("gpt-4-turbo-2024-04-09", LOW),
 
     # OpenAI reasoning models (no temperature)
-    "o1": create_openai_reasoning_llm("o1-2024-12-17", reasoning_effort="high"),
+    "o1 (low reasoning_effort)": create_openai_reasoning_llm("o1-2024-12-17", reasoning_effort="low"),
+    "o1 (high reasoning_effort)": create_openai_reasoning_llm("o1-2024-12-17", reasoning_effort="high"),
     "o3-mini (low reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="low"),
     "o3-mini (medium reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="medium"),
     "o3-mini (high reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="high"),

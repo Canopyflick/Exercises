@@ -92,10 +92,13 @@ Het hart bestaat uit vier holtes: twee boezems aan de bovenkant en twee kamers a
 - De student weet dat de boezems van het hart aan de bovenkant zitten.
 - De student weet dat het hart uit twee kamers bestaat.
 - De student weet dat de kamers van het hart aan de onderkant zitten.
-## 2 Require "Theorie"
+## Require "Theorie"
 - De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten, moet onderzoeken waar het vandaan komt en het met collega’s moet bespreken.
-## 3 Must be tested approximately (not with 1 year precision)
+- De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren.
+## Must be tested approximately (not with 1 year precision)
 - De student weet dat de Wet Bopz sinds 1994 in gebruik was.
+## Require Extra info (explanation)
+- De student weet dat de Wet Bopz de rechten en plichten van onvrijwillig opgenomen zorgvragers regelde, zoals het behandelplan, verlof en juridische bijstand.
 
 
 
