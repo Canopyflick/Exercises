@@ -47,25 +47,25 @@ class DistractorsChain(BaseModel):
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_1,
             self.llm_brainstorm_1,
-            "T1-1"
+            "T1-L1"
         ))
         # Template 1, LLM 2
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_1,
             self.llm_brainstorm_2,
-            "T1-2"
+            "T1-L2"
         ))
         # Template 2, LLM 1
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_2,
             self.llm_brainstorm_1,
-            "T2-1"
+            "T2-L1"
         ))
         # Template 2, LLM 2
         tasks.append(run_brainstorm(
             self.template_distractors_brainstorm_2,
             self.llm_brainstorm_2,
-            "T2-2"
+            "T2-L2"
         ))
 
         # Kick them off concurrently

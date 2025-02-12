@@ -1,5 +1,22 @@
 # config/templates.py
 from langchain_core.prompts.chat import ChatPromptTemplate
+# config/templates.py
+from config.system_prompt_texts import (
+    template_standardize_exercise_text,
+    template_standardize_studytext_text,
+    template_diagnose_double_negation_text,
+    template_diagnose_correct_answer_stands_out_text,
+    template_diagnose_distractor_clearly_wrong_text,
+    template_diagnose_distractor_partially_correct_text,
+    diagnose_scorecard_template_text,
+    template_distractors_brainstorm_1_text,
+    template_distractors_brainstorm_2_text,
+    template_consolidate_distractors_text,
+    template_gen_prompt_a_text,
+    template_gen_prompt_b_text,
+    template_sanitize_learning_objectives_text,
+)
+
 
 template_standardize_exercise = ChatPromptTemplate(
     messages=[
@@ -28,46 +45,7 @@ template_standardize_studytext = ChatPromptTemplate(
 
 template_diagnose_double_negation = ChatPromptTemplate(
     messages=[
-        ("system", """Analyze a multiple-choice exercise for the presence of double negatives: either two negations in the question/statement itself, or a negation in the question/statement AND in an answer option. 
-        Here are some examples of double negatives:
-        
-        <example 1>
-        <exercise>
-        Stelling  
-        Expertfolio wordt niet aangeboden door ENI.  
-        
-        Keuzeopties:  
-        1. Deze stelling is niet correct  
-        2. Deze stelling is correct  
-        
-        Correct antwoord:  
-        1. Deze stelling is niet correct
-        </exercise>
-        <double negative explanation>
-        The statement itself contains one negation (wordt 'niet' aangeboden), and one answer option contains another (is 'niet' correct). Interpreted together, this forms a statement with a double negation ('het is niet correct dat Expertfolio niet wordt aangeboden' is een dubbele ontkenning).
-        </double negative explanation>
-        </example 1>
-        
-        <example 2>
-        <exercise>
-        Vraag
-        Welk aspect hoort niet bij eenzaamheid?
-        
-        Keuzeopties:  
-        1. Betekenisvolle relaties hebben
-        2. Depressiviteit en angst
-        3. Veel alleen zijn
-        4. Geen lijfelijk contact hebben
-        
-        Correct antwoord:
-        1. Betekenisvolle relaties hebben
-        </exercise>
-        <double negative explanation>
-        The question itself contains one negation  (hoort 'niet' bij), and an answer option contains the second ('Geen' lijfelijk contact). Together, the resulting statement contains a double negation ('Geen lichamelijk contact hebben hoort niet bij eenzaamheid'). 
-        </double negative explanation>
-        </example 2>. 
-        If it's obvious that there is or isn't a double negative in this exercise, just give a short one-sentence diagnosis on this. 
-        If the issue is more nuanced, take more time to do some reasoning first, and give your diagnosis only after."""),
+        ("system", template_diagnose_double_negation_text),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -75,53 +53,7 @@ template_diagnose_double_negation = ChatPromptTemplate(
 
 template_diagnose_correct_answer_stands_out = ChatPromptTemplate(
     messages=[
-        ("system", """You evaluate a multiple-choice exercise to determine if the correct answer 
-        stands out too much compared to the distractors. If the correct answer is significantly 
-        longer, more detailed, or structurally or grammatically different, this is undesirable. Identify such 
-        cases. 
-        Here are some examples of cases where the correct answer stands out:
-        
-        <example where the correct answer is much longer>
-        <exercise>
-        Theorie:  
-        De volgende afbeelding komt uit een onderzoek over eenzaamheid dat in 2012 is uitgevoerd.  
-        
-        Vraag:  
-        Bij welke groep komt eenzaamheid volgens dit onderzoek het vaakst voor?  
-        
-        1. Gehandicapten  
-        2. Mantelzorgers  
-        3. Mensen met langdurige psychische aandoeningen  
-        4. Sporters  
-        
-        Correct antwoord:  
-        3. Mensen met langdurige psychische aandoeningen.
-        </exercise>
-        <explanation how the correct answer stands out>
-        Alle afleiders zijn 1 woord (kort), terwijl het correcte antwoord een zin is (duidelijk langer).
-        </explanation how the correct answer stands out>
-        </example where X>
-        
-        <example where the correct answer is grammatically different>
-        <exercise>
-        Vraag: Wat is alimentatie?
-
-        1. Geld dat betaald moet worden na een scheiding 
-        2. Een lening van de overheid  
-        3. Een maandelijkse bijdrage aan liefdadigheid  
-        4. Een belastingteruggave  
-        
-        Correct antwoord:  
-        1. Geld dat betaald moet worden na een scheiding of als men niet meer samen is met de andere ouder van de kinderen.
-
-        </exercise>
-        <explanation how the correct answer stands out>
-        Alle afleiders beginnen met "Een", maar het correcte antwoord begint anders.
-        </explanation how the correct answer stands out>
-        </example where the correct answer is grammatically different>
-        
-        Your only focus is to accurately diagnose this issue, no need to provide a fix. Really take your time to arrive at the correct diagnosis. 
-        Do some reasoning first, and give your diagnosis then."""),
+        ("system", template_diagnose_correct_answer_stands_out_text),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise"]
@@ -222,7 +154,7 @@ template_distractors_brainstorm_2 = ChatPromptTemplate(
                    "Those are the two bounds of the spectrum range we aim to operate between during brainstorming.\n"
                    "So, through the above process of picking some júst faulty distractors in the context of the given question, both barely too correct and barely too obviously false, you establish the two bounds of acceptable distractors. When brainstorming, don't play it entirely safe though; when in doubt about where exactly on the spectrum the distractors would lie, just list the distractors you came up with anyway.\n\n"
                    "Next, in the brainstorming phase, it's most important that you get really creative and really try to think outside the box, to come up with the required potential alternative answer options to the exercise. We want to approach this task from all different angles, "
-                   "to arrive at a varied selection of options, to serve as inspiration for a later stage of final selection (not now) to make the exercise the best it can be. For now, carry out the above-described prep in writing, then draft the list of{intermediate_distractors_specification} alternative distractors (in the same language as the existing exercise)."),
+                   "to arrive at a varied selection of options, to serve as inspiration for a later stage of final selection (not now) to make the exercise the best it can be. For now, carry out the above-described prep in writing, then draft the list of{intermediate_distractors_specification}alternative distractors (in the same language as the existing exercise)."),
         ("human", "{standardized_exercise}")
     ],
     input_variables=["standardized_exercise", "intermediate_distractors_specification"]
@@ -262,7 +194,15 @@ template_gen_prompt_a = ChatPromptTemplate(
         - Use exactly the same terminology that's used in the study text 
         - Mirror also the general language level of the study text. If the text is written with very simple words, then the learning objectives should be also written in very simple words
         - Mirror also the voice of the text (passive or active voice) and the perspective of the text (second or third person)
-        - Are as concise as can be: they contain the smallest possible knowledge element. A learning objective does not combine multiple facts, but rather isolates individual facts
+        - Are as **specific** as can be: they contain the smallest possible knowledge element. A learning objective does not combine multiple facts, but rather isolates individual facts
+        <illustration of 'specific'>
+    <bad example: not specific enough>
+    
+    </bad example: not specific enough>
+    <good example: states isolated fact>
+    
+    </good example: states isolated fact>
+</illustration of 'specific'> 
         - Avoid absolute terms that overstate their universality, like 'always' and 'never', unless that actually is true 100% of the time (usually there are exceptions to every rule, so account for those in your phrasing)
         - Alternatively avoid vague terms that make what they wanna say too meaningless, like 'can', 'could', 'might' and 'may' (many things 'can', 'could' or 'might be', this doesn't say much)
         - Also avoid subjective terms like 'often', 'sometimes', 'many', 'few', 'common', 'rare'. Instead, make more specific and falsifiable claims like 'in most cases' or 'A is more common than B'
@@ -278,6 +218,17 @@ template_gen_prompt_a = ChatPromptTemplate(
     ],
     input_variables=["standardized_text"]
 )
+
+"""
+<illustration of 'specific'>
+    <bad example: not specific enough>
+    
+    </bad example: not specific enough>
+    <good example: states isolated fact>
+    
+    </good example: states isolated fact>
+</illustration of 'specific'> 
+"""
 
 template_gen_prompt_b = ChatPromptTemplate(
     messages=[
@@ -372,11 +323,11 @@ template_gen_prompt_b = ChatPromptTemplate(
 template_sanitize_learning_objectives = ChatPromptTemplate(
     messages=[
         ("system", "You are given an output of a brainstorming session that lead to the generation of learning objectives. Your task is to "
-                   "turn this output into a neat numbered list of just the learning objectives, nothing else. Do not translate or otherwise edit the learning objectives, just relay them as a list.\n"
+                   "turn this output into a neat clean list of just the learning objectives, nothing else. Do not translate or otherwise edit the learning objectives, just relay them as a list.\n"
                    "<example of a perfect list>\n"
-                   "1. De student weet dat de neus een zintuig is.\n"
-                   "2. De student weet dat de tong een zintuig is.\n"
-                   "3. De student weet dat de huid een zintuig is.\n"
+                   "De student weet dat de neus een zintuig is.\n"
+                   "De student weet dat de tong een zintuig is.\n"
+                   "De student weet dat de huid een zintuig is.\n"
                    "</example of a perfect list>"),
         ("human", "Here is the output:\n "
                   "{raw_output}")

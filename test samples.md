@@ -1,4 +1,4 @@
-# Exercises 
+# Exercises Test Set (don't contaminate prompts)
 ## False positives
 ### 1
 Theorie:
@@ -34,7 +34,7 @@ Correct antwoord:
 ### 3
 
 ---
-## Double negative
+## Clear double negative
 ### 1
 Stelling:
 Voor een volledig overzicht van organisaties die ondersteuning bieden bij eenzaamheid kun je beter niet terecht bij het WMO-loket.
@@ -46,7 +46,21 @@ Correct antwoord:
 2. Deze stelling is niet correct.
 
 
+## Clear jumping out answer (specificity pattern)
+### 1
+<prompt>
+<type>Vraag</type>
+<text>Hoe heet de natuurkundige wet die magnetisch gedrag van paramagnetische materialen beschrijft?</text>
+</prompt>
 
+<options>
+1. Wet van verandering
+2. Wet van magnetisme
+3. Wet van Curie-Weiss
+4. Wet van faseovergangen
+</options>
+
+<correct_answer>3</correct_answer>
 ### 2
 Stelling:
 De bovenste holle ader (*Vena Cava Superior*) komt niet uit in de rechterboezem.
