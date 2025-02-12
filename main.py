@@ -88,11 +88,12 @@ with gr.Blocks() as interface:
 
             # Build unfinished tab
             (pipeline_choice,
+             search_field_prompts,
              ) = build_prompts_tab()
 
             # Build unfinished tab
             (subset_choice,
-             search_field,
+             search_field_test_set,
              ) = build_test_set_tab()
 
     # -------------------------------
