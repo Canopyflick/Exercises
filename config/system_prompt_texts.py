@@ -185,7 +185,7 @@ template_diagnose_distractor_clearly_wrong_text = """
 <key_concepts>
     <effectiveness_criterion>
         A distractor is considered effective if it sounds plausible to at least some students. It's acceptable if most students would dismiss it, as long as not all of them would.
-        The given exercise is acceptable only if ALL of its distractors are considered effective. 
+        The given exercise is acceptable only if ALL of its distractors are considered effective . 
     </effectiveness_criterion>
     
     <failure_threshold>

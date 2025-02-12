@@ -22,8 +22,7 @@ def build_prompts_tab():
             with gr.Column(scale=2):
                 pass # only here to keep the first column in check: force narrower dropdown
 
-        gr.HTML = gr.Textbox(label="Text Search 🚧", placeholder="Dummy placeholder, doesn't work (yet?)")
-
+        search_field = gr.Textbox(label="Text Search 🚧", placeholder="Dummy placeholder element, doesn't work")
 
     # Return references
-    return (pipeline_choice, )
+    return (pipeline_choice, search_field, )

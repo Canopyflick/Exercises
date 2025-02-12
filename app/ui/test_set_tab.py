@@ -27,7 +27,7 @@ def build_test_set_tab():
         with open("test_samples.md", "r", encoding="utf-8") as file:
             markdown_content = file.read()
 
-            gr.Markdown(markdown_content)
+        gr.Markdown(markdown_content)
 
 
     # Return references
