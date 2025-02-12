@@ -185,6 +185,7 @@ template_diagnose_distractor_clearly_wrong_text = """
 <key_concepts>
     <effectiveness_criterion>
         A distractor is considered effective if it sounds plausible to at least some students. It's acceptable if most students would dismiss it, as long as not all of them would.
+        The given exercise is considered effective only if ALL distractors are effective 
     </effectiveness_criterion>
     
     <failure_threshold>
@@ -203,10 +204,10 @@ template_diagnose_distractor_clearly_wrong_text = """
 </analysis_guidance>
 
 <output_requirements>
-    1. Focus solely on diagnosing the issue (no need to suggest improvements)
+    1. Focus solely on diagnosing the issue for the distractors in this exercise (no need to suggest improvements)
     2. Show detailed reasoning throughout your analysis
     3. Maintain nuance and depth in your exploration
-    4. Finally (and only then, in your very last sentence) conclude with a clear, direct final verdict
+    4. Finally (and only then, in your very last sentence) conclude with a clear, direct final verdict about the 
 </output_requirements> 
 """
 

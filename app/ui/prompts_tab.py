@@ -28,4 +28,4 @@ def build_prompts_tab():
 
 
     # Return references
-    return (pipeline_choice)
+    return (pipeline_choice, )

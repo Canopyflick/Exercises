@@ -33,4 +33,4 @@ def build_test_set_tab():
 
 
     # Return references
-    return (subset_choice)
+    return (subset_choice, )
