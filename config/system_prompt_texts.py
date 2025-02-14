@@ -276,25 +276,34 @@ Before extracting learning objectives:
 * **Self-contained**: Must be understandable without relying on any outside context, like 'previous' learning objectives (they will in fact be presented to the student non-chronologically, so cannot build on each other) 
 * **Falsifiable**: Must be unambiguously, demonstrably true or false 
 * **Factually Equivalent**: Must represent exactly the knowledge as written
-* **Specific**: Must express the smallest coherent, testable knowledge unit, instead of several things at once. For composite knowledge, like 
+* **Specific**: Must express the smallest testable knowledge unit, instead of combining several at once. For knowledge that consists of parts, just focus on each part one by one (one learning objective focused on each), including callbacks to the whole. 
 
 <examples>
     <self-contained_example>
         <too_context_dependent>- De student weet dat als je dit gevoel krijgt, je hierop moet letten en moet onderzoeken waar het vandaan komt.</too_context_dependent>
         <explanation>From just reading the learning objective, it is not clear what 'dit' refers to</explanation>
         <better>- De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten en moet onderzoeken waar het vandaan komt.</better>
-        <explanation>Now it includes the relevant part of the text such that it becomes self-contained, not referencing to parts outside of it</explanation>
+        <explanation>Now it includes the relevant part of the text such that the objective becomes self-contained, not referencing any info outside of it</explanation>
     </self-contained_example>
     <specificity_examples>
         <too_broad>- De student weet dat het hart uit vier holtes bestaat: twee boezems aan de bovenkant en twee kamers aan de onderkant.</too_broad>
         <explanation>Combines multiple knowledge elements that could be tested separately</explanation>
         <better>
-            - De student weet dat het hart uit vier holtes bestaat.
-            - De student weet dat het hart uit twee boezems en twee kamers bestaat.
-            - De student weet dat de boezems van het hart aan de bovenkant zitten.
-            - De student weet dat de kamers van het hart aan de onderkant zitten.
+            - De student weet dat het hart uit vier holtes bestaat (twee boezems aan de bovenkant en twee kamers aan de onderkant).
+            - De student weet dat het hart uit twee boezems en twee kamers bestaat (samen vormen zij de vier holtes van het hart).
+            - De student weet dat de boezems van het hart aan de bovenkant zitten (de twee kamers zitten aan de onderkant).
+            - De student weet dat de kamers van het hart aan de onderkant zitten (de twee boezems zitten aan de bovenkant).
         </better>
-        <explanation>Focuses on each specific, testable knowledge element individually</explanation>
+        <explanation>Focuses on each smallest specific knowledge element individually, while maintaining coherence via the callback to the whole between brackets</explanation>
+        <too_broad>- De student weet dat de Wvggz vier hoofddoelstellingen heeft: (1) het beperken of voorkomen van dwang, (2) het versterken van de rechtspositie van zorgvragers met een psychische aandoening, (3) het verbeteren van de kwaliteit van de zorg en (4) het leveren van (dwang)zorg op maat.</too_broad>
+        <explanation>'Knowing Wggz's key objectives' can be seen as one coherent learning objective, but it consists of clearly discrete parts that each can (and therefore should) be tested separately.</explanation>
+        <better>
+            - De student weet dat "dwang beperken" een van de vier hoofddoelen is van de Wvggz (naast het versterken van de rechtspositie van zorgvragers met een psychische aandoening, verbeteren van de kwaliteit van de zorg en (dwang)zorg op maat leveren.
+            - De student weet dat "het versterken van de rechtspositie van zorgvragers met een psychische aandoening" een van de vier hoofddoelen is van de Wvggz (naast het beperken of voorkomen van dwang, het verbeteren van de kwaliteit van de zorg en het leveren van (dwang)zorg op maat).
+            - De student weet dat "het verbeteren van de kwaliteit van de zorg" een van de hoofddoelen is van de Wvggz (naast het beperken of voorkomen van dwang, het versterken van de rechtspositie van zorgvragers met een psychische aandoening en het leveren van (dwang)zorg op maat).
+            - De student weet dat "het leveren van (dwang)zorg op maat" een van de hoofddoelen is van de Wvggz (naast het beperken of voorkomen van dwang, het versterken van de rechtspositie van zorgvragers met een psychische aandoening en het verbeteren van de kwaliteit van de zorg).
+        </better>
+        <explanation>This may seem tedious, but it crucially allows us to later craft effective, self-contained multiple choice questions based on each of these elaborate learning objectives independently. This way, we can do targeted, piecemeal testing of the student's knowledge, while maintaining overview and coherence.</explanation>
     </specificity_examples>
 </examples>
 
