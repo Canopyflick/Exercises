@@ -28,7 +28,7 @@ def build_write_fluster_tab():
             )
 
 
-        exercises_input = gr.Textbox(label="Enter a learning objective", placeholder="De student weet dat ...")
+        exercises_input = gr.Textbox(label="Enter a learning objective", value="De student weet dat")
         write_fluster_button = gr.Button("Generate Fluster")
 
         # 2×2 textboxes => 4 total

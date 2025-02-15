@@ -17,11 +17,11 @@ async def run_fluster(
     """
 
     # Get the chain config
-    config = chain_configs["exercises"]
+    config = chain_configs["fluster"]
 
     # Extract the chain object fields
-    template_write_a = config["template_write_a"]
-    template_write_b = config["template_write_b"]
+    template_write_a = config["template_write_fluster_a"]
+    template_write_b = config["template_write_fluster_b"]
 
     # pick the LLMs based on user input or the default from config
     llm_a = llms.get(model_choice_1, config["default_llm_a"])
