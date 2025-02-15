@@ -51,7 +51,12 @@ def build_diagnoser_tab():
         # Create 10 Response textboxes
         with gr.Column():
             diagnoser_responses = [
-                gr.Textbox(label=f"Response {i + 1}", interactive=False, visible=(i == 0))
+                gr.Textbox(
+                    label=f"Response {i + 1}",
+                    interactive=False,
+                    visible=(i == 0),
+                    lines=30
+                )
                 for i in range(10)
             ]
 

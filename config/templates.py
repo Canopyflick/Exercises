@@ -119,9 +119,12 @@ diagnose_scorecard_template = ChatPromptTemplate(
         </example 3>
         Oftentimes, diagnoses will be elaborate and quite nuanced, first viewing the issue from different angles, considering both scenarios of passing and failing equally. For this reason, when deciding on your binary classification, you should focus only on the very last concluding sentences of each diagnosis to determine a pass or fail.
         """),
-        ("human", "{combined_diagnosis}")
+        ("human", "For context, here is the exercise that's being diagnose:\n"
+                  "{standardized_exercise}\n\n"
+                  "Here are the diagnoses:\n"
+                  "{combined_diagnosis}")
     ],
-    input_variables=["combined_diagnosis"]
+    input_variables=["combined_diagnosis", "standardized_exercise"]
 )
 
 

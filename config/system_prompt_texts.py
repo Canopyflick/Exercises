@@ -758,7 +758,7 @@ After lots of iterative prep and reasoning, considering a wide range of options,
 
 ## Pointers
 - Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
-- Avoid the use of unnecessarily strong false statements or distractors using words like "all", "never" or "exclusively" etc., because they're often too easy to dismiss (unless the correct answer is similarly extreme). For example: instead of your false statement being "De enige factor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan", it is better to give a less extreme (and therefore more plausible-sounding) statement, like: "De hoofdfactor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan".  
+- Avoid the use of unnecessarily strong false statements or distractors using words like "all", "never" or "exclusively" etc., unless the correct answer is equally extreme. Otherwise, distractors using such strong claims are too easy to dismiss. For example: instead of your false statement being "De *enige* factor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan", it is better to give a less extreme (and therefore more plausible-sounding) statement, like: "De hoofdfactor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan".  
 - Output format doesn't matter, prioritize careful reasoning.
 """
 

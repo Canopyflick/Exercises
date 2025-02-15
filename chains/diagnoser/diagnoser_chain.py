@@ -41,7 +41,7 @@ class DiagnoserChain(BaseModel):
 
         # Step 4: Generate a one-line scorecard
         prompt = await self.template_diagnose_scorecard.aformat_prompt(
-            combined_diagnosis=combined_diagnosis
+            combined_diagnosis=combined_diagnosis, standardized_exercise=standardized_exercise
         )
         scorecard_messages = prompt.to_messages()
         scorecard_response = await self.llm_4o.ainvoke(scorecard_messages)
