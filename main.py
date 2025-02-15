@@ -100,7 +100,7 @@ with gr.Blocks() as interface:
              ) = build_write_fluster_tab()
 
             # Empty separator
-            with gr.TabItem("", visible=True):
+            with gr.TabItem("", visible=True, scale=3):
                 pass
 
             # Build Prompts tab
