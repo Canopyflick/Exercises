@@ -13,7 +13,7 @@ DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 ZERO = 0
 LOW = 0.2
 MID = 0.6
-HIGH = 1.2
+HIGH = 1
 
 # Factory functions for each provider
 def create_openai_llm(model_name: str, temperature: float):
