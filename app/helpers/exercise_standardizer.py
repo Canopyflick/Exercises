@@ -31,14 +31,14 @@ async def standardize_exercise(user_query: str, exercise_format: str, template: 
 
     return standardized_exercise
 
-class ExerciseComplete(BaseModel):
-    id: int
-    content: str
-    choice_id_1: str
-    choice_id_2: str
-    choice_id_3: str
-    choice_id_4: str
-    correct_answer_id: Literal[1, 2, 3, 4]
+# class ExerciseComplete(BaseModel):
+#     id: int
+#     content: str
+#     choice_id_1: str
+#     choice_id_2: str
+#     choice_id_3: str
+#     choice_id_4: str
+#     correct_answer_id: Literal[1, 2, 3, 4]
 
 
 
