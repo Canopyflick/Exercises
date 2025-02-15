@@ -157,7 +157,6 @@ with gr.Blocks() as interface:
         outputs=[fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],  # fill the 4 textboxes
         api_name=None,
         queue=True,
-        stream=True,
     )
 
     pipeline_choice.change(fn=log_dropdown_choice, inputs=pipeline_choice, outputs=[])
