@@ -611,7 +611,7 @@ After lots of iterative prep and reasoning, considering a wide range of options,
 """
 
 # The existing prompt in Course Generator webapp
-template_write_fluster_b_text= """
+template_write_fluster_b_text = """
 You are given a learning objective. Based on this, you will create an exercise set of 3 exercises. 
 Follow the following protocol meticulously:
 
@@ -666,7 +666,7 @@ Creating variants prevents students from just recognizing the exercise and answe
 Label a mcq with 'question' and end with a question mark. Example:  
 
     [
-    	{
+    	{{
     		'question': 'Question: Which layer of the digestive tract has the myenteric neural plexus?',
     		 'answer': 'Muscular layer'
     		 'distractors': [
@@ -674,14 +674,14 @@ Label a mcq with 'question' and end with a question mark. Example:
     			 'Submucosa',
     			 'Serosa'
     		 ]
-    	 }
+    	 }}
     ]
 
 #### Multiple choice statement (mcs)
 Create a statement with a fill in the blank. Use 'statement' instead of 'question' and end with a full stop. Use exactly 5 dots for the gap.  Never have more than 1 gap. Example:  
 ```json
     [
-    	{
+    	{{
     		'question': 'Statement: The ..... is the inner lining of the digestive tract. ',
     		 'answer': 'Mucosa',
     		 'distractors': [
@@ -689,7 +689,7 @@ Create a statement with a fill in the blank. Use 'statement' instead of 'questio
     			 'Submucosa',
     			 'Serosa'
     		 ]
-    	 }
+    	 }}
     ]
 ```
 ##### Correct/incorrect exercise set variants
@@ -732,19 +732,19 @@ Keep statements/questions short and concise. Put extra context in the theory sec
 
 Example:  instead of
 ```json
-    {
+    {{
     	'question': 'Statement: Between the liver and the anterior abdominal wall and diaphragm is the .....  ',
     	'answer': 'Falciform ligament ',
-    	'distractors': {'Greater omentum', 'Lesser omentum', 'Mesentery proper'}
-    }
+    	'distractors': {{'Greater omentum', 'Lesser omentum', 'Mesentery proper'}}
+    }}
 ```
 move some info to the theory for clarity:  
 ```json
-    {
+    {{
     	'question': 'Theory: A visceral mesentery connects the liver to the anterior abdominal wall and diaphragm.\nQuestion: Which mesentery is this? ',
     	'answer': 'Falciform ligament ',
-    	'distractors': {'Greater omentum', 'Lesser omentum', 'Mesentery proper'}
-    }
+    	'distractors': {{'Greater omentum', 'Lesser omentum', 'Mesentery proper'}}
+    }}
 ```
 ### Answer options  
 #### Format and length  
@@ -757,14 +757,14 @@ Select incorrect options that might seem true to someone who doesn't know the an
 Use numbers only if relevant. For cut-off points, ensure incorrect answers are truly incorrect. Use terms like 'cut-off point' or 'lower/upper limit' for clarity.
 For example:
 ```json
-    {
+    {{
 		"question": "Statement: A systolic blood pressure less than 70 mmHg is considered hypotension.",
 		"answer": "This statement is incorrect",
 		"distractors": [
 	        "This statement is correct"
 		],
 		"explanation": "It is considered hypotension from 90 mmHg."
-    }
+    }}
 ```    
 The statement above is actually correct because less than 70 is also less than 90! What the writer intended to test was the cut-off point. You can solve this problem by explicitly using the terms 'cut-off point' or 'lower/upper limit' in the question
 
