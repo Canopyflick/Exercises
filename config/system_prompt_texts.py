@@ -230,13 +230,24 @@ template_distractors_brainstorm_2_text = """
 template_consolidate_distractors_text = """ 
 """
 
+# new prompt 1
 template_gen_prompt_a_text = """
 # Learning Objective Extraction Task
 
-Your task is to analyze a study text and extract high-quality learning objectives that will later serve as the basis for multiple-choice questions. Each learning objective must perfectly adhere to all specified requirements.
+Your task is to analyze a study text and extract high-quality learning objectives that will later serve as the basis for multiple-choice questions. Each learning objective must perfectly adhere to all specified requirements. Here are some examples of various good learning objectives (without the texts they're based on) to familiarize you with the concept:
+<examples>
+    <various_good_learning_objectives>
+        - De student weet dat eenzaamheid subjectief is.
+        - De student weet dat erfelijkheid een van de hoofddingen is die je persoonlijkheid vormen (naast opvoeding, sociale omgeving en zelfbepaling).
+        - De student weet dat sociale omgeving een van de hoofddingen is die je persoonlijkheid vormen (naast erfelijkheid, opvoeding en zelfbepaling).
+        - De student weet dat de secondary survey plaatsvindt wanneer de primary survey inclusief resuscitatie is afgerond.
+        - De student weet dat de S in SBAR staat voor Situation ('situatie').
+        - De student weet dat de B in SBAR staat voor Background ('achtergrond').
+    </various_good_learning_objectives>
+<examples>
 
 ## Analysis Approach
-Before extracting learning objectives:
+Before extracting learning objectives from the text:
 * Carefully analyze the text's language level and target audience
 * Note the terminology, voice (active/passive), and perspective (2nd/3rd person)
 * Pay attention to the complexity of vocabulary and sentence structures used
@@ -273,7 +284,7 @@ Before extracting learning objectives:
 </examples>
 
 ### Content Quality
-* **Self-contained**: Must be understandable without relying on any outside context, like 'previous' learning objectives (they will in fact be presented to the student non-chronologically, so cannot build on each other) 
+* **Self-contained**: Must be understandable without relying on any outside context, like 'previous' learning objectives (they will in fact be presented to the student non-chronologically, so they cannot build on each other) 
 * **Falsifiable**: Must be unambiguously, demonstrably true or false 
 * **Factually Equivalent**: Must represent exactly the knowledge as written
 * **Specific**: Must express the smallest testable knowledge unit, instead of combining several at once. For knowledge that consists of parts, just focus on each part one by one (one learning objective focused on each), including callbacks to the whole. 
@@ -281,7 +292,7 @@ Before extracting learning objectives:
 <examples>
     <self-contained_example>
         <too_context_dependent>- De student weet dat als je dit gevoel krijgt, je hierop moet letten en moet onderzoeken waar het vandaan komt.</too_context_dependent>
-        <explanation>From just reading the learning objective, it is not clear what 'dit' refers to</explanation>
+        <explanation>From just reading the learning objective, it is not clear what "dit" refers to</explanation>
         <better>- De student weet dat als je een onderbuikgevoel krijgt, je hierop moet letten en moet onderzoeken waar het vandaan komt.</better>
         <explanation>Now it includes the relevant part of the text such that the objective becomes self-contained, not referencing any info outside of it</explanation>
     </self-contained_example>
@@ -296,14 +307,14 @@ Before extracting learning objectives:
         </better>
         <explanation>Focuses on each smallest specific knowledge element individually, while maintaining coherence via the callback to the whole between brackets</explanation>
         <too_broad>- De student weet dat de Wvggz vier hoofddoelstellingen heeft: (1) het beperken of voorkomen van dwang, (2) het versterken van de rechtspositie van zorgvragers met een psychische aandoening, (3) het verbeteren van de kwaliteit van de zorg en (4) het leveren van (dwang)zorg op maat.</too_broad>
-        <explanation>'Knowing Wggz's key objectives' can be seen as one coherent learning objective, but it consists of clearly discrete parts that each can (and therefore should) be tested separately.</explanation>
+        <explanation>'Knowing Wggz's key objectives' can be seen as one coherent learning objective, but it consists of too many clearly discrete parts that each can (and therefore should) be tested separately.</explanation>
         <better>
             - De student weet dat "dwang beperken" een van de vier hoofddoelen is van de Wvggz (naast het versterken van de rechtspositie van zorgvragers met een psychische aandoening, verbeteren van de kwaliteit van de zorg en (dwang)zorg op maat leveren.
             - De student weet dat "het versterken van de rechtspositie van zorgvragers met een psychische aandoening" een van de vier hoofddoelen is van de Wvggz (naast het beperken of voorkomen van dwang, het verbeteren van de kwaliteit van de zorg en het leveren van (dwang)zorg op maat).
             - De student weet dat "het verbeteren van de kwaliteit van de zorg" een van de hoofddoelen is van de Wvggz (naast het beperken of voorkomen van dwang, het versterken van de rechtspositie van zorgvragers met een psychische aandoening en het leveren van (dwang)zorg op maat).
             - De student weet dat "het leveren van (dwang)zorg op maat" een van de hoofddoelen is van de Wvggz (naast het beperken of voorkomen van dwang, het versterken van de rechtspositie van zorgvragers met een psychische aandoening en het verbeteren van de kwaliteit van de zorg).
         </better>
-        <explanation>This may seem tedious, but it crucially allows us to later craft effective, self-contained multiple choice questions based on each of these elaborate learning objectives independently. This way, we can do targeted, piecemeal testing of the student's knowledge, while maintaining overview and coherence.</explanation>
+        <explanation>This repetition may seem tedious, but it is crucial for composite knowledge like this. It allows us to later craft effective, self-contained multiple choice questions based on each knowledge part independently, while retaining the connection to the whole. This way, we can do targeted, piecemeal testing of the student's knowledge without sacrificing coherence.</explanation>
     </specificity_examples>
 </examples>
 
@@ -394,12 +405,387 @@ Before extracting learning objectives:
 </examples_of_> 
 """
 
+# existing old (current) prompt stripped refocused for LOs only
+template_gen_prompt_b_text = """
+You are given a study text. Based on this, you will identify learning objectives. Follow the following protocol meticulously:
 
-template_gen_prompt_b_text = """ 
+# Protocol for Creating Exercises for eLearning Modules
+## General Working Method
+
+### Text Orientation  
+Assigned a study text, your initial task is to read it to understand the topic for creating exercises.
+
+### Learning objectives 
+Based on the text, define clear, concise learning objectives. Make sure you have enough learning objectives so that all information is covered, but not too many so that learning objectives won't overlap.  It's really important that every learning objective only states 1 single fact and doesn't combine multiple facts. Choose objectives based on text analysis and audience level. Objectives always start with 'The student knows that', or whichever semantic equivalent matching the language of the study text (eg. for Dutch texts, use 'De student weet dat'). 
+
+Observe the following rules meticulously when writing learning objectives:
+
+#### Avoid 'always' and 'never' 
+Don't use words like 'always' or 'never' in learning objectives, it is likely an exception exists. Instead use constructions like 'X *fits with* Y', 'X *suggests* Y', 'X *is more common than* Y'
+
+So not:
+> BAD: The students knows that fever *never* occurs with a viral infection. 
+> BAD: The students knows that fever *always* occurs with a viral infection. 
+
+But:
+> GOOD: The students knows that fever is a symptom *that fits with* a viral infection. 
+
+#### Avoid 'can', 'could', 'may' or 'might' 
+Don't use words like *'can'*, *'could'*, *'may'* or *'might'* in learning objectives, because almost everything can, could or might be something, so too suggestive. Instead use constructions like 'X *fits with* Y', 'X *suggests* Y', 'X *is more common than* Y'
+
+So not:
+> BAD: The students knows that pain *might* occur with rheumatoid arthritis.
+> BAD: The students knows that pain *can* occur with rheumatoid arthritis.
+> BAD: The students knows that pain *could* occur with rheumatoid arthritis.
+> BAD: The students knows that pain *may* occur with rheumatoid arthritis.
+
+But: 
+> GOOD: The students knows that pain *is a symptom of* rheumatoid arthritis.
+
+#### Avoid subjective terminology like many, few and common 
+Don't use words like *'many'*, *'few'*, *'common'*, *'rare'* et cetera as these are subjective. Instead be specific. Instead use terminology like *'in most cases'* or compare: *'symptom A is more common than symptom B'*. 
+
+Example of a bad learning objective, leading to suggestive or subjective answers: 
+> BAD: The student knows that fever commonly occurs with a viral infection. 
+
+#### Avoid important, essential significant
+Don't use words like *'important'*, *'essential'*, *'significant'* et cetera in learning objectives, as these are prone to subjectivity. 
+
+Examples of a bad learning objective, leading to suggestive or subjective answers: 
+> BAD: The students knows that it's *important* to rest when having a viral infection. 
+
+The objective uses the word *'important'* which is subjective.  
+
+> BAD: The students knows that it's *essential* to rest when having a viral infection. 
+
+The objective uses the word *'essential'* which is subjective. 
+
+> BAD: The students knows that fever has a *significant* effect on how people feel when they are sick. 
+
+The objective uses the word *'significant'* which is subjective. 
+
+> BAD: The student knows that drinking *enough* water is *important* to stay hydrated. 
+
+The objective uses the word *'important'* which is subjective. Also the word *'enough'* is subjective. 
+
+
+A good example is: 
+
+> GOOD: The student knows that proteinuria is a symptom of nephrotic syndrome. 
+
+An example of a bad learning objective: 
+
+> BAD: The student knows the symptoms of nephrotic syndrome. 
+
+The bad objective does not specify a single fact as symptoms are not specified.
+
+A good example is:
+
+>  GOOD: The student knows that besides pain, rheumatoid arthritis also causes loss of mobility. 
+
+An example of a bad learning objective:
+
+> BAD: The student knows that problems with movement due to joint problems, such as rheumatism, can be painful or completely limit movement
+
+The latter objective does not specify a single fact but combines two (can be painful or completely limit movement). The first objective focuses on the 'loss of mobility' element, while the 'pain- element' is already considered known. The exercises generated by this learning objective will test the 'loss of mobility' element (so not the 'pain-element' 
 """
 
-template_sanitize_learning_objectives_text = """ 
+template_sanitize_learning_objectives_text = """
 """
+
+template_write_fluster_a_text= """
+# Task outline
+Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same knowledge that's stated in the learning objective.
+
+# Concepts
+## Learning objective
+Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (toen hij werd opgevolgd door de Wvggz)."
+
+## Exercise set
+Comprises 3 exercises that all test the same single learning objective: one bigger multiple choice exercise and two smaller correct/incorrect statements.
+<exercise_set>
+    <multiple_choice_exercise>
+        Stelling:
+        De wet Bopz was sinds ..... in gebruik.
+        
+        1. 1984
+        2. 1999
+        3. 2004
+        4. 2009
+        
+        Juiste antwoord: 2
+        
+        Extra info:
+        In 1993 werd de wet Bopz opgevolgd door de Wvggz.
+    </multiple_choice_exercise>
+    <correct_statement>
+        Stelling:
+        De wet Bopz was sinds 1994 in gebruik.
+        
+        1. Deze stelling is correct
+        2. Deze stelling is niet correct
+        
+        Juiste antwoord: 1
+        
+        Extra info:
+        In 1993 werd de wet Bopz opgevolgd door de Wvggz.
+    </correct_statement>
+    <incorrect_statement>
+        Stelling:
+        De wet Bopz was sinds 1984 in gebruik.
+        
+        1. Deze stelling is correct
+        2. Deze stelling is niet correct
+        
+        Juiste antwoord: 2
+        
+        Extra info: 
+        De wet Bopz was sinds 1994 in gebruik. Toen werd hij opgevolgd door de Wvggz.
+    </incorrect_statement>
+</exercise_set>
+
+Here's another example of an exercise set, this time for the learning objective: "De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren."
+"<exercise_set>
+    <multiple_choice_exercise>
+        Theorie:
+        Objectief betekent "zonder je eigen mening".
+        
+        Vraag:
+        Wat moet je doen om zo objectief mogelijk te observeren?
+        
+        1. Je intuïtie volgen
+        2. Veel theorie leren
+        3. Iemand anders erbij roepen
+        4. Dagelijks oefenen
+        
+        Juiste antwoord: 4
+    </multiple_choice_exercise>
+    <correct_statement>
+        Theorie:
+        Objectief betekent "zonder je eigen mening".
+        
+        Stelling:
+        Om zo objectief mogelijk te observeren moet je dagelijks oefenen.
+        
+        1. Deze stelling is correct
+        2. Deze stelling is niet correct
+        
+        Juiste antwoord: 1
+    </correct_statement>
+    <incorrect_statement>
+        Theorie:
+        Objectief betekent "zonder je eigen mening".
+        
+        Stelling:
+        Om zo objectief mogelijk te observeren moet je een keer per jaar  oefenen.
+        
+        1. Deze stelling is correct
+        2. Deze stelling is niet correct
+        
+        Juiste antwoord: 2
+        
+        Extra info: 
+        Je moet <b>dagelijks<b> oefenen om zo objectief mogelijk te observeren.
+    </incorrect_statement>
+</exercise_set>
+
+
+## Distractors
+The alternative answer options of the multiple choice exercise that are not the correct answer are called distractors. These are the most important part of the exercise. Effective distractors strike the perfect balance between "very plausible to someone who doesn't know the answer to the question" and "clearly wrong to someone who does know the answer to the question".
+
+## Theory 
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory. The student gets to see this as part of the exercise prompt.
+
+# Extra info
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, but useful related, additional info. The student gets to see this after they pick their answer. Incorrect statements always need extra info, to tell the student why the statement is incorrect (explaining what the correct statement would have been). 
+
+# Approach
+Think long and hard about the ideal three exercises to test the given learning objective. Especially spend a lot of time picking good distractors for the first multiple choice exercise. 
+Imagine the typical slightly more stupid target student among the target audience for this learning objective. Would they sometimes find each distractor sound appealing if they hadn't studied for the test? We want to avoid the possibility that they can too easily dismiss and eliminate a distractor as clearly not a serious option, just on the basis of it looking weird to them. Imagine whether very stupid students with limited general knowledge, and no knowledge of the topic of the exercise, might find the distractor plausible. That's the goal. 
+At the same time, a distractor must not be too close to the truth either. That would be misleading. Imagine asking 10 domain experts to judge this. All of them should agree that the correct answer is the clearly best answer in this exercise. If there's any doubt, rephrase the distractor to be a bit less true, and imagine again.
+After lots of iterative prep and reasoning, considering a wide range of options, weighing what would be the best, finally return a complete exercise set of 1 multiple choice exercise and 2 statements.
+ 
+## Pointers
+- Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
+- Output format doesn't matter. It can all be haphazard and jumbled, just prioritize sound reasoning at all costs. We will reformat later in a separate step.   
+"""
+
+# The existing prompt in Course Generator webapp
+template_write_fluster_b_text= """
+You are given a learning objective. Based on this, you will create an exercise set of 3 exercises. 
+Follow the following protocol meticulously:
+
+# Protocol for Creating Exercises for eLearning Modules
+## Definitions:
+### Exercise
+An exercise assesses knowledge related to a specific learning objective.
+
+### Exercise set
+An exercise set, comprising three exercises, tests the same learning objective and combines various exercise types targeting that objective.
+
+## General Working Method
+
+### Exercise Structure  
+Below is the recommended exercise structure. Headings in brackets are optional.
+
+#### Exercise sets
+Create an exercise set for each objective. Make sure all exercises in the set test the given learning objective only and do not (partially) test anything else. Consequently, all exercises in the set test the same learning objective.
+Also make sure that the exercise types vary. 
+
+#### (Theory:/Case:)  
+An exercise might begin with 'theory' for context or a 'case', a practical scenario, followed by a related exercise.
+
+Example:
+> Case:   A 23 year old woman presents at the ED due to exacerbation of
+> bronchial asthma. She was cyanotic and can only speak in short
+> sentences. ABG measurement showed the following values:     
+> **pH:** 7.40  
+> **PaCO2:** 40 mmHg/5.3 kPa  
+> **HCO3:** 24 mmol/L  
+> Question: What is the patient's acid-base abnormality?
+
+#### Question/Statement:  
+Ensure questions or statements are concise. End questions with a question mark and statements with a period. Write the question or statement in a JSON property called *'question'*
+
+#### Multiple-Choice Answers  
+Formulate answer choices briefly. Start with a capital letter. List answers without labels like A) B) C) or 1. 2. 3. List the correct answer choice in the JSON property *'answer'* and the remaining answer choices in a JSON array of strings called *'distractors'*
+
+#### (Extra Info:)  
+Provide additional information after each exercise for clarification, especially when the correct answer isn't obvious from the question. If it is just a repeat of the question and/or answer without adding anything for clarity, leave the extra info out. Write the extra info in the optional JSON property *'explanation'*.
+
+### Exercise set
+#### Variants in a exercise set
+Create for every learning objective a exercise set consisting of three variants: 
+- Question or fill in the blank with 3 or 4 answers choices  
+- Correct/incorrect statement, answer is correct  
+- Correct/incorrect statement, answer is incorrect  
+
+Creating variants prevents students from just recognizing the exercise and answer, and encourages thinking about the correct answer.
+
+#### Multiple choice question (mcq)
+Label a mcq with 'question' and end with a question mark. Example:  
+
+    [
+    	{
+    		'question': 'Question: Which layer of the digestive tract has the myenteric neural plexus?',
+    		 'answer': 'Muscular layer'
+    		 'distractors': [
+    			 'Mucosa',
+    			 'Submucosa',
+    			 'Serosa'
+    		 ]
+    	 }
+    ]
+
+#### Multiple choice statement (mcs)
+Create a statement with a fill in the blank. Use 'statement' instead of 'question' and end with a full stop. Use exactly 5 dots for the gap.  Never have more than 1 gap. Example:  
+```json
+    [
+    	{
+    		'question': 'Statement: The ..... is the inner lining of the digestive tract. ',
+    		 'answer': 'Mucosa',
+    		 'distractors': [
+    			 'Muscular layer',
+    			 'Submucosa',
+    			 'Serosa'
+    		 ]
+    	 }
+    ]
+```
+##### Correct/incorrect exercise set variants
+Two variants in the exercise set, can be derived from the mcq or mcs. One has the correct mcq/mcs answer (answer “This statement is correct”), the other has an incorrect mcq/mcs answer (answer “This statement is incorrect”). Balance the correct and incorrect exercises in each exercise set. Start with a mcq or mcs followed by the 2 correct/incorrect variants.  
+
+
+#### Avoid double negatives
+Don't use negations like 'no' or 'not' or 'never' or words with a comparable meaning in the statement / question in order to avoid double negations with the 'incorrect' answer option.
+
+#### Avoid 'always' and 'never' 
+Don't use words like 'always' or 'never' in exercise statements or questions, it is likely an exception exists rendering the statement or question inherently incorrect.
+
+So not:
+> Statement: Fever can occur with a viral infection. 
+> Question: What can occur with a viral infection. 
+
+But:
+> Statement: fever is a classic symptom of a viral infection. 
+> Question: What is a classic symptom of a viral infection. 
+
+#### Avoid 'can', 'could' or 'might' 
+Don't use words like 'can', 'could' or 'might' in exercise statements or questions, because almost everything can, could or might be something, rendering the statement or question inherently correct.
+
+So not:
+> Statement: pain might occur with rheumatoid arthritis.
+> Question: what symptoms can occur with rheumatoid arthritis?
+
+But: 
+> Statement: pain is a symptom that fits rheumatoid arthritis.
+> Question: Which symptom best describes rheumatoid arthritis?
+
+#### Using theory
+Starting an exercise with Theory isn't mandatory. Add it for context or to shorten the question/statement.
+
+#### Providing context
+Each exercise should be clear on its own, also without the context of the study text it is about. Consider adding theory for clarity if needed. 
+
+#### Shortening the statement/question
+Keep statements/questions short and concise. Put extra context in the theory section.  
+
+Example:  instead of
+```json
+    {
+    	'question': 'Statement: Between the liver and the anterior abdominal wall and diaphragm is the .....  ',
+    	'answer': 'Falciform ligament ',
+    	'distractors': {'Greater omentum', 'Lesser omentum', 'Mesentery proper'}
+    }
+```
+move some info to the theory for clarity:  
+```json
+    {
+    	'question': 'Theory: A visceral mesentery connects the liver to the anterior abdominal wall and diaphragm.\nQuestion: Which mesentery is this? ',
+    	'answer': 'Falciform ligament ',
+    	'distractors': {'Greater omentum', 'Lesser omentum', 'Mesentery proper'}
+    }
+```
+### Answer options  
+#### Format and length  
+Maintain similar format and length for all options in an exercise.
+
+#### Choosing plausible incorrect options
+Select incorrect options that might seem true to someone who doesn't know the answer.
+
+#### Numbers
+Use numbers only if relevant. For cut-off points, ensure incorrect answers are truly incorrect. Use terms like 'cut-off point' or 'lower/upper limit' for clarity.
+For example:
+```json
+    {
+		"question": "Statement: A systolic blood pressure less than 70 mmHg is considered hypotension.",
+		"answer": "This statement is incorrect",
+		"distractors": [
+	        "This statement is correct"
+		],
+		"explanation": "It is considered hypotension from 90 mmHg."
+    }
+```    
+The statement above is actually correct because less than 70 is also less than 90! What the writer intended to test was the cut-off point. You can solve this problem by explicitly using the terms 'cut-off point' or 'lower/upper limit' in the question
+
+
+#### Accuracy 
+Always aim to avoid debates over exercise accuracy. Correct answers must be wholly true, and incorrect ones entirely false, eliminating any argument possibility.  
+Be precise. Shun absolute terms like 'never' or 'always', as they imply complete rightness or wrongness, which is rarely the case due to real-world exceptions. Choose words like 'typically', 'most characteristic of', or 'in most cases' and use relative terms such as “Is best described by ….”. When stating 'more/less than', clarify what it's in comparison to. Eschew 'can'. Including 'can' in questions or statements likely makes your wrong options not fully incorrect, as theoretically, much can occur.
+"""
+
+
+template_refine_distractors_text = """
+Given some source data containing exercises, critically analyze this with the goal of refining and improving the exercises. 
+Play devil's advocate here: in what ways is this version of the exercises not perfect? Do some reasoning about this, and then give the improved exercises. If you didn't find anything to improve, just return the exercises as they are.
+"""
+
+
+template_sanitize_fluster_text = """
+Your task is to process the source data, and extract only the exercises from it. This should be your only output: a neat plaintext representation of all final exercises.  
+"""
+
+
 
 XML_templates= [
 """

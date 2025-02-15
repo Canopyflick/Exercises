@@ -15,6 +15,10 @@ from config.system_prompt_texts import (
     template_gen_prompt_a_text,
     template_gen_prompt_b_text,
     template_sanitize_learning_objectives_text,
+    template_write_fluster_a_text,
+    template_write_fluster_b_text,
+    template_refine_distractors_text,
+    template_sanitize_fluster_text,
 )
 
 
@@ -181,102 +185,10 @@ template_gen_prompt_a = ChatPromptTemplate(
     input_variables=["standardized_text"]
 )
 
-"""
-<illustration of 'specific'>
-    <bad example: not specific enough>
-    
-    </bad example: not specific enough>
-    <good example: states isolated fact>
-    
-    </good example: states isolated fact>
-</illustration of 'specific'> 
-"""
 
 template_gen_prompt_b = ChatPromptTemplate(
     messages=[
-        ("system", """
-        You are given a study text. Based on this, you will identify learning objectives. Follow the following protocol meticulously:
-
-        # Protocol for Creating Exercises for eLearning Modules
-        ## General Working Method
-        
-        ### Text Orientation  
-        Assigned a study text, your initial task is to read it to understand the topic for creating exercises.
-        
-        ### Learning objectives 
-        Based on the text, define clear, concise learning objectives. Make sure you have enough learning objectives so that all information is covered, but not too many so that learning objectives won't overlap.  It's really important that every learning objective only states 1 single fact and doesn't combine multiple facts. Choose objectives based on text analysis and audience level. Objectives always start with 'The student knows that', or whichever semantic equivalent matching the language of the study text (eg. for Dutch texts, use 'De student weet dat'). 
-        
-        Observe the following rules meticulously when writing learning objectives:
-        
-        #### Avoid 'always' and 'never' 
-        Don't use words like 'always' or 'never' in learning objectives, it is likely an exception exists. Instead use constructions like 'X *fits with* Y', 'X *suggests* Y', 'X *is more common than* Y'
-        
-        So not:
-        > BAD: The students knows that fever *never* occurs with a viral infection. 
-        > BAD: The students knows that fever *always* occurs with a viral infection. 
-        
-        But:
-        > GOOD: The students knows that fever is a symptom *that fits with* a viral infection. 
-        
-        #### Avoid 'can', 'could', 'may' or 'might' 
-        Don't use words like *'can'*, *'could'*, *'may'* or *'might'* in learning objectives, because almost everything can, could or might be something, so too suggestive. Instead use constructions like 'X *fits with* Y', 'X *suggests* Y', 'X *is more common than* Y'
-        
-        So not:
-        > BAD: The students knows that pain *might* occur with rheumatoid arthritis.
-        > BAD: The students knows that pain *can* occur with rheumatoid arthritis.
-        > BAD: The students knows that pain *could* occur with rheumatoid arthritis.
-        > BAD: The students knows that pain *may* occur with rheumatoid arthritis.
-        
-        But: 
-        > GOOD: The students knows that pain *is a symptom of* rheumatoid arthritis.
-        
-        #### Avoid subjective terminology like many, few and common 
-        Don't use words like *'many'*, *'few'*, *'common'*, *'rare'* et cetera as these are subjective. Instead be specific. Instead use terminology like *'in most cases'* or compare: *'symptom A is more common than symptom B'*. 
-        
-        Example of a bad learning objective, leading to suggestive or subjective answers: 
-        > BAD: The student knows that fever commonly occurs with a viral infection. 
-        
-        #### Avoid important, essential significant
-        Don't use words like *'important'*, *'essential'*, *'significant'* et cetera in learning objectives, as these are prone to subjectivity. 
-        
-        Examples of a bad learning objective, leading to suggestive or subjective answers: 
-        > BAD: The students knows that it's *important* to rest when having a viral infection. 
-        
-        The objective uses the word *'important'* which is subjective.  
-        
-        > BAD: The students knows that it's *essential* to rest when having a viral infection. 
-        
-        The objective uses the word *'essential'* which is subjective. 
-        
-        > BAD: The students knows that fever has a *significant* effect on how people feel when they are sick. 
-        
-        The objective uses the word *'significant'* which is subjective. 
-        
-        > BAD: The student knows that drinking *enough* water is *important* to stay hydrated. 
-        
-        The objective uses the word *'important'* which is subjective. Also the word *'enough'* is subjective. 
-        
-        
-        A good example is: 
-        
-        > GOOD: The student knows that proteinuria is a symptom of nephrotic syndrome. 
-        
-        An example of a bad learning objective: 
-        
-        > BAD: The student knows the symptoms of nephrotic syndrome. 
-        
-        The bad objective does not specify a single fact as symptoms are not specified.
-        
-        A good example is:
-        
-        >  GOOD: The student knows that besides pain, rheumatoid arthritis also causes loss of mobility. 
-        
-        An example of a bad learning objective:
-        
-        > BAD: The student knows that problems with movement due to joint problems, such as rheumatism, can be painful or completely limit movement
-        
-        The latter objective does not specify a single fact but combines two (can be painful or completely limit movement). The first objective focuses on the 'loss of mobility' element, while the 'pain- element' is already considered known. The exercises generated by this learning objective will test the 'loss of mobility' element (so not the 'pain-element')
-        """),
+        ("system", template_gen_prompt_b_text),
         ("human", "{standardized_text}")
     ],
     input_variables=["standardized_text"]
@@ -297,3 +209,45 @@ template_sanitize_learning_objectives = ChatPromptTemplate(
     ],
     input_variables=["raw_output"]
 )
+
+
+template_write_fluster_a = ChatPromptTemplate(
+    messages=[
+        ("system", template_write_fluster_a_text),
+        ("human", "Here's the learning objective:\n"
+                  "{learning_objective}")
+    ],
+    input_variables=["learning_objective"]
+)
+
+template_write_fluster_b = ChatPromptTemplate(
+    messages=[
+        ("system", template_write_fluster_b_text),
+        ("human", "Here's the learning objective:\n"
+                  "{learning_objective}")
+    ],
+    input_variables=["learning_objective"]
+)
+
+
+template_refine_distractors = ChatPromptTemplate(
+    messages=[
+        ("system", template_refine_distractors_text),
+        ("human", "Here's the source data:\n"
+                  "{write_fluster_result}")
+    ],
+    input_variables=["write_fluster_result"]
+)
+
+
+
+template_sanitize_fluster = ChatPromptTemplate(
+    messages=[
+        ("system", template_sanitize_fluster_text),
+        ("human", "Here's the source data:\n"
+                  "{refine_distractors_result}")
+    ],
+    input_variables=["refine_distractors_result"]
+)
+
+

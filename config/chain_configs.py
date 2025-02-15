@@ -12,11 +12,16 @@ from config.templates import (
     template_consolidate_distractors,
     template_gen_prompt_a,
     template_gen_prompt_b,
-    template_sanitize_learning_objectives
+    template_sanitize_learning_objectives,
+    template_write_fluster_a,
+    template_write_fluster_b,
+    template_refine_distractors,
+    template_sanitize_fluster,
 )
 from chains.diagnoser.diagnoser_chain import DiagnoserChain
 from chains.distractors.distractors_chain import DistractorsChain
 from chains.learning_objectives_generator.learning_objectives_chain import LearningObjectivesChain
+from chains.exercises.fluster_writing_chain import FlusterWritingChain
 from config.llm_config import llms
 
 # Note: The default LLM here is GPT-4o (low temp); the UI can override this choice.
@@ -47,7 +52,7 @@ chain_configs = {
         "llm_brainstorm_1": llms["GPT-4o (low temp)"],
         "llm_brainstorm_2": llms["GPT-4o (mid temp)"],
         "template_consolidate": template_consolidate_distractors,
-        "llm_consolidate": llms["GPT-4o (low temp)"],  # or something else
+        "llm_consolidate": llms["GPT-4o (low temp)"],
     },
     "learning_objectives": {
         "class": LearningObjectivesChain,
@@ -60,5 +65,16 @@ chain_configs = {
         "template_sanitize": template_sanitize_learning_objectives,
         "llm_sanitize": "GPT-4o-mini (zero temp)",
     },
+    "exercises": {
+        "class": FlusterWritingChain,
+        "template_write_fluster_a": template_write_fluster_a,
+        "template_write_fluster_b": template_write_fluster_b,
+        "default_llm_a": llms["o1 (high reasoning_effort)"],
+        "default_llm_b": llms["o3-mini (high reasoning_effort)"],
+        # Prompt & LLM for the refine-distractors step
+        "template_refine_distractors": template_refine_distractors,
+        "llm_refine": llms["o1 (high reasoning_effort)"],
+        "template_sanitize": template_sanitize_fluster,
+        "llm_sanitize": "GPT-4o-mini (zero temp)",
+    },
 }
-

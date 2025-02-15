@@ -8,8 +8,10 @@ from app.ui.distractors_tab import build_distractors_tab
 from app.ui.learning_objectives_tab import build_learning_objectives_tab
 from app.ui.prompts_tab import build_prompts_tab
 from app.ui.test_set_tab import build_test_set_tab
+from app.ui.write_fluster_tab import build_write_fluster_tab
 from chains.diagnoser.runner import run_diagnoser
 from chains.distractors.runner import run_distractors
+from chains.exercises.runner import run_fluster
 from chains.learning_objectives_generator.runner import run_learning_objectives_generator
 from utils.auth import login as auth_login
 
@@ -80,20 +82,31 @@ with gr.Blocks() as interface:
              ) = build_distractors_tab()
 
             # Build Learning Objectives Generator tab
-            (model_choice_1,
-            model_choice_2,
-            text_format,
-            studytext_input,
-            learning_objectives_button,
-            [box_0, box_1, box_2, box_3]
+            (model_choice_LO_1,
+             model_choice_LO_2,
+             text_format,
+             studytext_input,
+             learning_objectives_button,
+             [LO_box_0, LO_box_1, LO_box_2, LO_box_3]
              ) = build_learning_objectives_tab()
 
-            # Build unfinished tab
+            # Build write_fluster tab
+            (model_choice_fluster_1,
+             model_choice_fluster_2,
+             exercises_input,
+             write_fluster_button,
+             [fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],
+             ) = build_write_fluster_tab()
+
+
+
+
+            # Build Prompts tab
             (pipeline_choice,
              search_field_prompts,
              ) = build_prompts_tab()
 
-            # Build unfinished tab
+            # Build Test Set tab
             (subset_choice,
              search_field_test_set,
              ) = build_test_set_tab()
@@ -131,14 +144,20 @@ with gr.Blocks() as interface:
 
     learning_objectives_button.click(
         fn=run_learning_objectives_generator,  # Our async generator
-        inputs=[studytext_input, model_choice_1, model_choice_2, text_format],
-        outputs=[box_0, box_1, box_2, box_3, standardized_format_display],
-        # 'stream=True' is needed to allow partial updates
-        # in a generator function.
-        # In recent Gradio versions, we just do `every=1` or `queue=True`
+        inputs=[studytext_input, model_choice_LO_1, model_choice_LO_2, text_format],
+        outputs=[LO_box_0, LO_box_1, LO_box_2, LO_box_3, standardized_format_display],
         queue=True,
         api_name=None,
         # or "stream=True" depending on your version of Gradio
+    )
+
+    write_fluster_button.click(
+        fn=run_fluster,  # async generator
+        inputs=[exercises_input, model_choice_fluster_1, model_choice_fluster_2],
+        outputs=[fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],  # fill the 4 textboxes
+        api_name=None,
+        queue=True,
+        stream=True,
     )
 
     pipeline_choice.change(fn=log_dropdown_choice, inputs=pipeline_choice, outputs=[])
