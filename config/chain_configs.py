@@ -75,6 +75,6 @@ chain_configs = {
         "template_refine_fluster": template_refine_fluster,
         "llm_refine": llms["o1 (high reasoning_effort)"],
         "template_sanitize": template_sanitize_fluster,
-        "llm_sanitize": "GPT-4o-mini (zero temp)",
+        "llm_sanitize": llms["GPT-4o (zero temp)"],
     },
 }
