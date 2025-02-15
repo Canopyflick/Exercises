@@ -776,13 +776,17 @@ Be precise. Shun absolute terms like 'never' or 'always', as they imply complete
 
 
 template_refine_fluster_text = """
-Given some source data containing exercises, distill only the exercises themselves from it (exactly as given) for further processing, removing all commentary. 
+Given some source data containing exercises, distill only the exercises themselves from it (exactly as given, including Theory and Extra info if present) for further processing, removing all commentary. 
 """
 
 
 template_sanitize_fluster_text = """
-Your task is to reformat the exercises. This should be your only output: a neat representation of all exercises, fitting in the following template:
-<template>
+Your task is to reformat the exercises. This should be your only output: a neat representation of all exercises. Instead of listing the index of the correct answer, show it by adding a little arrow indicator after the correct answer option, like this:
+
+#. [answer option] ⬅️
+
+Roughly follow the following template:
+
 1. **Multiple-choice exercise**
 [exercise 1]
 
@@ -791,8 +795,6 @@ Your task is to reformat the exercises. This should be your only output: a neat 
 
 3. **Incorrect statement**
 [exercise 3]
-</template> 
-Should there be more than 3 exercises, or different types, adapt accordingly.
 """
 
 
