@@ -500,7 +500,7 @@ Given a learning objective, your goal is to write an exercise set of 3 high-qual
 # Concepts
 ## Learning objective
 Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz).
-All exercises must test the very same specific key part of the given learning objective, focusing only on info that's not in parentheses. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
+All exercises must test the very same specific key part of the given learning objective, focusing only on info that's not in parentheses. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises (Theory if it's important for understanding the exercise beforehand, explanation if it's .
 
 ## Exercise set
 Comprises 3 exercises that all test the same single learning objective: one bigger multiple choice exercise and two smaller true/false statements. See this example:
@@ -832,12 +832,12 @@ Be precise. Shun absolute terms like 'never' or 'always', as they imply complete
 
 
 template_refine_fluster_text = """
-Given some source data containing exercises, distill only the exercises themselves from it (exactly as given, including Theory and Extra info if present) for further processing, removing all commentary. 
+Given some source data containing exercises, distill only the exercises themselves from it (exactly as given, including Theory and Explanation context if present) for further processing, removing all background reasoning commentary. If any information in the prompt is a spoiler to the correct answer, relegate that information to the Explanation (given áfter the exercise is answered) instead. 
 """
 
 
 template_sanitize_fluster_text = """
-Your task is to reformat the exercises. This should be your only output: a neat representation of all exercises. Instead of listing the index of the correct answer, show it by adding a little arrow indicator after the correct answer option, like this:
+Your task is to reformat the exercises, retaining all information. This should be your only output: a neat reformatted representation of all exercises. Instead of listing the index of the correct answer, show it by adding a little arrow indicator after the correct answer option, like this:
 
 #. [answer option] ⬅️
 
