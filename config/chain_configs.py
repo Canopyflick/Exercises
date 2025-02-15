@@ -73,8 +73,8 @@ chain_configs = {
         "default_llm_b": llms["o3-mini (high reasoning_effort)"],
         # Prompt & LLM for the refine-distractors step
         "template_refine_fluster": template_refine_fluster,
-        "llm_refine": llms["o1 (high reasoning_effort)"],
+        "llm_refine": llms["GPT-4o (zero temp)"],
         "template_sanitize": template_sanitize_fluster,
-        "llm_sanitize": llms["GPT-4o (zero temp)"],
+        "llm_sanitize": llms["GPT-4o-mini (zero temp)"],
     },
 }

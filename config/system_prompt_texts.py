@@ -776,13 +776,23 @@ Be precise. Shun absolute terms like 'never' or 'always', as they imply complete
 
 
 template_refine_fluster_text = """
-Given some source data containing exercises, critically analyze this with the goal of refining and improving the exercises. 
-Play devil's advocate here: in what ways is this version of the exercises not perfect? Do some reasoning about this, and then give the improved exercises. If you didn't find anything to improve, just return the exercises as they are.
+Given some source data containing exercises, distill only the exercises themselves from it (exactly as given) for further processing, removing all commentary. 
 """
 
 
 template_sanitize_fluster_text = """
-Your task is to process the source data, and extract only the exercises from it. This should be your only output: a neat plaintext representation of all final exercises.  
+Your task is to reformat the exercises. This should be your only output: a neat representation of all exercises, fitting in the following template:
+<template>
+1. **Multiple-choice exercise**
+[exercise 1]
+
+2. **Correct statement**
+[exercise 2]
+
+3. **Incorrect statement**
+[exercise 3]
+</template> 
+Should there be more than 3 exercises, or different types, adapt accordingly.
 """
 
 

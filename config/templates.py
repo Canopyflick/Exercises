@@ -244,8 +244,7 @@ template_refine_fluster = ChatPromptTemplate(
 template_sanitize_fluster = ChatPromptTemplate(
     messages=[
         ("system", template_sanitize_fluster_text),
-        ("human", "Here's the source data:\n"
-                  "{refinement_result}")
+        ("human", "{refinement_result}")
     ],
     input_variables=["refinement_result"]
 )
