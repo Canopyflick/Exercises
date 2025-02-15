@@ -16,7 +16,7 @@ def build_test_set_tab():
             with gr.Column(scale=1):
                 subset_choice = gr.Dropdown(
                     choices=["Exercises ❔🚧", "Study Texts ️ℹ️🚧", "Learning Objectives 🧠🚧", "Show all"],
-                    value="Show all ❔ℹ️",
+                    value="Show all",
                     label="Subset Filter 🚧"
                 )
             with gr.Column(scale=2):

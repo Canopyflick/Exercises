@@ -607,6 +607,7 @@ After lots of iterative prep and reasoning, considering a wide range of options,
  
 ## Pointers
 - Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
+- Exercises must all test the very specific key part of the learning objective, focusing only on parts NOT in between brackets. Any text between brackets must only be used in the Theory or Extra info sections of the exercises.
 - Output format doesn't matter. It can all be haphazard and jumbled, just prioritize sound reasoning at all costs. We will reformat later in a separate step.   
 """
 
