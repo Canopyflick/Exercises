@@ -65,7 +65,7 @@ chain_configs = {
         "template_sanitize": template_sanitize_learning_objectives,
         "llm_sanitize": "GPT-4o-mini (zero temp)",
     },
-    "exercises": {
+    "fluster": {
         "class": FlusterWritingChain,
         "template_write_fluster_a": template_write_fluster_a,
         "template_write_fluster_b": template_write_fluster_b,
