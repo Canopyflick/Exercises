@@ -499,105 +499,120 @@ Given a learning objective, your goal is to write an exercise set of 3 high-qual
 
 # Concepts
 ## Learning objective
-Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (toen hij werd opgevolgd door de Wvggz)."
+Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz).
+All exercises must test the very same specific key part of the given learning objective, focusing only on info that's not in parentheses. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
 
 ## Exercise set
-Comprises 3 exercises that all test the same single learning objective: one bigger multiple choice exercise and two smaller correct/incorrect statements.
+Comprises 3 exercises that all test the same single learning objective: one bigger multiple choice exercise and two smaller true/false statements. See this example:
 <exercise_set>
     <multiple_choice_exercise>
-        Stelling:
-        De wet Bopz was sinds ..... in gebruik.
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds ..... in gebruik.
+        </prompt>
         
-        1. 1984
-        2. 1999
-        3. 2004
-        4. 2009
-        
-        Juiste antwoord: 2
-        
-        Extra info:
-        In 1993 werd de wet Bopz opgevolgd door de Wvggz.
+        <choices>
+            1. 1984
+            2. 1999
+            3. 2004
+            4. 2009
+        </choices>
+        <correct_answer>2</correct_answer>
+        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
     </multiple_choice_exercise>
-    <correct_statement>
-        Stelling:
-        De wet Bopz was sinds 1994 in gebruik.
+    
+    <true_statement>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds 1994 in gebruik.
+        </prompt>
+    
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
+    </true_statement>
+
+    <false_statement>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds 1984 in gebruik.
+        </prompt>
         
-        1. Deze stelling is correct
-        2. Deze stelling is niet correct
-        
-        Juiste antwoord: 1
-        
-        Extra info:
-        In 1994 werd de wet Bopz opgevolgd door de Wvggz.
-    </correct_statement>
-    <incorrect_statement>
-        Stelling:
-        De wet Bopz was sinds 1984 in gebruik.
-        
-        1. Deze stelling is correct
-        2. Deze stelling is niet correct
-        
-        Juiste antwoord: 2
-        
-        Extra info: 
-        De wet Bopz was sinds 1994 in gebruik. Toen werd hij opgevolgd door de Wvggz.
-    </incorrect_statement>
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+          <explanation>De wet Bopz was sinds **1994** in gebruik. Tot 2020, toen hij werd opgevolgd door de Wvggz.</explanation>
+    </false_statement>
 </exercise_set>
 
 Here's another example of an exercise set, this time for the learning objective: "De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren."
-"<exercise_set>
+<exercise_set>
     <multiple_choice_exercise>
-        Theorie:
-        Objectief betekent "zonder je eigen mening".
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+            
+            Vraag:
+            Wat moet je doen om zo objectief mogelijk te observeren?
+        </prompt>
         
-        Vraag:
-        Wat moet je doen om zo objectief mogelijk te observeren?
-        
-        1. Je intuïtie volgen
-        2. Veel theorie leren
-        3. Iemand anders erbij roepen
-        4. Dagelijks oefenen
-        
-        Juiste antwoord: 4
+        <choices>
+            1. Je intuïtie volgen
+            2. Veel theorie leren
+            3. Iemand anders erbij roepen
+            4. Dagelijks oefenen
+        </choices>
+        <correct_answer>4</correct_answer>
     </multiple_choice_exercise>
-    <correct_statement>
-        Theorie:
-        Objectief betekent "zonder je eigen mening".
-        
-        Stelling:
-        Om zo objectief mogelijk te observeren moet je dagelijks oefenen.
-        
-        1. Deze stelling is correct
-        2. Deze stelling is niet correct
-        
-        Juiste antwoord: 1
-    </correct_statement>
-    <incorrect_statement>
-        Theorie:
-        Objectief betekent "zonder je eigen mening".
-        
-        Stelling:
-        Om zo objectief mogelijk te observeren moet je een keer per jaar  oefenen.
-        
-        1. Deze stelling is correct
-        2. Deze stelling is niet correct
-        
-        Juiste antwoord: 2
-        
-        Extra info: 
-        Je moet <b>dagelijks<b> oefenen om zo objectief mogelijk te observeren.
-    </incorrect_statement>
+    
+    <true_statement>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+            
+            Stelling:
+            Om zo objectief mogelijk te observeren moet je dagelijks oefenen.
+        </prompt>
+    
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+    </true_statement>
+
+    <false_statement>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+            
+            Stelling:
+            Om zo objectief mogelijk te observeren moet je een keer per jaar oefenen.
+        </prompt>
+    
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+        <explanation>Om zo objectief mogelijk te kunnen observeren, is het belangrijk om regelmatig, bij voorkeur <b>dagelijks</b>, te oefenen.</explanation>
+    </false_statement>
 </exercise_set>
 
 
 ## Distractors
-The alternative answer options of the multiple choice exercise that are not the correct answer are called distractors. These are the most important part of the exercise. Effective distractors strike the perfect balance between "very plausible to someone who doesn't know the answer to the question" and "clearly wrong to someone who does know the answer to the question".
+The alternative answer options of the multiple choice exercise that are not the correct answer are called distractors. These are the most important part of the exercise. Effective distractors strike an optimal balance between "very plausible to someone who doesn't know the answer to the question" and "clearly wrong to someone who does know the answer to the question".
 
 ## Theory 
-Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory. The student gets to see this as part of the exercise prompt.
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory in the prompt. The student gets to see this as part of the exercise prompt.
 
-# Extra info
-Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, but useful related, additional info. The student gets to see this after they pick their answer. Incorrect statements always need extra info, to tell the student why the statement is incorrect (explaining what the correct statement would have been). Other exercises should only get extra info if there is the learning objective contains appropriate info for this. 
+# Explanation
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, nor is it necessary to clarify the prompt. If this is useful related, additional info, add it to the explanation, so that the student gets to see this after they pick their answer. The false statement always needs an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been). Other exercises should only get an explanation if the learning objective contains appropriate info for this. 
 
 # Approach
 Think long and hard about the ideal three exercises to test the given learning objective. Especially spend a lot of time picking good distractors for the first multiple choice exercise. 
@@ -607,8 +622,48 @@ After lots of iterative prep and reasoning, considering a wide range of options,
  
 ## Pointers
 - Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
-- Exercises must all test the very specific key part of the learning objective, focusing only on parts NOT in between brackets. Any text between brackets must only be used in the Theory or Extra info sections of the exercises.
 - Output format doesn't matter. It can all be haphazard and jumbled, just prioritize sound reasoning at all costs. We will reformat later in a separate step.   
+"""
+
+
+
+"""
+<multiple_choice_exercise>
+    <prompt>
+    
+    </prompt>
+    
+    <choices>
+    
+    </choices>
+    <correct_answer></correct_answer>
+    <explanation></explanation>
+</multiple_choice_exercise>
+
+<true_statement>
+        <prompt>
+            
+        </prompt>
+
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+        <explanation></explanation>
+</true_statement>
+<false_statement>
+        <prompt>
+
+        </prompt>
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+        <explanation></explanation>
+</false_statement>
+
 """
 
 # The existing prompt in Course Generator webapp
