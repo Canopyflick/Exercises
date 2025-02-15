@@ -49,10 +49,11 @@ def build_diagnoser_tab():
         diagnoser_button = gr.Button("Diagnose")
 
         # Create 10 Response textboxes
-        diagnoser_responses = [
-            gr.Textbox(label=f"Response {i + 1}", interactive=False, visible=(i == 0))
-            for i in range(10)
-        ]
+        with gr.Column():
+            diagnoser_responses = [
+                gr.Textbox(label=f"Response {i + 1}", interactive=False, visible=(i == 0))
+                for i in range(10)
+            ]
 
         # Set up a change callback so that if the user selects any model with "Claude" in the name, the exercise format updates to "XML"
         model_choice_diagnose.change(

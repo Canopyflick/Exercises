@@ -622,8 +622,148 @@ After lots of iterative prep and reasoning, considering a wide range of options,
  
 ## Pointers
 - Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
-- Output format doesn't matter. It can all be haphazard and jumbled, just prioritize sound reasoning at all costs. We will reformat later in a separate step.   
+- Output format doesn't matter: prioritize careful reasoning.   
 """
+
+uitgangspunt_template_for_writing_a_fluster = """
+# Task outline
+Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same knowledge that's stated in the learning objective.
+
+# Concepts
+## Learning objective
+Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz).
+All exercises must test the very same specific key part of the given learning objective, focusing only on info that's not in parentheses. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises (Theory if it's important for understanding the exercise beforehand, explanation if it's .
+
+## Exercise set
+Comprises 3 exercises that all test the same single learning objective: one bigger multiple choice exercise and two smaller true/false statements. See this example:
+<exercise_set>
+    <multiple_choice_exercise>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds ..... in gebruik.
+        </prompt>
+
+        <choices>
+            1. 1984
+            2. 1999
+            3. 2004
+            4. 2009
+        </choices>
+        <correct_answer>2</correct_answer>
+        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
+    </multiple_choice_exercise>
+
+    <true_statement>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds 1994 in gebruik.
+        </prompt>
+
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
+    </true_statement>
+
+    <false_statement>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds 1984 in gebruik.
+        </prompt>
+
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+          <explanation>De wet Bopz was sinds **1994** in gebruik. Tot 2020, toen hij werd opgevolgd door de Wvggz.</explanation>
+    </false_statement>
+</exercise_set>
+
+Here's another example of an exercise set, this time for the learning objective: "De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren."
+<exercise_set>
+    <multiple_choice_exercise>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+
+            Vraag:
+            Wat moet je doen om zo objectief mogelijk te observeren?
+        </prompt>
+
+        <choices>
+            1. Je intuïtie volgen
+            2. Veel theorie leren
+            3. Iemand anders erbij roepen
+            4. Dagelijks oefenen
+        </choices>
+        <correct_answer>4</correct_answer>
+    </multiple_choice_exercise>
+
+    <true_statement>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+
+            Stelling:
+            Om zo objectief mogelijk te observeren moet je dagelijks oefenen.
+        </prompt>
+
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+    </true_statement>
+
+    <false_statement>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+
+            Stelling:
+            Om zo objectief mogelijk te observeren moet je een keer per jaar oefenen.
+        </prompt>
+
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+        <explanation>Om zo objectief mogelijk te kunnen observeren, is het belangrijk om regelmatig, bij voorkeur <b>dagelijks</b>, te oefenen.</explanation>
+    </false_statement>
+</exercise_set>
+
+
+## Distractors
+The alternative answer options of the multiple choice exercise that are not the correct answer are called distractors. These are the most important part of the exercise. Effective distractors strike an optimal balance between "very plausible to someone who doesn't know the answer to the question" and "clearly wrong to someone who does know the answer to the question".
+
+## Theory 
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory in the prompt. The student gets to see this as part of the exercise prompt.
+
+# Explanation
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, nor is it necessary to clarify the prompt. If this is useful related, additional info, add it to the explanation, so that the student gets to see this after they pick their answer. The false statement always needs an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been). Other exercises should only get an explanation if the learning objective contains appropriate info for this. 
+
+# Approach
+Think long and hard about the ideal three exercises to test the given learning objective. 
+## Distractors
+Especially spend a lot of time picking good distractors for the first multiple choice exercise. 
+Imagine the typical Dumb Student among the target audience for the given learning objective, bottom of their class. Would they sometimes find each distractor sound appealing if they hadn't studied for the test? We want to avoid the possibility that they can too easily dismiss and eliminate a distractor as clearly not a serious option, just on the basis of it looking weird to them. Imagine whether very stupid students with limited general knowledge, and no knowledge of the topic of the exercise, might find the distractor plausible. That's the goal. 
+At the same time, a distractor must not be too close to the truth either, because that would be misleading. 
+Imagine asking an Expert Panel of 10 domain experts to judge this. All of them should agree that the correct answer is the clearly best answer in this exercise. 
+Really carry out these thought experiments of how the Dumb Student and the Expert Panel would look at the exercise. If there's any doubt the experts would agree on the best answer, rephrase the offending distractor to be a bit less true, and imagine again. If there's 
+After lots of iterative prep and reasoning, considering a wide range of options, weighing what would be the best, finally return a complete exercise set of 1 multiple choice exercise and 2 statements.
+
+## Pointers
+- Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
+- Avoid the use of unnecessarily strong false statements or distractors using words like "all", "never" or "exclusively" etc., because they're often too easy to dismiss (unless the correct answer is similarly extreme). For example: instead of your false statement being "De enige factor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan", it is better to give a less extreme (and therefore more plausible-sounding) statement, like: "De hoofdfactor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan".  
+- Output format doesn't matter, prioritize careful reasoning.
+"""
+
+
+
 
 
 
@@ -832,7 +972,7 @@ Be precise. Shun absolute terms like 'never' or 'always', as they imply complete
 
 
 template_refine_fluster_text = """
-Given some source data containing exercises, distill only the exercises themselves from it (exactly as given, including Theory and Explanation context if present) for further processing, removing all background reasoning commentary. If any information in the prompt is a spoiler to the correct answer, relegate that information to the Explanation (given áfter the exercise is answered) instead. 
+Given some source data containing exercises, correct any spelling errors. 
 """
 
 
