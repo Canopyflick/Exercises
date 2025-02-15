@@ -17,7 +17,7 @@ from config.system_prompt_texts import (
     template_sanitize_learning_objectives_text,
     template_write_fluster_a_text,
     template_write_fluster_b_text,
-    template_refine_distractors_text,
+    template_refine_fluster_text,
     template_sanitize_fluster_text,
 )
 
@@ -230,9 +230,9 @@ template_write_fluster_b = ChatPromptTemplate(
 )
 
 
-template_refine_distractors = ChatPromptTemplate(
+template_refine_fluster = ChatPromptTemplate(
     messages=[
-        ("system", template_refine_distractors_text),
+        ("system", template_refine_fluster_text),
         ("human", "Here's the source data:\n"
                   "{write_fluster_result}")
     ],

@@ -15,7 +15,7 @@ class FlusterWritingChain(BaseModel):
     default_llm_a: Any
     default_llm_b: Any
 
-    template_refine_distractors: ChatPromptTemplate
+    template_refine_fluster: ChatPromptTemplate
     llm_refine: Any
 
     template_sanitize_fluster: ChatPromptTemplate

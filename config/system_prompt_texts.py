@@ -775,7 +775,7 @@ Be precise. Shun absolute terms like 'never' or 'always', as they imply complete
 """
 
 
-template_refine_distractors_text = """
+template_refine_fluster_text = """
 Given some source data containing exercises, critically analyze this with the goal of refining and improving the exercises. 
 Play devil's advocate here: in what ways is this version of the exercises not perfect? Do some reasoning about this, and then give the improved exercises. If you didn't find anything to improve, just return the exercises as they are.
 """

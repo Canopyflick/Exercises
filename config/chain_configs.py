@@ -15,7 +15,7 @@ from config.templates import (
     template_sanitize_learning_objectives,
     template_write_fluster_a,
     template_write_fluster_b,
-    template_refine_distractors,
+    template_refine_fluster,
     template_sanitize_fluster,
 )
 from chains.diagnoser.diagnoser_chain import DiagnoserChain
@@ -72,7 +72,7 @@ chain_configs = {
         "default_llm_a": llms["o1 (high reasoning_effort)"],
         "default_llm_b": llms["o3-mini (high reasoning_effort)"],
         # Prompt & LLM for the refine-distractors step
-        "template_refine_distractors": template_refine_distractors,
+        "template_refine_fluster": template_refine_fluster,
         "llm_refine": llms["o1 (high reasoning_effort)"],
         "template_sanitize": template_sanitize_fluster,
         "llm_sanitize": "GPT-4o-mini (zero temp)",

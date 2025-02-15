@@ -27,7 +27,7 @@ async def run_fluster(
     llm_a = llms.get(model_choice_1, config["default_llm_a"])
     llm_b = llms.get(model_choice_2, config["default_llm_b"])
 
-    template_refine = config["template_refine_distractors"]
+    template_refine = config["template_refine_fluster"]
     llm_refine = config["llm_refine"]
 
     template_sanitize = config["template_sanitize"]
@@ -60,17 +60,17 @@ async def run_fluster(
             gen_llm = llm_b
 
         # 1) Generate
-        gen_msg = await gen_template.aformat_prompt(user_input=user_input_text)
+        gen_msg = await gen_template.aformat_prompt(learning_objective=user_input_text)
         gen_resp = await gen_llm.ainvoke(gen_msg.to_messages())
         write_fluster_result = getattr(gen_resp, "content", gen_resp)
 
         # 2) Refine distractors
-        refine_msg = await template_refine.aformat_prompt(raw_exercise=write_fluster_result)
+        refine_msg = await template_refine.aformat_prompt(write_fluster_result=write_fluster_result)
         refine_resp = await llm_refine.ainvoke(refine_msg.to_messages())
         refined_output = getattr(refine_resp, "content", refine_resp)
 
         # 3) Sanitize
-        sanitize_msg = await template_sanitize.aformat_prompt(raw_output=refined_output)
+        sanitize_msg = await template_sanitize.aformat_prompt(refinement_result=refined_output)
         sanitize_resp = await llm_sanitize.ainvoke(sanitize_msg.to_messages())
         sanitized_output = getattr(sanitize_resp, "content", sanitize_resp)
 

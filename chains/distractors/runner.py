@@ -30,7 +30,7 @@ async def run_distractors(
     # Fetch the DistractorsChain configuration.
     config = chain_configs["distractors"]
 
-    # 1) Standardize the user query exactly once
+    # 1) Standardize the user query once for all tracks
     standardized_exercise = await standardize_exercise(
         user_query,
         exercise_format_distractors,
