@@ -99,8 +99,12 @@ with gr.Blocks() as interface:
              [fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],
              ) = build_write_fluster_tab()
 
-            # Empty separator
-            with gr.TabItem("", visible=True, scale=3):
+            # 3 Empty separators (somehow scale=3 doesn't work)
+            with gr.Tab("", visible=True):
+                pass
+            with gr.Tab("", visible=True):
+                pass
+            with gr.Tab("", visible=True):
                 pass
 
             # Build Prompts tab
