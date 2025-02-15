@@ -81,6 +81,7 @@ with gr.Blocks() as interface:
              final_distractors_specification,
              ) = build_distractors_tab()
 
+
             # Build Learning Objectives Generator tab
             (model_choice_LO_1,
              model_choice_LO_2,
@@ -98,8 +99,9 @@ with gr.Blocks() as interface:
              [fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],
              ) = build_write_fluster_tab()
 
-
-
+            # Empty separator
+            with gr.TabItem("", visible=True):
+                pass
 
             # Build Prompts tab
             (pipeline_choice,
