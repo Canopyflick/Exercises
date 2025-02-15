@@ -528,7 +528,7 @@ Comprises 3 exercises that all test the same single learning objective: one bigg
         Juiste antwoord: 1
         
         Extra info:
-        In 1993 werd de wet Bopz opgevolgd door de Wvggz.
+        In 1994 werd de wet Bopz opgevolgd door de Wvggz.
     </correct_statement>
     <incorrect_statement>
         Stelling:
@@ -597,7 +597,7 @@ The alternative answer options of the multiple choice exercise that are not the 
 Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory. The student gets to see this as part of the exercise prompt.
 
 # Extra info
-Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, but useful related, additional info. The student gets to see this after they pick their answer. Incorrect statements always need extra info, to tell the student why the statement is incorrect (explaining what the correct statement would have been). 
+Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, but useful related, additional info. The student gets to see this after they pick their answer. Incorrect statements always need extra info, to tell the student why the statement is incorrect (explaining what the correct statement would have been). Other exercises should only get extra info if there is the learning objective contains appropriate info for this. 
 
 # Approach
 Think long and hard about the ideal three exercises to test the given learning objective. Especially spend a lot of time picking good distractors for the first multiple choice exercise. 
