@@ -634,10 +634,10 @@ An explanation should sometimes be presented to the student after they've answer
 # Requirements
 
 ## Exercise
-Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Assume this described fact is self-evident, not in need of any further outside sourcing or substantiation. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
+Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Assume this described fact is self-evident, not in need of any further outside source or authority for substantiation. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
 
 ## Prompt
-The information in the prompt should only contain information that's also present in the learning objective. Don't reference anything outside of it, nor itself. Simply pose the ideal question or statement to test the student's knowledge of the described fact.
+The information in the prompt should only contain information that's also present in the learning objective. For example, don't reference anything outside of it (for example, don't use "according to the study text" if the learning objective doesn't say this either).
 
 ## Theory & Explanation (optional)
 Theory or Explanation should only be added to all 3 exercises if there's additional info present in the learning objective (often between parentheses, or as a subclause) that is outside of the main fact that's to be tested.
