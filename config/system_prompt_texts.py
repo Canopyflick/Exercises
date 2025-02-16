@@ -634,14 +634,17 @@ An explanation should sometimes be presented to the student after they've answer
 # Requirements
 
 ## Exercise
-Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
+Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Assume this described fact is self-evident, not in need of any further outside sourcing or substantiation. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
+
+## Prompt
+The information in the prompt should only contain information that's also present in the learning objective. Don't reference anything outside of it, nor itself. Simply pose the ideal question or statement to test the student's knowledge of the described fact.
 
 ## Theory & Explanation (optional)
 Theory or Explanation should only be added to all 3 exercises if there's additional info present in the learning objective (often between parentheses, or as a subclause) that is outside of the main fact that's to be tested.
-### Theory
+### Theory (optional)
 Put any info here that is useful for the student to know before answering the question, as context to clarify the question or statement. The student is prompted with this together with the posing of the rest of the exercise.
-### Explanation
-Put any info there that is not necessary to clarify the prompt beforehand (or that might in fact spoil the answer). The explanation section is for supplemental info that'll help the student to facilitate learning after they've already seen the correct answer. The false statement should always get an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been).
+### Explanation (optional)
+Put any info there that is not necessary to clarify the prompt beforehand (or that might in fact spoil the answer). The explanation section is for supplemental info that'll help the student to facilitate learning after they've already seen the correct answer. Usually no explanation is needed. The false statement however, always needs an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been).
 
 ## Distractors
 A good distractor makes a student pause and consider it, separating those who understand the material from those who do not. A bad distractor fails to do this; it can either:
