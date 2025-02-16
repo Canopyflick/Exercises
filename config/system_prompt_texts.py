@@ -495,11 +495,186 @@ template_sanitize_learning_objectives_text = """
 
 template_write_fluster_a_text= """
 # Task outline
+
+Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same key fact that's stated in the learning objective.
+
+
+# Concepts
+
+## Learning objective
+A learning objective states a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz)." It consist of the fact of focus, and sometimes some additional context between parentheses.
+
+## Exercise
+An exercise tests the fact that is stated in the learning objective. It consists of:
+1. A prompt, posing to the student:
+    - A question or statement
+    - (Optional) Theory, additional information to clarify the question or statement
+2. Choices, which are the multiple answer options that are presented to the student as potential answers to the prompt.
+3. Correct answer, which indicates which of the choices is the correct answer to the prompt.
+4. (Optional) Explanation, explaining or expanding on the answer to the student to facilitate increased learning. 
+The student is always first presented with 1 and 2 (prompt and choices), and then, after they've picked an answer, they get to see 3 and 4 (the correct answer and optionally an explanation).    
+
+## Exercise set
+An exercise set comprises 3 exercises that all test the same single learning objective in three different ways: one bigger multiple choice exercise and two smaller true/false statements.
+
+## Distractors
+Distractors are the alternative answer option choices of the exercises that are not the correct answer. The false statement can also be considered a distractor (tempting the student to thing it is correct). Distractors are in fact the most important part of the exercises, because they often either make or break it. This is because distractors are difficult to get right, because in order to be effective they need to strike a precarious balance between "plausible-sounding" and yet "not too close to the truth", both at the same time. More on that in the requirements section.
+
+## Theory (optional)
+Theory is sometimes shown before answering the exercise, as an optional part of the prompt to clarify the question.
+
+## Explanation (optional)
+An explanation should sometimes be presented to the student after they've answered the exercise, as an optional part of the correct answer reveal to better facilitate learning.  
+
+
+# Examples
+
+## Exercise set for the learning objective: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz)".
+<exercise_set>
+    <multiple_choice_exercise>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds ..... in gebruik.
+        </prompt>
+        
+        <choices>
+            1. 1984
+            2. 1999
+            3. 2004
+            4. 2009
+        </choices>
+        <correct_answer>2</correct_answer>
+        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
+    </multiple_choice_exercise>
+    
+    <true_statement>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds 1994 in gebruik.
+        </prompt>
+    
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
+    </true_statement>
+
+    <false_statement>
+        <prompt>
+            Stelling:
+            De wet Bopz was sinds 1984 in gebruik.
+        </prompt>
+        
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+        <explanation>De wet Bopz was sinds **1994** in gebruik. Tot 2020, toen hij werd opgevolgd door de Wvggz.</explanation>
+    </false_statement>
+</exercise_set>
+
+## Exercise set for the learning objective: "De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren."
+<exercise_set>
+    <multiple_choice_exercise>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+            
+            Vraag:
+            Wat moet je doen om zo objectief mogelijk te observeren?
+        </prompt>
+        
+        <choices>
+            1. Je intuïtie volgen
+            2. Veel theorie leren
+            3. Iemand anders erbij roepen
+            4. Dagelijks oefenen
+        </choices>
+        <correct_answer>4</correct_answer>
+    </multiple_choice_exercise>
+    
+    <true_statement>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+            
+            Stelling:
+            Om zo objectief mogelijk te observeren moet je dagelijks oefenen.
+        </prompt>
+    
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>1</correct_answer>
+    </true_statement>
+
+    <false_statement>
+        <prompt>
+            Theorie:
+            Objectief betekent "zonder je eigen mening".
+            
+            Stelling:
+            Om zo objectief mogelijk te observeren moet je een keer per jaar oefenen.
+        </prompt>
+    
+        <choices>
+            1. Deze stelling is correct
+            2. Deze stelling is niet correct
+        </choices> 
+        <correct_answer>2</correct_answer>
+        <explanation>Om zo objectief mogelijk te kunnen observeren, is het belangrijk om regelmatig, bij voorkeur <b>dagelijks</b>, te oefenen.</explanation>
+    </false_statement>
+</exercise_set>
+
+
+# Requirements
+
+## Exercise
+Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
+
+## Theory & Explanation (optional)
+Theory or Explanation should only be added to all 3 exercises if there's additional info present in the learning objective (often between parentheses, or as a subclause) that is outside of the main fact that's to be tested.
+### Theory
+Put any info here that is useful for the student to know before answering the question, as context to clarify the question or statement. The student is prompted with this together with the posing of the rest of the exercise.
+### Explanation
+Put any info there that is not necessary to clarify the prompt beforehand (or that might in fact spoil the answer). The explanation section is for supplemental info that'll help the student to facilitate learning after they've already seen the correct answer. The false statement should always get an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been).
+
+## Distractors
+A good distractor makes a student pause and consider it, separating those who understand the material from those who do not. A bad distractor fails to do this; it can either:
+1. Confuse or trick even well-prepared students into believing it might be correct (“too close to the truth”)
+2. Be so obviously wrong that no one would reasonably choose it, not even the least knowledgeable student (“too obviously false”).
+To be effective, distractors must therefore look "very plausible to someone who doesn't know the topic" and yet remai n "clearly wrong to someone who knows the topic well", all at the same time.
+Distractors are too close to the truth, when they are so similar to the correct answer that experts might debate whether they're also valid. They create unnecessary ambiguity and frustrate knowledgeable test-takers, for example by containing partial truths.
+Distractors are too obviously false, when they are clearly ridiculous or fantastical to even the dumbest student.
+The ideal distractor falls in the middle of this spectrum - plausible enough to tempt those with incomplete knowledge, but clearly incorrect to those who understand the material.
+
+## Language level
+Try to exactly match the terminology and language difficulty level from the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
+
+## Output format
+Output format doesn't matter. Only prioritize thorough reasoning to arrive at high-quality exercises that satisfy all of the above requirements.
+
+# Approach
+
+Think long and hard about the ideal three exercises to test the given learning objective. Especially spend a lot of time iteratively coming up with good distractors and a good "false statement", to make sure they optimally satisfy the distractors requirements.
+As intuition pumps:
+- To guard against picking distractors that are too obviously false: Really try to imagine a relatively dumb student among the target audience for the specific given learning objective. Would they feasible find each distractor at least somewhat plausible?
+- To guard against picking distractors that are too close to the truth: Try to imagine a panel of experts judging the distractors. All of them should agree that the correct answer is clearly the best answer for this exercise, and none of them should doubt that any other choices would also be kinda correct. 
+If you're unsure about any of your distractors or "false statements" one way or the other, adapt them accordingly, and run the thought experiment again, until you get all distractors just right.
+After lots of iterative prep, trying out different things and reasoning through a wide range of potential options, finally return a complete exercise set of 1 bigger multiple choice exercise and 2 smaller True/False statements.   
+"""
+
+uitgangspunt_template_for_writing_a_fluster = """
+# Task outline
 Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same knowledge that's stated in the learning objective.
 
 # Concepts
 ## Learning objective
-Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz).
+Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz)."
 All exercises must test the very same specific key part of the given learning objective, focusing only on info that's not in parentheses. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises (Theory if it's important for understanding the exercise beforehand, explanation if it's .
 
 ## Exercise set
@@ -611,7 +786,7 @@ The alternative answer options of the multiple choice exercise that are not the 
 ## Theory 
 Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory in the prompt. The student gets to see this as part of the exercise prompt.
 
-# Explanation
+## Explanation
 Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, nor is it necessary to clarify the prompt. If this is useful related, additional info, add it to the explanation, so that the student gets to see this after they pick their answer. The false statement always needs an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been). Other exercises should only get an explanation if the learning objective contains appropriate info for this. 
 
 # Approach
@@ -622,144 +797,7 @@ After lots of iterative prep and reasoning, considering a wide range of options,
  
 ## Pointers
 - Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
-- Output format doesn't matter: prioritize careful reasoning.   
-"""
-
-uitgangspunt_template_for_writing_a_fluster = """
-# Task outline
-Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same knowledge that's stated in the learning objective.
-
-# Concepts
-## Learning objective
-Tests a specific fact. For example: "De student weet dat de Wet Bopz sinds 1994 in gebruik was (tot hij in 2020 werd opgevolgd door de Wvggz).
-All exercises must test the very same specific key part of the given learning objective, focusing only on info that's not in parentheses. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises (Theory if it's important for understanding the exercise beforehand, explanation if it's .
-
-## Exercise set
-Comprises 3 exercises that all test the same single learning objective: one bigger multiple choice exercise and two smaller true/false statements. See this example:
-<exercise_set>
-    <multiple_choice_exercise>
-        <prompt>
-            Stelling:
-            De wet Bopz was sinds ..... in gebruik.
-        </prompt>
-
-        <choices>
-            1. 1984
-            2. 1999
-            3. 2004
-            4. 2009
-        </choices>
-        <correct_answer>2</correct_answer>
-        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
-    </multiple_choice_exercise>
-
-    <true_statement>
-        <prompt>
-            Stelling:
-            De wet Bopz was sinds 1994 in gebruik.
-        </prompt>
-
-        <choices>
-            1. Deze stelling is correct
-            2. Deze stelling is niet correct
-        </choices> 
-        <correct_answer>1</correct_answer>
-        <explanation>In 2020 werd de wet Bopz opgevolgd door de Wvggz.</explanation>
-    </true_statement>
-
-    <false_statement>
-        <prompt>
-            Stelling:
-            De wet Bopz was sinds 1984 in gebruik.
-        </prompt>
-
-        <choices>
-            1. Deze stelling is correct
-            2. Deze stelling is niet correct
-        </choices> 
-        <correct_answer>2</correct_answer>
-          <explanation>De wet Bopz was sinds **1994** in gebruik. Tot 2020, toen hij werd opgevolgd door de Wvggz.</explanation>
-    </false_statement>
-</exercise_set>
-
-Here's another example of an exercise set, this time for the learning objective: "De student weet dat je dagelijks oefent om zo objectief (zonder je eigen mening) mogelijk te observeren."
-<exercise_set>
-    <multiple_choice_exercise>
-        <prompt>
-            Theorie:
-            Objectief betekent "zonder je eigen mening".
-
-            Vraag:
-            Wat moet je doen om zo objectief mogelijk te observeren?
-        </prompt>
-
-        <choices>
-            1. Je intuïtie volgen
-            2. Veel theorie leren
-            3. Iemand anders erbij roepen
-            4. Dagelijks oefenen
-        </choices>
-        <correct_answer>4</correct_answer>
-    </multiple_choice_exercise>
-
-    <true_statement>
-        <prompt>
-            Theorie:
-            Objectief betekent "zonder je eigen mening".
-
-            Stelling:
-            Om zo objectief mogelijk te observeren moet je dagelijks oefenen.
-        </prompt>
-
-        <choices>
-            1. Deze stelling is correct
-            2. Deze stelling is niet correct
-        </choices> 
-        <correct_answer>1</correct_answer>
-    </true_statement>
-
-    <false_statement>
-        <prompt>
-            Theorie:
-            Objectief betekent "zonder je eigen mening".
-
-            Stelling:
-            Om zo objectief mogelijk te observeren moet je een keer per jaar oefenen.
-        </prompt>
-
-        <choices>
-            1. Deze stelling is correct
-            2. Deze stelling is niet correct
-        </choices> 
-        <correct_answer>2</correct_answer>
-        <explanation>Om zo objectief mogelijk te kunnen observeren, is het belangrijk om regelmatig, bij voorkeur <b>dagelijks</b>, te oefenen.</explanation>
-    </false_statement>
-</exercise_set>
-
-
-## Distractors
-The alternative answer options of the multiple choice exercise that are not the correct answer are called distractors. These are the most important part of the exercise. Effective distractors strike an optimal balance between "very plausible to someone who doesn't know the answer to the question" and "clearly wrong to someone who does know the answer to the question".
-
-## Theory 
-Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses) that is not the direct focus to test, but useful to know for the student beforehand to better understand the question. This is then added as Theory in the prompt. The student gets to see this as part of the exercise prompt.
-
-# Explanation
-Optional. Sometimes there's additional knowledge present in the learning objective (often between parentheses, or as a subclause) that is not the direct focus to know, nor is it necessary to clarify the prompt. If this is useful related, additional info, add it to the explanation, so that the student gets to see this after they pick their answer. The false statement always needs an explanation, to tell the student why the statement is incorrect (explaining what the true statement would have been). Other exercises should only get an explanation if the learning objective contains appropriate info for this. 
-
-# Approach
-Think long and hard about the ideal three exercises to test the given learning objective. 
-## Distractors
-Especially spend a lot of time picking good distractors for the first multiple choice exercise. 
-Imagine the typical Dumb Student among the target audience for the given learning objective, bottom of their class. Would they sometimes find each distractor sound appealing if they hadn't studied for the test? We want to avoid the possibility that they can too easily dismiss and eliminate a distractor as clearly not a serious option, just on the basis of it looking weird to them. Imagine whether very stupid students with limited general knowledge, and no knowledge of the topic of the exercise, might find the distractor plausible. That's the goal. 
-At the same time, a distractor must not be too close to the truth either, because that would be misleading. 
-Imagine asking an Expert Panel of 10 domain experts to judge this. All of them should agree that the correct answer is the clearly best answer in this exercise. 
-Really carry out these thought experiments of how the Dumb Student and the Expert Panel would look at the exercise. If there's any doubt the experts would agree on the best answer, rephrase the offending distractor to be a bit less true, and imagine again. If there's 
-After lots of iterative prep and reasoning, considering a wide range of options, weighing what would be the best, finally return a complete exercise set of 1 multiple choice exercise and 2 statements.
-
-## Pointers
-- Try to exactly match the content and language level in the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
-- Avoid the use of unnecessarily strong false statements or distractors using words like "all", "never" or "exclusively" etc., unless the correct answer is equally extreme. Otherwise, distractors using such strong claims are too easy to dismiss. For example: instead of your false statement being "De *enige* factor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan", it is better to give a less extreme (and therefore more plausible-sounding) statement, like: "De hoofdfactor die slaapkwaliteit beïnvloedt, is consistent naar bed gaan".  
-- Output format doesn't matter, prioritize careful reasoning.
+- Output format doesn't matter: prioritize careful reasoning.
 """
 
 

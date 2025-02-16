@@ -36,11 +36,11 @@ def build_write_fluster_tab():
         #   row 1 => (box_0, box_1)
         #   row 2 => (box_2, box_3)
         with gr.Row():
-            box_0 = gr.Textbox(label="Prompt A + LLM 1", interactive=False)
-            box_1 = gr.Textbox(label="Prompt A + LLM 1", interactive=False)
+            box_0 = gr.Textbox(label="Prompt A + LLM 1", interactive=False, lines=14)
+            box_1 = gr.Textbox(label="Prompt A + LLM 1", interactive=False, lines=14)
         with gr.Row():
-            box_2 = gr.Textbox(label="Prompt A + LLM 2", interactive=False)
-            box_3 = gr.Textbox(label="Prompt A + LLM 2", interactive=False)
+            box_2 = gr.Textbox(label="Prompt A + LLM 2", interactive=False, lines=14)
+            box_3 = gr.Textbox(label="Prompt A + LLM 2", interactive=False, lines=14)
 
 
 

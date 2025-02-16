@@ -99,27 +99,27 @@ diagnose_scorecard_template = ChatPromptTemplate(
         1. Double negatives (if the exercise contains something like 'to not not do something', this is undesirable)
         2. The correct multiple choice answer option stands out from the rest (this is a hint for the student)
         3. A distractors answer option is too obviously false (it's useless, no student would ever pick it)
-        4. A distractors answer option is actually also kinda correct (it's misleading, if a student picks it they're not 100% wrong) 
+        4. A distractors answer option is too close to the truth (it's misleading, if a student picks it some experts might agree they are correct) 
         Use these two icons: 
         - ✅ means the diagnosis of the issue came back negative, so the issue is not present.
         - ❌ means the diagnosis of the issue came back positive, so the issue is present.
         (and a third icon if need be: - ❔ means the diagnosis is unclear)
         The scorecard should always look like this:
         <template>
-        1. The exercise does not contain/contains a double negative: ✅/❌ -- 2. The correct answer does not/does stand out: ✅/❌ -- 3. None/Some of the distractors are too obviously false: ✅/❌ -- 4. None/Some of the distractors are actually also kinda correct: ✅/❌
+        1. The exercise does not contain/contains a double negative: ✅/❌ -- 2. The correct answer does not/does stand out: ✅/❌ -- 3. None/Some of the distractors are too close to the truth: ✅/❌ -- 4. None/Some of the distractors are too close to the truth: ✅/❌
         </template>
         <example 1>
-        1. The exercise doesn't contain a double negative: ✅ -- 2. The correct answer does not stand out: ✅ -- 3. None of the distractors are too obviously false: ✅ -- 4. None of the distractors are actually also kinda correct: ✅
+        1. The exercise doesn't contain a double negative: ✅ -- 2. The correct answer does not stand out: ✅ -- 3. None of the distractors are too obviously false: ✅ -- 4. None of the distractors are too close to the truth: ✅
         </example 1>
         <example 2>
-        1. The exercise doesn't contain a double negative: ✅ -- 2. The correct answer does stand out: ❌ -- 3. None of the distractors are too obviously false: ✅ -- 4. Some of the distractors are actually also kinda correct: ❌
+        1. The exercise doesn't contain a double negative: ✅ -- 2. The correct answer does stand out: ❌ -- 3. None of the distractors are too obviously false: ✅ -- 4. Some of the distractors are too close to the truth: ❌
         </example 2>
         <example 3>
-        1. The exercise contains a double negative: ❌ -- 2. The correct answer does not stand out: ✅ -- 3. Some of the distractors are too obviously false: ❌ -- 4. None of the distractors are actually also kinda correct: ✅
+        1. The exercise contains a double negative: ❌ -- 2. The correct answer does not stand out: ✅ -- 3. Some of the distractors are too obviously false: ❌ -- 4. None of the distractors are too close to the truth: ✅
         </example 3>
-        Oftentimes, diagnoses will be elaborate and quite nuanced, first viewing the issue from different angles, considering both scenarios of passing and failing equally. For this reason, when deciding on your binary classification, you should focus only on the very last concluding sentences of each diagnosis to determine a pass or fail.
+        Oftentimes, diagnoses will be elaborate and quite nuanced, first viewing the issue from different angles, considering both scenarios of passing and failing equally. For this reason, when deciding on your binary classification, you should focus only on the very last concluding sentences of each diagnosis to determine an ultimate pass or fail.
         """),
-        ("human", "For context, here is the exercise that's being diagnose:\n"
+        ("human", "For context, here is the exercise that's being diagnosed:\n"
                   "{standardized_exercise}\n\n"
                   "Here are the diagnoses:\n"
                   "{combined_diagnosis}")
