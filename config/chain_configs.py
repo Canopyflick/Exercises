@@ -16,7 +16,7 @@ from config.templates import (
     template_write_fluster_a,
     template_write_fluster_b,
     template_refine_fluster,
-    template_sanitize_fluster, template_isolate_exercises,
+    template_sanitize_fluster, template_isolate_exercises, template_fix_exercise,
 )
 from chains.diagnoser.diagnoser_chain import DiagnoserChain
 from chains.distractors.distractors_chain import DistractorsChain

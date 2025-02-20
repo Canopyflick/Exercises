@@ -1,10 +1,55 @@
 # chains/exercises/run_fluster_with_diagnosis.py
 import asyncio
-from typing import Tuple
+from typing import Tuple, List
 
 from app.helpers.exercise_standardizer import structurize_exercise, ExerciseSet, Exercise, exercise_to_string
 from chains.exercises.runner_without import write_fluster_track
 from config.chain_configs import chain_configs
+from config.llm_config import llms
+
+import json
+from typing import List
+from pydantic import ValidationError
+
+from config.chain_configs import chain_configs
+from app.helpers.exercise_standardizer import ExerciseSet, Exercise
+
+
+async def parse_fluster_text_to_exercises(fluster_text: str) -> List[Exercise]:
+    """
+    Calls the fluster chain's template_structurize + llm_structurize
+    with a structured output approach, expecting an ExerciseSet Pydantic object.
+    Returns the list of Exercise objects.
+
+    Raises ValueError if the LLM fails or refuses to parse,
+    or if the LLM's output is invalid JSON for our schema.
+    """
+
+    # 1) Get the parse-related template & LLM from the fluster config
+    config = chain_configs["fluster"]
+    template_structurize = config["template_structurize"]
+    llm_structurize = config["llm_structurize"]
+
+    # 2) Format the prompt
+    prompt_value = await template_structurize.aformat_prompt(fluster=fluster_text)
+    messages = prompt_value.to_messages()
+
+    # 3) Call the LLM with structured output
+    #    If your version of langchain_openai supports .with_structured_output(ExerciseSet):
+    response = await llm_structurize.with_structured_output(ExerciseSet).ainvoke(messages)
+
+    # 4) Extract the parsed object
+    exercise_set = response.choices[0].message.parsed  # This should be an ExerciseSet instance
+
+    if exercise_set is None:
+        # If the LLM refused or the format was invalid, we might get None
+        raise ValueError(
+            f"LLM refused or returned invalid structured data.\nRaw content:\n{response.choices[0].message.content}"
+        )
+
+    # 5) Return the exercises list
+    #    If there's also an .id field at exercise_set.id, you can store it if needed.
+    return exercise_set.exercises
 
 
 async def _async_fluster_with_diagnosis(
@@ -47,8 +92,8 @@ async def _async_fluster_with_diagnosis(
     (t0_idx, track0_text), (t2_idx, track2_text) = await asyncio.gather(track0_coro, track2_coro)
 
     # 2) Parse each final text => list of Exercises
-    fluster0_exs = parse_fluster_text_to_exercises(track0_text)
-    fluster2_exs = parse_fluster_text_to_exercises(track2_text)
+    fluster0_exs = await parse_fluster_text_to_exercises(track0_text)
+    fluster2_exs = await parse_fluster_text_to_exercises(track2_text)
 
     # 3) Diagnose + fix each exercise
     diag0_results, fixed0_exs = await diagnose_and_fix_all(fluster0_exs, diagnoser_config)
