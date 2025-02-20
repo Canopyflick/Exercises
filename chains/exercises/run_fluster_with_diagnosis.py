@@ -69,24 +69,16 @@ async def _async_fluster_with_diagnosis(
 
     # 1) Generate track0 & track2 in parallel
     track0_coro = write_fluster_track(
-        0,
         user_input_text,
-        fluster_config["template_write_fluster_a"],
-        fluster_config["template_write_fluster_b"],
-        llms.get(model_choice_1, fluster_config["default_llm_a"]),
-        llms.get(model_choice_2, fluster_config["default_llm_b"]),
-        fluster_config["template_sanitize"],
-        fluster_config["llm_sanitize"]
+        model_choice_1,
+        fluster_config,
+        0
     )
     track2_coro = write_fluster_track(
-        2,
         user_input_text,
-        fluster_config["template_write_fluster_a"],
-        fluster_config["template_write_fluster_b"],
-        llms.get(model_choice_1, fluster_config["default_llm_a"]),
-        llms.get(model_choice_2, fluster_config["default_llm_b"]),
-        fluster_config["template_sanitize"],
-        fluster_config["llm_sanitize"]
+        model_choice_2,
+        fluster_config,
+        2
     )
 
     (t0_idx, track0_text), (t2_idx, track2_text) = await asyncio.gather(track0_coro, track2_coro)
