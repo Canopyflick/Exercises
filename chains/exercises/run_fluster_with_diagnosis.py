@@ -36,15 +36,12 @@ async def parse_fluster_text_to_exercises(fluster_text: str) -> List[Exercise]:
 
     # 3) Call the LLM with structured output
     #    If your version of langchain_openai supports .with_structured_output(ExerciseSet):
-    response = await llm_structurize.with_structured_output(ExerciseSet).ainvoke(messages)
-
-    # 4) Extract the parsed object
-    exercise_set = response.choices[0].message.parsed  # This should be an ExerciseSet instance
+    exercise_set = await llm_structurize.with_structured_output(ExerciseSet).ainvoke(messages)
 
     if exercise_set is None:
         # If the LLM refused or the format was invalid, we might get None
         raise ValueError(
-            f"LLM refused or returned invalid structured data.\nRaw content:\n{response.choices[0].message.content}"
+            f"LLM refused or returned invalid structured data.\nRaw content:\n{exercise_set}"
         )
 
     # 5) Return the exercises list

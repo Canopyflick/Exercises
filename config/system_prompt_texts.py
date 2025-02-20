@@ -637,7 +637,7 @@ An explanation should sometimes be presented to the student after they've answer
 Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
 
 ## Prompt
-The information that's posed in the prompt part of the exercise should only contain information that's also present in the learning objective. Do not reference any source outside of it. See the below examples, both for the learning objective:
+The information that's posed in the prompt part of the exercise should only contain information that's also present in the learning objective. Do not reference any source outside of it.
 
 
 ## Theory & Explanation (optional)
@@ -667,7 +667,7 @@ Output format doesn't matter. Only prioritize thorough reasoning to arrive at hi
 Think long and hard about the ideal three exercises to test the given learning objective. Especially spend a lot of time iteratively coming up with good distractors and a good "false statement", to make sure they optimally satisfy the distractors requirements.
 As intuition pumps:
 - To guard against picking distractors that are too obviously false: Really try to imagine a relatively dumb student among the target audience for the specific given learning objective. Would they feasible find each distractor at least somewhat plausible?
-- To guard against picking distractors that are too close to the truth: Try to imagine a panel of experts judging the distractors. All of them should agree that the correct answer is clearly the best answer for this exercise, and none of them should doubt that any other choices would also be kinda correct. 
+- To guard against picking distractors that are too close to the truth: Try to imagine a panel of experts judging the distractors. All of them should agree that the correct answer is clearly the best answer for this exercise, and none of them should doubt whether any other choices would also be kinda correct. 
 If you're unsure about any of your distractors or "false statements" one way or the other, adapt them accordingly, and run the thought experiment again, until you get all distractors just right.
 After lots of iterative prep, trying out different things and reasoning through a wide range of potential options, finally return a complete exercise set of 1 bigger multiple choice exercise and 2 smaller True/False statements.   
 """
