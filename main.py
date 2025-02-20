@@ -95,8 +95,8 @@ with gr.Blocks() as interface:
             # Build write_fluster tab
             (model_choice_fluster_1,
              model_choice_fluster_2,
-             exercises_input,
              include_diagnosis,
+             exercises_input,
              write_fluster_button,
              [fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],
              diagnosis_box_1,

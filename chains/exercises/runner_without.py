@@ -108,8 +108,6 @@ async def run_fluster_no_diagnosis(
             template_write_b,
             llm_a,
             llm_b,
-            # template_refine,
-            # llm_refine,
             template_sanitize,
             llm_sanitize
         )

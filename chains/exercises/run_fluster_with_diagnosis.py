@@ -203,8 +203,10 @@ async def diagnose_and_fix_all(
         )
         diag_strings.append(diag_result)
 
+        fluster_config = chain_configs["fluster"]
+
         if "❌" in scorecard:
-            ex_fixed = await fix_exercise(ex, scorecard)
+            ex_fixed = await fix_exercise(ex, scorecard, fluster_config)
             fixed_exs.append(ex_fixed)
         else:
             fixed_exs.append(ex)
