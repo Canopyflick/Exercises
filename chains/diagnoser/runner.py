@@ -56,9 +56,13 @@ async def run_diagnoser(user_query: str, model_choice_diagnose: str, exercise_fo
     ]
     # run concurrently
     responses = await asyncio.gather(*tasks)
+    formatted_responses = [
+        f"{combined_diagnosis}\n--- [SCORECARD] ---\n{scorecard}"
+        for combined_diagnosis, scorecard in responses
+    ]
 
     # pad up to 10 if needed
-    all_responses = list(responses) + [""] * (10 - len(responses))
+    all_responses = formatted_responses + [""] * (10 - len(formatted_responses))
 
     # Return a tuple of exactly 10 responses, + the standardized exercise.
     return tuple(all_responses) + (standardized_exercise,)

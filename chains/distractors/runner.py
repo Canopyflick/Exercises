@@ -1,4 +1,4 @@
-# chains/distractors/runner.py
+# chains/distractors/runner_without.py
 import asyncio
 
 from config.chain_configs import chain_configs

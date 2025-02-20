@@ -16,7 +16,7 @@ from config.templates import (
     template_write_fluster_a,
     template_write_fluster_b,
     template_refine_fluster,
-    template_sanitize_fluster,
+    template_sanitize_fluster, template_isolate_exercises,
 )
 from chains.diagnoser.diagnoser_chain import DiagnoserChain
 from chains.distractors.distractors_chain import DistractorsChain
@@ -76,5 +76,9 @@ chain_configs = {
         "llm_refine": llms["GPT-4o (zero temp)"],
         "template_sanitize": template_sanitize_fluster,
         "llm_sanitize": llms["GPT-4o-mini (zero temp)"],
+        "template_structurize": template_isolate_exercises,
+        "llm_structurize": llms["GPT-4o (zero temp)"],
+        "template_fix_exercise": template_fix_exercise,
+        "llm_fix_exercise": llms["GPT-4o (low temp)"],
     },
 }

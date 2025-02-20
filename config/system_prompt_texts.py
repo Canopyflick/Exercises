@@ -634,10 +634,11 @@ An explanation should sometimes be presented to the student after they've answer
 # Requirements
 
 ## Exercise
-Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Assume this described fact is self-evident, not in need of any further outside source or authority for substantiation. Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
+Each of the 3 exercises must test the very same key fact in the given learning objective (the info that's not in parentheses). Any text between parentheses must only be used in the Theory or Explanation sections of the exercises.
 
 ## Prompt
-The information in the prompt should only contain information that's also present in the learning objective. For example, don't reference anything outside of it (for example, don't use "according to the study text" if the learning objective doesn't say this either).
+The information that's posed in the prompt part of the exercise should only contain information that's also present in the learning objective. Do not reference any source outside of it. See the below examples, both for the learning objective:
+
 
 ## Theory & Explanation (optional)
 Theory or Explanation should only be added to all 3 exercises if there's additional info present in the learning objective (often between parentheses, or as a subclause) that is outside of the main fact that's to be tested.
@@ -650,7 +651,7 @@ Put any info there that is not necessary to clarify the prompt beforehand (or th
 A good distractor makes a student pause and consider it, separating those who understand the material from those who do not. A bad distractor fails to do this; it can either:
 1. Confuse or trick even well-prepared students into believing it might be correct (“too close to the truth”)
 2. Be so obviously wrong that no one would reasonably choose it, not even the least knowledgeable student (“too obviously false”).
-To be effective, distractors must therefore look "very plausible to someone who doesn't know the topic" and yet remai n "clearly wrong to someone who knows the topic well", all at the same time.
+To be effective, distractors must therefore look "very plausible to someone who doesn't know the topic" and yet remain "clearly wrong to someone who knows the topic well", all at the same time.
 Distractors are too close to the truth, when they are so similar to the correct answer that experts might debate whether they're also valid. They create unnecessary ambiguity and frustrate knowledgeable test-takers, for example by containing partial truths.
 Distractors are too obviously false, when they are clearly ridiculous or fantastical to even the dumbest student.
 The ideal distractor falls in the middle of this spectrum - plausible enough to tempt those with incomplete knowledge, but clearly incorrect to those who understand the material.
@@ -1032,6 +1033,26 @@ Roughly follow the following template:
 
 3. **Incorrect statement**
 [exercise 3]
+"""
+
+template_isolate_exercises_text = """
+Split up the given exercise set into its individual exercises, adhering to this schema:"
+class Exercise(BaseModel):
+    id: int
+    prompt: str
+    choice_id_1: str
+    choice_id_2: str
+    choice_id_3: Union[str, None]
+    choice_id_4: Union[str, None]
+    correct_answer_id: Literal[1, 2, 3, 4]
+    explanation: Union[str, None]
+
+
+class ExerciseSet(BaseModel):
+    id: int
+    exercises: List[Exercise] 
+    
+Set sequential ids starting at 1. Prompt is the posing of the question (including headers, like 'Vraag:' and Theory/Case if present). Thirds and fourth answer options (choices) are optional, as are the explanations, as they're not always present. 
 """
 
 

@@ -18,7 +18,7 @@ from config.system_prompt_texts import (
     template_write_fluster_a_text,
     template_write_fluster_b_text,
     template_refine_fluster_text,
-    template_sanitize_fluster_text,
+    template_sanitize_fluster_text, template_isolate_exercises_text,
 )
 
 
@@ -242,8 +242,6 @@ template_refine_fluster = ChatPromptTemplate(
     input_variables=["write_fluster_result"]
 )
 
-
-
 template_sanitize_fluster = ChatPromptTemplate(
     messages=[
         ("system", template_sanitize_fluster_text),
@@ -252,4 +250,27 @@ template_sanitize_fluster = ChatPromptTemplate(
     input_variables=["refinement_result"]
 )
 
+template_isolate_exercises = ChatPromptTemplate(
+    messages=[
+        ("system", template_isolate_exercises_text),
+        ("human", "{fluster}")
+    ],
+    input_variables=["fluster"]
+)
 
+template_fix_exercise = ChatPromptTemplate(
+    messages=[
+        (
+            "system",
+            "You are a helpful assistant that fixes issues in a single multiple choice exercise "
+            "based on diagnosis notes. Return only valid text with the same keys as the original."
+        ),
+        (
+            "user",
+            "Original exercise:\n{exercise_text}\n\nDiagnosis:\n{diagnosis}\n\n"
+            "Rewrite the exercise so that all issues in the diagnosis are resolved. "
+            "Use the same structure (prompt, choice_id_1..4, correct_answer_id, explanation)."
+        ),
+    ],
+    input_variables=["exercise_text", "diagnosis"]
+)

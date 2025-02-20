@@ -11,7 +11,8 @@ from app.ui.test_set_tab import build_test_set_tab
 from app.ui.write_fluster_tab import build_write_fluster_tab
 from chains.diagnoser.runner import run_diagnoser
 from chains.distractors.runner import run_distractors
-from chains.exercises.runner import run_fluster
+from chains.exercises.run_fluster_with_diagnosis import run_fluster_with_diagnosis
+from chains.exercises.runner_without import run_fluster_no_diagnosis
 from chains.learning_objectives_generator.runner import run_learning_objectives_generator
 from utils.auth import login as auth_login
 
@@ -95,8 +96,13 @@ with gr.Blocks() as interface:
             (model_choice_fluster_1,
              model_choice_fluster_2,
              exercises_input,
+             include_diagnosis,
              write_fluster_button,
              [fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],
+             diagnosis_box_1,
+             diagnosis_box_3,
+             fixes_box_1,
+             fixes_box_3
              ) = build_write_fluster_tab()
 
             # 6 Empty separators (somehow scale=6 doesn't work)
@@ -163,12 +169,50 @@ with gr.Blocks() as interface:
         # or "stream=True" depending on your version of Gradio
     )
 
+    def fluster_pipeline_dispatch(
+            user_input: str,
+            model_1: str,
+            model_2: str,
+            include_diagnosis: bool
+    ):
+        """
+        Decide how to run the fluster generation.
+        If include_diagnosis=False, we do all 4 tracks, no diagnosing/fixing.
+        If include_diagnosis=True, we ONLY do tracks 1 & 3, then parse+diagnose+fix them.
+        We'll then return 8 values:
+          (track1, track2, track3, track4, diag1, diag3, fix1, fix3)
+        """
+
+        if not include_diagnosis:
+            # => run the original pipeline that yields 4 parallel flusters
+            #    and do NOT parse/diagnose/fix anything.
+            track0, track1, track2, track3 = run_fluster_no_diagnosis(user_input, model_1, model_2)
+            return (track0, track1, track2, track3, "", "", "", "")
+        else:
+            # => run only track0 & track2 (i.e. track 1 & track3 in the UI),
+            #    parse them for 3 exercises each, diagnose, fix
+            return run_fluster_with_diagnosis(user_input, model_1, model_2)
+
+
     write_fluster_button.click(
-        fn=run_fluster,  # async generator
-        inputs=[exercises_input, model_choice_fluster_1, model_choice_fluster_2],
-        outputs=[fluster_box_0, fluster_box_1, fluster_box_2, fluster_box_3],  # fill the 4 textboxes
-        api_name=None,
-        queue=True,
+        fn=fluster_pipeline_dispatch,
+        inputs=[
+            exercises_input,
+            model_choice_fluster_1,
+            model_choice_fluster_2,
+            include_diagnosis
+        ],
+        outputs=[
+            fluster_box_0,  # track1
+            fluster_box_1,  # track2
+            fluster_box_2,  # track3
+            fluster_box_3,  # track4
+            diagnosis_box_1,
+            diagnosis_box_3,
+            fixes_box_1,
+            fixes_box_3
+        ],
+        queue=True
     )
 
     pipeline_choice.change(fn=log_dropdown_choice, inputs=pipeline_choice, outputs=[])

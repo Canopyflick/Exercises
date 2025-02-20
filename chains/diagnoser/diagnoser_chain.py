@@ -12,13 +12,12 @@ class DiagnoserChain(BaseModel):
     llm_4o_mini: Any
     llm_4o: Any
 
-    async def diagnose_only(self, standardized_exercise: str) -> str:
+    async def diagnose_only(self, standardized_exercise: str) -> tuple[str, str]:
         """
         Takes a PRE-standardized exercise and:
-          (1) Runs multiple diagnosis prompts in parallel,
-          (2) Merges the results,
-          (3) Generates a scorecard line,
-          (4) Returns the combined text + scorecard.
+        Runs multiple diagnosis prompts, merges results, calls the scorecard prompt.
+        Returns a tuple: (combined_diagnosis, scorecard).
+        The first item is the merged text from each prompt; the second item is the final single-line scorecard.
         """
 
         # Step 1: define an async helper to run each diagnosis in parallel
@@ -47,7 +46,7 @@ class DiagnoserChain(BaseModel):
         scorecard_response = await self.llm_4o.ainvoke(scorecard_messages)
         scorecard = getattr(scorecard_response, "content", scorecard_response)
 
-        return combined_diagnosis + "\n--- [SCORECARD] ---\n" + scorecard
+        return combined_diagnosis, scorecard
 
     class Config:
         arbitrary_types_allowed = True
