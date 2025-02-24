@@ -64,7 +64,7 @@ llms = {
     "Claude 3.5 (high temp)": create_anthropic_llm("claude-3-5-sonnet-latest", HIGH),
     "Claude 3.5 Haiku (zero temp)": create_anthropic_llm("claude-3-5-haiku-latest", ZERO),
     "Claude 3.5 Haiku (low temp)": create_anthropic_llm("claude-3-5-haiku-latest", LOW),
-    "Claude 3.7": create_anthropic_reasoning_llm("claude-3-7-sonnet-latest"),
+    "Claude 3.7 🚧": create_anthropic_reasoning_llm("claude-3-7-sonnet-latest"),
 
     # DeepSeek
     "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),
