@@ -72,13 +72,13 @@ async def structurize_exercise(
 
     return exercise_set
 
-
+# unpacking a structurized exercise for display
 def exercise_to_string(ex):
     choices = [ex.choice_id_1, ex.choice_id_2, ex.choice_id_3, ex.choice_id_4]
-    choice_texts = [f"  {idx + 1}) {choice}" for idx, choice in enumerate(choices) if choice]
+    choice_texts = [f"  {idx + 1}) {choice}" for idx, choice in enumerate(choices) if choice and choice != 'None']
 
     correct_choice_text = next(
-        (f"  Correct answer: {idx + 1}) {choice}"
+        (f"  Correct answer: {idx + 1}. {choice}"
          for idx, choice in enumerate(choices) if choice == ex.correct_answer_id),
         "  Correct answer: Unknown"
     )

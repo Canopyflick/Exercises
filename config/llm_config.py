@@ -29,6 +29,13 @@ def create_openai_reasoning_llm(model_name: str, reasoning_effort: str = None):
 def create_anthropic_llm(model_name: str, temperature: float):
     return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, temperature=temperature)
 
+def create_anthropic_reasoning_llm(model_name: str, reasoning_effort: str = None):
+    # If reasoning_effort is provided, pass it; otherwise, avoid sending the parameter.
+    if reasoning_effort:
+        return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, reasoning_effort=reasoning_effort)
+    else:
+        return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name)
+
 def create_deepseek_llm(model_name: str, temperature: float):
     return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, temperature=temperature)
 
@@ -57,6 +64,7 @@ llms = {
     "Claude 3.5 (high temp)": create_anthropic_llm("claude-3-5-sonnet-latest", HIGH),
     "Claude 3.5 Haiku (zero temp)": create_anthropic_llm("claude-3-5-haiku-latest", ZERO),
     "Claude 3.5 Haiku (low temp)": create_anthropic_llm("claude-3-5-haiku-latest", LOW),
+    "Claude 3.7": create_anthropic_reasoning_llm("claude-3-7-sonnet-latest"),
 
     # DeepSeek
     "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),
