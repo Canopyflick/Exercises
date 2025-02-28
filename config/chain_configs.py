@@ -85,5 +85,6 @@ chain_configs = {
         "llm_refine": llms[ModelNames.GPT4_ZERO],
         "template_sanitize": template_sanitize_fluster,
         "llm_sanitize": llms[ModelNames.GPT4_MINI_ZERO],
+        "template_structurize": template_isolate_exercises,
     }
 }
