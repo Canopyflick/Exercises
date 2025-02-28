@@ -175,26 +175,13 @@ with gr.Blocks() as interface:
             model_2: str,
             include_diagnosis: bool
     ):
-        """
-        Decide how to run the fluster generation.
-        If include_diagnosis=False, we do all 4 tracks, no diagnosing/fixing.
-        If include_diagnosis=True, we ONLY do tracks 1 & 3, then parse+diagnose+fix them.
-        We'll then return 8 values:
-          (track1, track2, track3, track4, diag1, diag3, fix1, fix3)
-        """
-
         if not include_diagnosis:
-            # => run the original pipeline that yields 4 parallel flusters
-            #    and do NOT parse/diagnose/fix anything.
             generator = run_fluster_no_diagnosis(user_input, model_1, model_2)
-            # Get the last result from the generator
             final_results = ["", "", "", ""]
             async for results in generator:
                 final_results = results
             return (*final_results, "", "", "", "")
         else:
-            # => run only track0 & track2 (i.e. track 1 & track3 in the UI),
-            #    parse them for 3 exercises each, diagnose, fix
             return await run_fluster_with_diagnosis(user_input, model_1, model_2)
 
 

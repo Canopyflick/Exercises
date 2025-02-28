@@ -316,3 +316,13 @@ def build_fluster_text(ex_list: list[Exercise]) -> str:
             f"  Explanation: {ex.explanation}\n\n"
         )
     return "\n".join(lines)
+
+async def run_fluster_with_diagnosis(
+    user_input_text: str,
+    model_choice_1: str,
+    model_choice_2: str
+) -> Tuple[str, str, str, str, str, str, str, str]:
+    """
+    Async entrypoint for the UI or external calls.
+    """
+    return await _async_fluster_with_diagnosis(user_input_text, model_choice_1, model_choice_2)
