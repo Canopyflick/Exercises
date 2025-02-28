@@ -84,4 +84,6 @@ chain_configs = {
         "template_refine_fluster": template_refine_fluster,
         "llm_refine": llms[ModelNames.GPT4_ZERO],
         "template_sanitize": template_sanitize_fluster,
-        "llm_sanitize": ll
+        "llm_sanitize": llms[ModelNames.GPT4_MINI_ZERO],
+    }
+}
