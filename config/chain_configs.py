@@ -72,7 +72,7 @@ chain_configs = {
         "default_llm_a": llms[ModelNames.O1_HIGH_REASONING],
         "default_llm_b": llms[ModelNames.O3_MINI_HIGH_REASONING],
         "template_sanitize": template_sanitize_learning_objectives,
-        "llm_sanitize": ModelNames.GPT4_MINI_ZERO,
+        "llm_sanitize": llms[ModelNames.GPT4_MINI_ZERO],
     },
     "fluster": {
         "class": FlusterWritingChain,
@@ -84,10 +84,4 @@ chain_configs = {
         "template_refine_fluster": template_refine_fluster,
         "llm_refine": llms[ModelNames.GPT4_ZERO],
         "template_sanitize": template_sanitize_fluster,
-        "llm_sanitize": ModelNames.GPT4_MINI_ZERO,
-        "template_structurize": template_isolate_exercises,
-        "llm_structurize": llms[ModelNames.GPT4_ZERO],
-        "template_fix_exercise": template_fix_exercise,
-        "llm_fix_exercise": llms[ModelNames.GPT4_LOW],
-    },
-}
+        "llm_sanitize": ll
