@@ -169,7 +169,7 @@ with gr.Blocks() as interface:
         # or "stream=True" depending on your version of Gradio
     )
 
-    def fluster_pipeline_dispatch(
+    async def fluster_pipeline_dispatch(
             user_input: str,
             model_1: str,
             model_2: str,
@@ -186,12 +186,16 @@ with gr.Blocks() as interface:
         if not include_diagnosis:
             # => run the original pipeline that yields 4 parallel flusters
             #    and do NOT parse/diagnose/fix anything.
-            track0, track1, track2, track3 = run_fluster_no_diagnosis(user_input, model_1, model_2)
-            return (track0, track1, track2, track3, "", "", "", "")
+            generator = run_fluster_no_diagnosis(user_input, model_1, model_2)
+            # Get the last result from the generator
+            final_results = ["", "", "", ""]
+            async for results in generator:
+                final_results = results
+            return (*final_results, "", "", "", "")
         else:
             # => run only track0 & track2 (i.e. track 1 & track3 in the UI),
             #    parse them for 3 exercises each, diagnose, fix
-            return run_fluster_with_diagnosis(user_input, model_1, model_2)
+            return await run_fluster_with_diagnosis(user_input, model_1, model_2)
 
 
     write_fluster_button.click(
