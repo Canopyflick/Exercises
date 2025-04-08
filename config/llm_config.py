@@ -43,7 +43,7 @@ def create_deepseek_llm(model_name: str, temperature: float):
     return ChatDeepSeek(api_key=DEEPSEEK_API_KEY, model_name=model_name, temperature=temperature)
 
 def create_google_reasoning_llm(model_name: str):
-    return ChatGoogleGenerativeAI(api_key=GOOGLE_API_KEY, model_name=model_name)
+    return ChatGoogleGenerativeAI(api_key=GOOGLE_API_KEY, model=model_name)
 
 # all of them in one dictionary
 llms = {
