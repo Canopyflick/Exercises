@@ -3,11 +3,14 @@ import os
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_deepseek import ChatDeepSeek
+from langchain_google_genai import ChatGoogleGenerativeAI
+from openai import api_key
 
 # Retrieve API keys from environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Define temperature presets (adjust as needed)
 ZERO = 0
@@ -37,7 +40,10 @@ def create_anthropic_reasoning_llm(model_name: str, reasoning_effort: str = None
         return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name)
 
 def create_deepseek_llm(model_name: str, temperature: float):
-    return ChatAnthropic(api_key=ANTHROPIC_API_KEY, model_name=model_name, temperature=temperature)
+    return ChatDeepSeek(api_key=DEEPSEEK_API_KEY, model_name=model_name, temperature=temperature)
+
+def create_google_reasoning_llm(model_name: str):
+    return ChatGoogleGenerativeAI(api_key=GOOGLE_API_KEY, model_name=model_name)
 
 # all of them in one dictionary
 llms = {
@@ -69,10 +75,13 @@ llms = {
     "Claude 3.7": create_anthropic_reasoning_llm("claude-3-7-sonnet-latest"),
 
     # DeepSeek
-    "Deepseek R1 (zero temp)🚧": create_anthropic_llm("deepseek-reasoner", ZERO),
-    "Deepseek R1 (low temp)🚧": create_anthropic_llm("deepseek-reasoner", LOW),
-    "Deepseek R1 (mid temp)🚧": create_anthropic_llm("deepseek-reasoner", MID),
-    "Deepseek R1 (high temp)🚧": create_anthropic_llm("deepseek-reasoner", HIGH),
+    "Deepseek R1 (zero temp)🚧": create_deepseek_llm("deepseek-reasoner", ZERO),
+    "Deepseek R1 (low temp)🚧": create_deepseek_llm("deepseek-reasoner", LOW),
+    "Deepseek R1 (mid temp)🚧": create_deepseek_llm("deepseek-reasoner", MID),
+    "Deepseek R1 (high temp)🚧": create_deepseek_llm("deepseek-reasoner", HIGH),
+
+    # Google models (Gemini)
+    "Gemini 2.5 Pro Experimental (zero temp)🚧": create_google_reasoning_llm(model_name= "gemini-2.5-pro-exp-03-25"),
 }
 
 # specific for Diagnosis tab
