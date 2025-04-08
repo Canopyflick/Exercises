@@ -8,4 +8,5 @@ langchain-core==0.3.34
 pydantic==2.9.2
 typing_extensions==4.12.2
 huggingface_hub==0.28.1
+langchain_deepseek
 langchain_google_genai
