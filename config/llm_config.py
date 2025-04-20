@@ -64,6 +64,7 @@ llms = {
     "o3-mini (low reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="low"),
     "o3-mini (medium reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="medium"),
     "o3-mini (high reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="high"),
+    "o3 (high reasoning_effort)🚧": create_openai_reasoning_llm("o3", reasoning_effort="high"),
 
     # Anthropic models (Claude)
     "Claude 3.5 (zero temp)": create_anthropic_llm("claude-3-5-sonnet-latest", ZERO),
