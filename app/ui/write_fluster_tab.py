@@ -28,7 +28,7 @@ def build_write_fluster_tab():
             )
 
             include_diagnosis = gr.Checkbox(
-                label="Immediately diagnose & fix",
+                label="Immediately diagnose & fix 🚧",
                 value=False,
                 info="Diagnose each exercise and fix if issues found?"
             )

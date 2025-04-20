@@ -55,6 +55,8 @@ llms = {
     "GPT-4o-mini (zero temp)": create_openai_llm("gpt-4o-mini", ZERO),
     "GPT-4o-mini (low temp)": create_openai_llm("gpt-4o-mini", LOW),
     "GPT-4 Turbo (low temp)": create_openai_llm("gpt-4-turbo-2024-04-09", LOW),
+    "GPT-4.1 (low temp)": create_openai_llm("gpt-4.1", LOW),
+    "GPT-4.1 (mid temp)": create_openai_llm("gpt-4.1", MID),
     "GPT-4.5 (low temp)": create_openai_llm("gpt-4.5-preview-2025-02-27", LOW),
     "GPT-4.5 (mid temp)": create_openai_llm("gpt-4.5-preview-2025-02-27", MID),
 
@@ -64,7 +66,7 @@ llms = {
     "o3-mini (low reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="low"),
     "o3-mini (medium reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="medium"),
     "o3-mini (high reasoning_effort)": create_openai_reasoning_llm("o3-mini", reasoning_effort="high"),
-    "o3 (high reasoning_effort)🚧": create_openai_reasoning_llm("o3", reasoning_effort="high"),
+    "o3 (high reasoning_effort)": create_openai_reasoning_llm("o3", reasoning_effort="high"),
 
     # Anthropic models (Claude)
     "Claude 3.5 (zero temp)": create_anthropic_llm("claude-3-5-sonnet-latest", ZERO),
@@ -76,13 +78,13 @@ llms = {
     "Claude 3.7": create_anthropic_reasoning_llm("claude-3-7-sonnet-latest"),
 
     # DeepSeek
-    "Deepseek R1 (zero temp)🚧": create_deepseek_llm("deepseek-reasoner", ZERO),
-    "Deepseek R1 (low temp)🚧": create_deepseek_llm("deepseek-reasoner", LOW),
-    "Deepseek R1 (mid temp)🚧": create_deepseek_llm("deepseek-reasoner", MID),
-    "Deepseek R1 (high temp)🚧": create_deepseek_llm("deepseek-reasoner", HIGH),
+    "Deepseek R1 (zero temp)": create_deepseek_llm("deepseek-reasoner", ZERO),
+    "Deepseek R1 (low temp)": create_deepseek_llm("deepseek-reasoner", LOW),
+    "Deepseek R1 (mid temp)": create_deepseek_llm("deepseek-reasoner", MID),
+    "Deepseek R1 (high temp)": create_deepseek_llm("deepseek-reasoner", HIGH),
 
     # Google models (Gemini)
-    "Gemini 2.5 Pro Experimental (zero temp)🚧": create_google_reasoning_llm(model_name= "gemini-2.5-pro-exp-03-25"),
+    "Gemini 2.5 Pro Experimental (zero temp)": create_google_reasoning_llm(model_name= "gemini-2.5-pro-exp-03-25"),
 }
 
 # specific for Diagnosis tab
