@@ -110,16 +110,6 @@ async def _async_fluster_with_diagnosis(
         final2_text        # fixes_box_3
     )
 
-def run_fluster_with_diagnosis(
-    user_input_text: str,
-    model_choice_1: str,
-    model_choice_2: str
-) -> Tuple[str, str, str, str, str, str, str, str]:
-    """
-    Synchronous entrypoint for the UI or external calls.
-    """
-    return asyncio.run(_async_fluster_with_diagnosis(user_input_text, model_choice_1, model_choice_2))
-
 
 async def write_fluster_track(
     user_input: str,
@@ -140,8 +130,7 @@ async def write_fluster_track(
     # 2) Decide LLM
     # either use model_choice_key from user, or the config's default
     fallback_llm = fluster_config["default_llm_a"] if track_index in (0, 1) else fluster_config["default_llm_b"]
-    gen_llm = chain_configs["fluster"].get(model_choice_key, fallback_llm)
-    # ^ careful: you'd need a dictionary of LLMs. Or do: llm = llms.get(model_choice_key, fallback_llm)
+    gen_llm = llms.get(model_choice_key, fallback_llm)
 
     # 3) Format + invoke the "writing" prompt
     prompt_value = await gen_template.aformat_prompt(learning_objective=user_input)
@@ -291,7 +280,7 @@ async def fix_exercise(
     #     ex_fixed = ex.copy(update={"prompt": ex.prompt + " (fallback fix)"})
 
     # For the sake of example, let's do a naive approach:
-    ex_fixed = ex.copy(update={"prompt": raw_content})
+    ex_fixed = ex.c opy(update={"prompt": raw_content})
 
     return ex_fixed
 
