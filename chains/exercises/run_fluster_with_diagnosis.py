@@ -280,7 +280,7 @@ async def fix_exercise(
     #     ex_fixed = ex.copy(update={"prompt": ex.prompt + " (fallback fix)"})
 
     # For the sake of example, let's do a naive approach:
-    ex_fixed = ex.c opy(update={"prompt": raw_content})
+    ex_fixed = ex.copy(update={"prompt": raw_content})
 
     return ex_fixed
 
