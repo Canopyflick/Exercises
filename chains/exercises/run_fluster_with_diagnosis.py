@@ -236,55 +236,26 @@ async def diagnose_exercise(ex: Exercise) -> str:
 
 from pydantic import ValidationError
 
-async def fix_exercise(
-    ex: Exercise,
-    diag_str: str,
-    fluster_config: dict
-) -> Exercise:
-    """
-    Calls 'template_fix_exercise' + 'llm_fix_exercise' from the fluster config
-    to rewrite the exercise so it addresses the diagnosis issues.
-    """
+async def fix_exercise(ex: Exercise, diag_str: str, cfg: dict) -> Exercise:
+    tmpl_fix  = cfg["template_fix_exercise"]
+    llm_fix   = cfg["llm_fix_exercise"]
+    llm_cast  = cfg["llm_structurize"]          # already in chain_configs
 
-    template_fix = fluster_config["template_fix_exercise"]
-    llm_fix = fluster_config["llm_fix_exercise"]
+    # 1️⃣ first call – creative rewrite
+    prompt = await tmpl_fix.aformat_prompt(
+                 exercise_text = exercise_to_string(ex),
+                 diagnosis     = diag_str
+             )
+    raw = (await llm_fix.ainvoke(prompt.to_messages())).content
 
-    # 1) Convert the exercise to text
-    ex_text = exercise_to_string(ex)  # some function that formats ex into text
-
-    # 2) Format the fix prompt
-    prompt_value = await template_fix.aformat_prompt(
-        exercise_text=ex_text,
-        diagnosis=diag_str
-    )
-    messages = prompt_value.to_messages()
-
-    # 3) Invoke the LLM
-    fix_resp = await llm_fix.ainvoke(messages)
-    raw_content = getattr(fix_resp, "content", fix_resp)
-
-    # 4) We can parse the LLM result if we want a structured object
-    # For example, if we told the LLM to return JSON that matches the Exercise schema:
-    #    ex_fixed_data = parse the JSON
-    #    ex_fixed = Exercise.model_validate(ex_fixed_data)
-    #
-    # Or if the LLM just returned plain text, you can do a simpler approach:
-    # For now, as a placeholder, let's just say we re-build the prompt field:
-
-    # If you do structured output, do something like:
-    # try:
-    #     ex_dict = json.loads(raw_content)
-    #     ex_fixed = Exercise.model_validate(ex_dict)
-    # except (JSONDecodeError, ValidationError) as e:
-    #     # fallback if needed
-    #     ex_fixed = ex.copy(update={"prompt": ex.prompt + " (fallback fix)"})
-
-    # For the sake of example, let's do a naive approach:
-    ex_fixed = ex.copy(update={"prompt": raw_content})
-
-    return ex_fixed
-
-
+    # 2️⃣ second call – cast to schema
+    try:
+        ex_fixed = await llm_cast.with_structured_output(Exercise).ainvoke(
+            [("user", raw)]                   # minimal prompt: just the text
+        )
+        return ex_fixed
+    except Exception:
+        return ex.copy(update={"prompt": raw})
 
 
 
