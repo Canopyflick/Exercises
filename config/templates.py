@@ -256,11 +256,11 @@ template_fix_exercise = ChatPromptTemplate(
         (
             "system",
             "You are a helpful assistant that fixes issues in a single multiple choice exercise "
-            "based on diagnosis notes. Return only valid text with the same keys as the original."
+            "based on diagnosis notes. Return an improved exercise that has the same amount of answer options as the original, and the same correct answer. For example, if the correct answer is 'Deze stelling is niet correct', then this must remain the correct answer."
         ),
         (
             "user",
-            "Original exercise:\n{exercise_text}\n\nDiagnosis:\n{diagnosis}\n\n"
+            "Original exercise:\n{exercise_text}\n\nDiagnosis:\n{diagnosis}\n\n" # this is the scorecard summary, ideally I guess this would be the complete diagnoses of all issues 
             "Rewrite the exercise so that all issues in the diagnosis are resolved. "
             "Use the same structure (prompt, choice_id_1..4, correct_answer_id, explanation)."
         ),
