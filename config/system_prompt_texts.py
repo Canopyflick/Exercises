@@ -496,7 +496,7 @@ template_sanitize_learning_objectives_text = """
 template_write_fluster_a_text= """
 # Task outline
 
-Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same key fact that's stated in the learning objective.
+Given a learning objective, your goal is to write an exercise set of 3 high-quality multiple choice exercises that all test the exact same key fact that's stated in the learning objective. All exercises must be written in the same language as the learning objective.
 
 
 # Concepts
@@ -507,8 +507,8 @@ A learning objective states a specific fact. For example: "De student weet dat d
 ## Exercise
 An exercise tests the fact that is stated in the learning objective. It consists of:
 1. A prompt, posing to the student:
+    - (Optional) Theory, additional information to clarify the question or statement 
     - A question or statement
-    - (Optional) Theory, additional information to clarify the question or statement
 2. Choices, which are the multiple answer options that are presented to the student as potential answers to the prompt.
 3. Correct answer, which indicates which of the choices is the correct answer to the prompt.
 4. (Optional) Explanation, explaining or expanding on the answer to the student to facilitate increased learning. 
@@ -518,13 +518,13 @@ The student is always first presented with 1 and 2 (prompt and choices), and the
 An exercise set comprises 3 exercises that all test the same single learning objective in three different ways: one bigger multiple choice exercise and two smaller true/false statements.
 
 ## Distractors
-Distractors are the alternative answer option choices of the exercises that are not the correct answer. The false statement can also be considered a distractor (tempting the student to thing it is correct). Distractors are in fact the most important part of the exercises, because they often either make or break it. This is because distractors are difficult to get right, because in order to be effective they need to strike a precarious balance between "plausible-sounding" and yet "not too close to the truth", both at the same time. More on that in the requirements section.
+Distractors are the alternative answer option choices of the exercises that are not the correct answer. The false statement can also be considered a distractor (tempting the student to think it is correct). Distractors are in fact the most important part of the exercises, because they often either make or break it. This is because distractors are difficult to get right, because in order to be effective they need to strike a precarious balance between "plausible-sounding" and yet "not too close to the truth", both at the same time. More on that in the requirements section.
 
 ## Theory (optional)
-Theory is sometimes shown before answering the exercise, as an optional part of the prompt to clarify the question.
+Theory is sometimes shown before answering the exercise, as an optional part of the prompt to clarify the question or statement.
 
 ## Explanation (optional)
-An explanation should sometimes be presented to the student after they've answered the exercise, as an optional part of the correct answer reveal to better facilitate learning.  
+An explanation should sometimes be presented to the student after they've answered the exercise, as an optional part of the correct answer reveal to better facilitate learning. For the false‑statement exercise, explanations are mandatory (because they should provide the correct answer to the student).”  
 
 
 # Examples
@@ -641,7 +641,7 @@ The information that's posed in the prompt part of the exercise should only cont
 
 
 ## Theory & Explanation (optional)
-Theory or Explanation should only be added to all 3 exercises if there's additional info present in the learning objective (often between parentheses, or as a subclause) that is outside of the main fact that's to be tested.
+Theory or Explanation should only be added if they're relevant to all 3 exercises if there's additional info present in the learning objective (often between parentheses, or as a subclause) that is outside of the main fact that's to be tested.
 ### Theory (optional)
 Put any info here that is useful for the student to know before answering the question, as context to clarify the question or statement. The student is prompted with this together with the posing of the rest of the exercise.
 ### Explanation (optional)
@@ -660,7 +660,7 @@ The ideal distractor falls in the middle of this spectrum - plausible enough to 
 Try to exactly match the terminology and language difficulty level from the learning objective. If it's stated in simple words, use equally simple words in the exercises as well.
 
 ## Output format
-Output format doesn't matter. Only prioritize thorough reasoning to arrive at high-quality exercises that satisfy all of the above requirements.
+Output format doesn't matter, parsing your response into fixed exercises will be dealt with later in a separate step. For now, prioritize thorough reasoning to arrive at the most high-quality exercises that optimally satisfy all of the above requirements. Feel free to do brainstorming and even back-tracking if you notice a mistake while generating a response.
 
 # Approach
 
