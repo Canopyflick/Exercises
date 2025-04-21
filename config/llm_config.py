@@ -78,10 +78,11 @@ llms = {
     "Claude 3.7": create_anthropic_reasoning_llm("claude-3-7-sonnet-latest"),
 
     # DeepSeek
-    "Deepseek R1 (zero temp)": create_deepseek_llm("deepseek-reasoner", ZERO),
-    "Deepseek R1 (low temp)": create_deepseek_llm("deepseek-reasoner", LOW),
-    "Deepseek R1 (mid temp)": create_deepseek_llm("deepseek-reasoner", MID),
-    "Deepseek R1 (high temp)": create_deepseek_llm("deepseek-reasoner", HIGH),
+    "DeepSeek-R1 (zero temp)": create_deepseek_llm("deepseek-reasoner", ZERO),
+    "DeepSeek-R1 (low temp)": create_deepseek_llm("deepseek-reasoner", LOW),
+    "DeepSeek-R1 (mid temp)": create_deepseek_llm("deepseek-reasoner", MID),
+    "DeepSeek-R1 (high temp)": create_deepseek_llm("deepseek-reasoner", HIGH),
+    "DeepSeek-V3 (low temp)": create_deepseek_llm("deepseek-chat", LOW),
 
     # Google models (Gemini)
     "Gemini 2.5 Pro Experimental (zero temp)": create_google_reasoning_llm(model_name= "gemini-2.5-pro-exp-03-25"),
