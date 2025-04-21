@@ -1,6 +1,6 @@
 # chains/exercises/run_fluster_with_diagnosis.py
 import asyncio
-from typing import Tuple, List
+from typing import Tuple, List, Any
 
 from app.helpers.exercise_standardizer import structurize_exercise, ExerciseSet, Exercise, exercise_to_string
 from chains.exercises.runner_without import write_fluster_track
@@ -64,6 +64,9 @@ async def _async_fluster_with_diagnosis(
     fluster_config = chain_configs["fluster"]
     diagnoser_config = chain_configs["diagnoser"]
 
+    llm1 = llms.get(model_choice_1, fluster_config["default_llm_a"])
+    llm2 = llms.get(model_choice_2, fluster_config["default_llm_b"])
+
     # 1) Generate track0 & track2 in parallel
     track0_coro = write_fluster_track(
         user_input_text,
@@ -85,8 +88,8 @@ async def _async_fluster_with_diagnosis(
     fluster2_exs = await parse_fluster_text_to_exercises(track2_text)
 
     # 3) Diagnose + fix each exercise
-    diag0_results, fixed0_exs = await diagnose_and_fix_all(fluster0_exs, diagnoser_config)
-    diag2_results, fixed2_exs = await diagnose_and_fix_all(fluster2_exs, diagnoser_config)
+    diag0_results, fixed0_exs = await diagnose_and_fix_all(fluster0_exs, diagnoser_config, llm_fix=llm1)
+    diag2_results, fixed2_exs = await diagnose_and_fix_all(fluster2_exs, diagnoser_config, llm_fix=llm2)
 
     # 4) Convert the final exercises to strings for display
     # (Or you can store them back into a bigger data structure.)
@@ -155,9 +158,9 @@ async def write_fluster_track(
 
 
 async def diagnose_and_fix_all(
-    exercises: List[Exercise],
-    diagnoser_config: dict
-) -> tuple[List[str], List[Exercise]]:
+        exercises: List[Exercise],
+        diagnoser_config: dict,
+        llm_fix: Any) -> tuple[List[str], List[Exercise]]:
     """
     For each exercise, run the 'diagnose_only' from the DiagnoserChain,
     then interpret the results (scorecard) to see if we need a fix,
@@ -166,6 +169,7 @@ async def diagnose_and_fix_all(
     Returns:
       - a list of strings (one per exercise) summarizing the diagnosis,
       - a list of possibly fixed exercises.
+      :param llm_fix:
     """
     diag_chain = diagnoser_config["class"](
         templates_diagnose=diagnoser_config["templates_diagnose"],
@@ -195,7 +199,7 @@ async def diagnose_and_fix_all(
         fluster_config = chain_configs["fluster"]
 
         if "❌" in scorecard:
-            ex_fixed = await fix_exercise(ex, scorecard, fluster_config)
+            ex_fixed = await fix_exercise(ex, scorecard, fluster_config, llm_fix)
             fixed_exs.append(ex_fixed)
         else:
             fixed_exs.append(ex)
@@ -236,9 +240,10 @@ async def diagnose_exercise(ex: Exercise) -> str:
 
 from pydantic import ValidationError
 
-async def fix_exercise(ex: Exercise, diag_str: str, cfg: dict) -> Exercise:
+async def fix_exercise(ex: Exercise, diag_str: str, cfg: dict, llm_fix:None) -> Exercise:
     tmpl_fix  = cfg["template_fix_exercise"]
-    llm_fix   = cfg["llm_fix_exercise"]
+    if not llm_fix:
+        llm_fix   = cfg["llm_fix_exercise"]
     llm_cast  = cfg["llm_structurize"]          # already in chain_configs
 
     # 1️⃣ first call – creative rewrite
